@@ -5,6 +5,16 @@
 build/
 debug/
 temp/
+SleepyAdventure/obj/
+SleepyAdventure/Library/
+SleepyAdventure/Temp/
+
+*.csproj
+*.unityproj
+*.sln
+*.user
+*.userprefs
+*.DS_store
 
 #################
 ## Visual Studio
