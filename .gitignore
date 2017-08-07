@@ -5,9 +5,10 @@
 build/
 debug/
 temp/
-SleepyAdventure/obj/
-SleepyAdventure/Library/
-SleepyAdventure/Temp/
+
+obj/
+Library/
+Temp/
 
 *.csproj
 *.unityproj
