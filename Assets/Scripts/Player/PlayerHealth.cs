@@ -60,6 +60,18 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    public void GainHealth(int amount)
+    {
+        currentHealth += amount;
+
+        healthSlider.value = currentHealth;
+        
+        if (currentHealth >= startingHealth)
+        {
+            currentHealth = startingHealth;
+        }
+    }
+
 
     void Death ()
     {

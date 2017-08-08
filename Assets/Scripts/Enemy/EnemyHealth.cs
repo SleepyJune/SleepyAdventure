@@ -67,7 +67,11 @@ public class EnemyHealth : MonoBehaviour
         enemyAudio.clip = deathClip;
         enemyAudio.Play ();
 
-
+        var loots = GetComponent<MonsterLoots>();
+        if(loots != null)
+        {
+            loots.DropLoots();
+        }
     }
 
 

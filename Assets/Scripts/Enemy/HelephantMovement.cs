@@ -23,33 +23,34 @@ public class HelephantMovement : MonoBehaviour
 
     GameObject currentChargeParticle;
 
+    Rigidbody rb;
+
     void Awake ()
     {
         player = GameObject.FindGameObjectWithTag ("Player").transform;
         playerHealth = player.GetComponent <PlayerHealth> ();
         enemyHealth = GetComponent <EnemyHealth> ();
         nav = GetComponent <UnityEngine.AI.NavMeshAgent> ();
+        rb = GetComponent<Rigidbody>();
     }
     
     void Update ()
     {
         timer += Time.deltaTime;
 
-        /*var distance = Vector3.Distance(this.transform.position, player.transform.position);
+        var distance = Vector3.Distance(this.transform.position, player.transform.position);
         bool playerInRange = distance <= range;
 
         if (charging && Time.time >= chargeTimer)
         {            
             charging = false;
-            chargedStrike = true;
-        }
 
-        if (chargedStrike)
-        {
-            nav.enabled = false;
+            Debug.Log("strike");
+            //nav.enabled = false;
             //Debug.Log(Time.time);
-            transform.position += new Vector3(0, 1, 0);
-            GetComponent<Rigidbody>().AddForce(transform.forward * 1000);
+            //transform.position += new Vector3(0, 1, 0);
+            rb.AddForce(transform.forward * 500, ForceMode.Impulse);
+            //GetComponent<Rigidbody>().AddRelativeForce(transform.forward * 1000, ForceMode.Impulse);
             Destroy(currentChargeParticle);
             //nav.speed = 100;
             chargedStrike = false;
@@ -64,10 +65,18 @@ public class HelephantMovement : MonoBehaviour
             timer = 0f;
             chargeTimer = Time.time + chargingTime;           
             currentChargeParticle = Instantiate(chargeParticle, transform);
-            //nav.enabled = false;
-        }*/
-        
-                
+            nav.isStopped = true;
+        }
+
+        if (charging)
+        {
+            Vector3 unitToPlayer = player.transform.position - transform.position;
+            unitToPlayer.y = 0f;
+
+            Quaternion newRotation = Quaternion.LookRotation(unitToPlayer);
+            rb.MoveRotation(newRotation);
+        }
+
         if (charging == false)
         {
             if (enemyHealth.currentHealth > 0 && playerHealth.currentHealth > 0)
