@@ -33,8 +33,9 @@ public class PlayerMovement : MonoBehaviour
     {
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
+        var vec = new Vector3(h, 0, v);
 
-
+        //playerRigidbody.AddForce(vec * 1000);
         //Turning ();
         //Animating(h, v);
 

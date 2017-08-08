@@ -9,13 +9,13 @@ public class MonsterLoots : MonoBehaviour
         
     }
 
-    void DropLoots()
+    public void DropLoots()
     {
         //int spawnPointIndex = Random.Range(0, spawnPoints.Length);        
         
         foreach (var loot in loots)
         {
-            Instantiate(loot, transform);
+            Instantiate(loot, transform.position, new Quaternion());
         }        
     }
 }
