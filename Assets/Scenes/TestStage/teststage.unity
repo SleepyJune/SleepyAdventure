@@ -288,7 +288,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da63975d29f403643ab72fbbb1e549f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabManager: {fileID: 114635137134831336, guid: 43066eabaeb531c49b09bc43720d19c9,
+  prefabManager: {fileID: 114832584898941040, guid: 43066eabaeb531c49b09bc43720d19c9,
     type: 2}
   defaultSquare: {fileID: 1140242092703472, guid: 60ed4529a7a32e549ad89ce4423c7cc3,
     type: 2}
@@ -477,7 +477,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 849972701}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 558362993}
+        m_MethodName: Load
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &849972701
@@ -739,7 +750,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1851829018}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 558362993}
+        m_MethodName: Save
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1851829018

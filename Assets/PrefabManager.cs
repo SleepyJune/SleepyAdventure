@@ -2,18 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PrefabCollection : MonoBehaviour {
+public class PrefabManager : MonoBehaviour {
 
-    public string name;
-    public GameObject[] objects;
+    public PrefabCollection[] collections;
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public static PrefabManager instance;
 }

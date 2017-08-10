@@ -67,7 +67,7 @@ public class PlayerShooting : MonoBehaviour
     void Shoot ()
     {
         timer = 0f;
-
+                
         gunAudio.Play ();
 
         gunLight.enabled = true;
