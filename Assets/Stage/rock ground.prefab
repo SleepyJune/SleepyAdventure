@@ -21,9 +21,10 @@ GameObject:
   - component: {fileID: 4351866025138478}
   - component: {fileID: 33199740058498756}
   - component: {fileID: 23485166301229242}
+  - component: {fileID: 65356873620401894}
   m_Layer: 0
   m_Name: rock ground
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -80,3 +81,15 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1051890721545654}
   m_Mesh: {fileID: 4300000, guid: ec195fe02fd998f4da0076a93d0efe19, type: 3}
+--- !u!65 &65356873620401894
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1051890721545654}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1.0000007, z: 1.0000002}
+  m_Center: {x: 0, y: 0, z: 0}
