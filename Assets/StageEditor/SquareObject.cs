@@ -17,4 +17,9 @@ public class SquareObject
         this.id = id;
         this.pos = pos;
     }
+
+    public GameObject GetGameObject()
+    {
+        return obj;
+    }
 }
