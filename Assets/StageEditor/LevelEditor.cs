@@ -31,9 +31,14 @@ public class LevelEditor : MonoBehaviour
     int menuItems = 0;
 
     int shootableMask;
+    int editorMenuObjectMask;
     int editorObjectMask;
 
     bool clicked = false;
+    
+    public GameObject EraseButton;
+
+    GameObject stageSelectedObject;
 
     // Use this for initialization
     void Start()
@@ -45,6 +50,7 @@ public class LevelEditor : MonoBehaviour
 
         shootableMask = LayerMask.GetMask("Floor");
         editorObjectMask = LayerMask.GetMask("EditorObject");
+        editorMenuObjectMask = LayerMask.GetMask("EditorMenuObject");
 
         for (int y = 0; y < width; y++)
         {
@@ -63,7 +69,7 @@ public class LevelEditor : MonoBehaviour
         menuObjectHolder.transform.localPosition = Vector3.zero;
         menuObjectHolder.transform.localRotation = Quaternion.identity;
 
-        for (int collectionID = 0;collectionID < prefabManager.collections.Length;collectionID++)
+        for (int collectionID = 0; collectionID < prefabManager.collections.Length; collectionID++)
         {
             var collection = prefabManager.collections[collectionID];
 
@@ -75,7 +81,7 @@ public class LevelEditor : MonoBehaviour
                 newObject.transform.localPosition = Vector3.zero;
                 newObject.transform.localRotation = Quaternion.identity;
 
-                newObject.transform.localPosition += new Vector3(-menuItems*2, 0, 0);
+                newObject.transform.localPosition += new Vector3(-menuItems * 2, 0, 0);
 
                 var displayScript = newObject.AddComponent<EditorDisplayObject>();
                 displayScript.cid = collectionID;
@@ -83,13 +89,13 @@ public class LevelEditor : MonoBehaviour
 
                 if (newObject.tag == "Floor")
                 {
-                    newObject.transform.localPosition += new Vector3(0,1,0); //shift floors up
+                    newObject.transform.localPosition += new Vector3(0, 1, 0); //shift floors up
                 }
 
                 //DisableObject(newObject);
 
                 newObject.layer = 11;
-                                
+
                 menuItems += 1;
             }
         }
@@ -123,14 +129,14 @@ public class LevelEditor : MonoBehaviour
     {
         string path = Application.dataPath + "/Saves/";
 
-        if(File.Exists(path + level.name + ".json"))
+        if (File.Exists(path + level.name + ".json"))
         {
             Clear();
 
             string str = File.ReadAllText(path + level.name + ".json");
 
             var sqrObjects = JsonHelper.FromJson<SquareObject>(str);
-            
+
             foreach (var obj in sqrObjects)
             {
                 Square square = new Square(obj.pos);
@@ -138,7 +144,7 @@ public class LevelEditor : MonoBehaviour
 
                 var newObject = prefabManager.collections[obj.cid].objects[obj.id];
 
-                Instantiate(newObject, new Vector3(obj.pos.x,0,obj.pos.y), new Quaternion(), levelHolder.transform);
+                Instantiate(newObject, new Vector3(obj.pos.x, 0, obj.pos.y), new Quaternion(), levelHolder.transform);
 
                 level.map[(int)obj.pos.x, (int)obj.pos.y] = square;
             }
@@ -165,11 +171,11 @@ public class LevelEditor : MonoBehaviour
 
     void PlaceNewObject()
     {
-        if(selectedOriginal == null)
+        if (selectedOriginal == null)
         {
             return;
         }
-                
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 100, shootableMask))
@@ -177,29 +183,62 @@ public class LevelEditor : MonoBehaviour
             Vector3 playerToMouse = hit.point - transform.position;
             playerToMouse.y = 0f;
 
-            if (level.AddSquareObject(hit.point, selectedInfo.cid, selectedInfo.id, selectedOriginal))
+            if (level.AddSquareObject(hit.point, selectedInfo.cid, selectedInfo.id, selectedOriginal) != null)
             {
-                Instantiate(selectedOriginal, GetRoundedPosition(hit.point), new Quaternion(), levelHolder.transform);
+                var newObject = Instantiate(selectedOriginal, GetRoundedPosition(hit.point), new Quaternion(), levelHolder.transform);
+                
+                newObject.layer = 10;
+
+                var displayScript = newObject.AddComponent<EditorDisplayObject>();
+                displayScript.cid = selectedInfo.cid;
+                displayScript.id = selectedInfo.id;
+                displayScript.pos = GetRoundedPosition(hit.point);
+                EraseButton.SetActive(false);
             }
             else
             {
+                if (Physics.Raycast(ray, out hit, 100, editorObjectMask))
+                {
+                    var editorScript = hit.transform.gameObject.GetComponent<EditorDisplayObject>();
 
+                    if (editorScript != null)
+                    {
+                        stageSelectedObject = hit.transform.gameObject;
+                        EraseButton.SetActive(true);
+                    }
+                }
             }
         }
     }
 
+    public void RemoveObject()
+    {        
+        //UnselectObject();
+        if(stageSelectedObject != null)
+        {
+            var editorScript = stageSelectedObject.GetComponent<EditorDisplayObject>();
+            
+            level.RemoveSquareObject(editorScript.pos);
+            editorScript.RemoveObject();
+            EraseButton.SetActive(false);
+        }        
+    }
+
     void UnselectObject()
     {
-        selectedObject.transform.localScale = new Vector3(1f, 1f, 1f);
-        selectedObject = null;
-        selectedOriginal = null;
+        if (selectedObject != null)
+        {
+            selectedObject.transform.localScale = new Vector3(1f, 1f, 1f);
+            selectedObject = null;
+            selectedOriginal = null;
+        }
     }
 
     void SelectObject()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 100, editorObjectMask))
+        if (Physics.Raycast(ray, out hit, 100, editorMenuObjectMask))
         {
             if (selectedObject == hit.transform.gameObject)
             {
@@ -207,26 +246,16 @@ public class LevelEditor : MonoBehaviour
             }
             //activated too many times, need a delay
 
-            if(selectedObject != null)
-            {
-                UnselectObject();
-            }
-
+            UnselectObject();
 
             selectedObject = hit.transform.gameObject;
             selectedInfo = selectedObject.GetComponent<EditorDisplayObject>();
             selectedOriginal = prefabManager.collections[selectedInfo.cid].objects[selectedInfo.id];
-            selectedObject.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);             
+            selectedObject.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
         }
         else
         {
-            /*if(selectedObject != null)
-            {
-                Debug.Log("unselect");
-                selectedObject.transform.localScale = new Vector3(.667f, .667f, .667f);
-                selectedObject = null;
-                selectedOriginal = null;
-            }*/
+            
         }
     }
 

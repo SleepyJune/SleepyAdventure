@@ -47,7 +47,13 @@ public class Level{
         return JsonHelper.ToJson<SquareObject>(objects.ToArray());
     }
 
-    public bool AddSquareObject(Vector3 point, int cid, int id, GameObject obj)
+    public void RemoveSquareObject(Vector3 point)
+    {
+        Vector2 vec2 = new Vector2(Mathf.Round(point.x), Mathf.Round(point.z));
+        map[(int)vec2.x, (int)vec2.y] = null;
+    }
+
+    public SquareObject AddSquareObject(Vector3 point, int cid, int id, GameObject obj)
     {
         var square = this.GetSquareAtPoint(point);
         Vector2 vec2 = new Vector2(Mathf.Round(point.x), Mathf.Round(point.z));
@@ -60,14 +66,14 @@ public class Level{
 
             map[(int)vec2.x, (int)vec2.y] = square;
 
-            return true;
+            return newObj;
         }
         else
         {
 
         }
 
-        return false;
+        return null;
     }
 
     public Square GetSquareAtPoint(Vector3 point)
