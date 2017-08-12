@@ -38,7 +38,7 @@ public class LevelEditor : MonoBehaviour
     
     public GameObject EraseButton;
 
-    GameObject stageSelectedObject;
+    EditorDisplayObject stageSelectedScript;
 
     // Use this for initialization
     void Start()
@@ -142,11 +142,12 @@ public class LevelEditor : MonoBehaviour
                 Square square = new Square(obj.pos);
                 square.objects.Add(obj);
 
-                var newObject = prefabManager.collections[obj.cid].objects[obj.id];
+                //var newObject = prefabManager.collections[obj.cid].objects[obj.id];
+                //Instantiate(newObject, new Vector3(obj.pos.x, obj.pos.y, obj.pos.z), new Quaternion(), levelHolder.transform);
 
-                Instantiate(newObject, new Vector3(obj.pos.x, 0, obj.pos.y), new Quaternion(), levelHolder.transform);
+                CreateNewObject(obj.cid, obj.id, obj.pos);
 
-                level.map[(int)obj.pos.x, (int)obj.pos.y] = square;
+                level.map.Add(square.position, square);
             }
 
 
@@ -166,60 +167,69 @@ public class LevelEditor : MonoBehaviour
         }
 
         File.WriteAllText(path + level.name + ".json", str);
-        Debug.Log(str);
+    }
+
+    void CreateNewObject(int cid, int id, IPosition pos)
+    {
+        var selectedOriginal = prefabManager.collections[cid].objects[id];
+        var newObject = Instantiate(selectedOriginal, new Vector3(pos.x, pos.y, pos.z), new Quaternion(), levelHolder.transform);
+
+        newObject.layer = 10;
+
+        var displayScript = newObject.AddComponent<EditorDisplayObject>();
+        displayScript.cid = cid;
+        displayScript.id = id;
+        displayScript.pos = pos;
     }
 
     void PlaceNewObject()
-    {
-        if (selectedOriginal == null)
-        {
-            return;
-        }
-
+    {                 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 100, shootableMask))
+
+        if (selectedOriginal != null)
         {
-            Vector3 playerToMouse = hit.point - transform.position;
-            playerToMouse.y = 0f;
-
-            if (level.AddSquareObject(hit.point, selectedInfo.cid, selectedInfo.id, selectedOriginal) != null)
+            if (Physics.Raycast(ray, out hit, 100, shootableMask))
             {
-                var newObject = Instantiate(selectedOriginal, GetRoundedPosition(hit.point), new Quaternion(), levelHolder.transform);
-                
-                newObject.layer = 10;
+                Vector3 playerToMouse = hit.point - transform.position;
+                playerToMouse.y = 0f;
 
-                var displayScript = newObject.AddComponent<EditorDisplayObject>();
-                displayScript.cid = selectedInfo.cid;
-                displayScript.id = selectedInfo.id;
-                displayScript.pos = GetRoundedPosition(hit.point);
-                EraseButton.SetActive(false);
-            }
-            else
-            {
-                if (Physics.Raycast(ray, out hit, 100, editorObjectMask))
+                if (level.AddSquareObject(hit.point, selectedInfo.cid, selectedInfo.id, selectedOriginal) != null)
                 {
-                    var editorScript = hit.transform.gameObject.GetComponent<EditorDisplayObject>();
+                    CreateNewObject(selectedInfo.cid, selectedInfo.id, hit.point.ConvertToIPosition());
+                }
+                else
+                {
 
-                    if (editorScript != null)
-                    {
-                        stageSelectedObject = hit.transform.gameObject;
-                        EraseButton.SetActive(true);
-                    }
                 }
             }
+        }
+
+        if (Physics.Raycast(ray, out hit, 100, editorObjectMask))
+        {
+            var editorScript = hit.transform.gameObject.GetComponent<EditorDisplayObject>();
+
+            if (editorScript != null)
+            {
+                stageSelectedScript = editorScript;
+                EraseButton.SetActive(true);
+            }
+        }
+        else
+        {
+            //stageSelectedScript = null;
+            //EraseButton.SetActive(false);
         }
     }
 
     public void RemoveObject()
-    {        
+    {
         //UnselectObject();
-        if(stageSelectedObject != null)
-        {
-            var editorScript = stageSelectedObject.GetComponent<EditorDisplayObject>();
-            
-            level.RemoveSquareObject(editorScript.pos);
-            editorScript.RemoveObject();
+        Debug.Log("erase");
+        if(stageSelectedScript != null)
+        {            
+            level.RemoveSquareObject(stageSelectedScript.pos);
+            stageSelectedScript.RemoveObject();
             EraseButton.SetActive(false);
         }        
     }
