@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 using System.IO;
 
@@ -13,11 +14,7 @@ public class LevelEditor : MonoBehaviour
 
     public int width = 20;
     public int height = 20;
-
-
-    GameObject selectedObject;
-    GameObject selectedOriginal;
-
+        
     EditorDisplayObject selectedInfo;
 
     Level level;
@@ -27,6 +24,7 @@ public class LevelEditor : MonoBehaviour
     GameObject menuObjectHolder;
 
     public GameObject menuObjectSpawnPoint;
+    public GameObject menuObjectTemplate;
 
     int menuItems = 0;
 
@@ -64,10 +62,7 @@ public class LevelEditor : MonoBehaviour
         //prefabManager = GetComponent<PrefabManager>();
 
         menuObjectHolder = new GameObject("MenuObjectHolder");
-
-        menuObjectHolder.transform.parent = menuObjectSpawnPoint.transform;
-        menuObjectHolder.transform.localPosition = Vector3.zero;
-        menuObjectHolder.transform.localRotation = Quaternion.identity;
+        menuObjectHolder.transform.SetParent(menuObjectSpawnPoint.transform, false);
 
         for (int collectionID = 0; collectionID < prefabManager.collections.Length; collectionID++)
         {
@@ -77,15 +72,21 @@ public class LevelEditor : MonoBehaviour
             {
                 var original = collection.objects[objectID];
 
-                var newObject = Instantiate(original, menuObjectHolder.transform);
-                newObject.transform.localPosition = Vector3.zero;
-                newObject.transform.localRotation = Quaternion.identity;
+                var newObject = Instantiate(menuObjectTemplate, menuObjectHolder.transform);
 
-                newObject.transform.localPosition += new Vector3(-menuItems * 2, 0, 0);
+                newObject.transform.SetParent(menuObjectHolder.transform, false);                                                                                                
+                newObject.GetComponent<Image>().sprite = original.GetComponent<Image>().sprite;
 
-                var displayScript = newObject.AddComponent<EditorDisplayObject>();
-                displayScript.cid = collectionID;
-                displayScript.id = objectID;
+                //newObject.transform.localPosition += new Vector3(-menuItems * 2, 0, 0);
+
+                newObject.GetComponent<RectTransform>().localPosition += new Vector3(menuItems * 50, 0, 0);
+
+
+                var info = newObject.AddComponent<EditorDisplayObject>();
+                info.cid = collectionID;
+                info.id = objectID;
+                
+                newObject.GetComponent<Button>().onClick.AddListener(() => OnPrefabSelect(info));
 
                 if (newObject.tag == "Floor")
                 {
@@ -97,9 +98,22 @@ public class LevelEditor : MonoBehaviour
                 newObject.layer = 11;
 
                 menuItems += 1;
+                
             }
         }
 
+    }
+
+    void OnPrefabSelect(EditorDisplayObject info)
+    {
+
+        Debug.Log(info.id);
+        //UnselectObject();
+
+        //selectedObject = hit.transform.gameObject;
+        selectedInfo = info;
+        //selectedOriginal = prefabManager.collections[selectedInfo.cid].objects[selectedInfo.id];
+        
     }
 
     Vector3 GetRoundedPosition(Vector3 point)
@@ -187,12 +201,14 @@ public class LevelEditor : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if (selectedOriginal != null)
+        if (selectedInfo != null)
         {
             if (Physics.Raycast(ray, out hit, 100, shootableMask))
             {
                 Vector3 playerToMouse = hit.point - transform.position;
                 playerToMouse.y = 0f;
+
+                var selectedOriginal = prefabManager.collections[selectedInfo.cid].objects[selectedInfo.id];
 
                 if (level.AddSquareObject(hit.point, selectedInfo.cid, selectedInfo.id, selectedOriginal) != null)
                 {
@@ -231,41 +247,6 @@ public class LevelEditor : MonoBehaviour
             level.RemoveSquareObject(stageSelectedScript.pos);
             stageSelectedScript.RemoveObject();
             EraseButton.SetActive(false);
-        }
-    }
-
-    void UnselectObject()
-    {
-        if (selectedObject != null)
-        {
-            selectedObject.transform.localScale = new Vector3(1f, 1f, 1f);
-            selectedObject = null;
-            selectedOriginal = null;
-        }
-    }
-
-    void SelectObject()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 100, editorMenuObjectMask))
-        {
-            if (selectedObject == hit.transform.gameObject)
-            {
-
-            }
-            //activated too many times, need a delay
-
-            UnselectObject();
-
-            selectedObject = hit.transform.gameObject;
-            selectedInfo = selectedObject.GetComponent<EditorDisplayObject>();
-            selectedOriginal = prefabManager.collections[selectedInfo.cid].objects[selectedInfo.id];
-            selectedObject.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
-        }
-        else
-        {
-
         }
     }
 
@@ -323,8 +304,7 @@ public class LevelEditor : MonoBehaviour
                 if (clicked == false)
                 {
                     clicked = true;
-
-                    SelectObject();
+                    
                     PlaceNewObject();
                 }
             }

@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 95836425807727926}
   - component: {fileID: 65199417374334396}
   - component: {fileID: 222986907669209712}
-  - component: {fileID: 114637282675749254}
+  - component: {fileID: 114685880128254938}
   m_Layer: 0
   m_Name: water ground
   m_TagString: Floor
@@ -100,7 +100,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114637282675749254
+--- !u!114 &114685880128254938
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -144,7 +144,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
