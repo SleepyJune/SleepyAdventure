@@ -35,7 +35,7 @@ public class LevelEditor : MonoBehaviour
     int editorObjectMask;
 
     bool clicked = false;
-    
+
     public GameObject EraseButton;
 
     EditorDisplayObject stageSelectedScript;
@@ -183,7 +183,7 @@ public class LevelEditor : MonoBehaviour
     }
 
     void PlaceNewObject()
-    {                 
+    {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
@@ -226,12 +226,12 @@ public class LevelEditor : MonoBehaviour
     {
         //UnselectObject();
         Debug.Log("erase");
-        if(stageSelectedScript != null)
-        {            
+        if (stageSelectedScript != null)
+        {
             level.RemoveSquareObject(stageSelectedScript.pos);
             stageSelectedScript.RemoveObject();
             EraseButton.SetActive(false);
-        }        
+        }
     }
 
     void UnselectObject()
@@ -265,26 +265,73 @@ public class LevelEditor : MonoBehaviour
         }
         else
         {
-            
+
         }
+    }
+
+    public float minFov = 15f;
+    public float maxFov = 90f;
+    public float sensitivity = 10f;
+    public float panSensitivity = .01f;
+
+    bool isPanOn = false;
+
+    Vector3 lastPanMousePosition;
+
+    void ZoomFunction()
+    {
+        float fov = Camera.main.fieldOfView;
+        fov -= Input.GetAxis("Mouse ScrollWheel") * sensitivity;
+        fov = Mathf.Clamp(fov, minFov, maxFov);
+        Camera.main.fieldOfView = fov;
+    }
+
+    void PanFunction()
+    {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            lastPanMousePosition = Input.mousePosition;
+        }
+
+        if (Input.GetButton("Fire1"))
+        {
+            Vector3 delta = -Input.mousePosition + lastPanMousePosition;
+            Camera.main.transform.Translate(delta.x * panSensitivity, delta.y * panSensitivity, 0);
+            lastPanMousePosition = Input.mousePosition;
+        }
+
+    }
+
+    public void OnPanPressed()
+    {
+        isPanOn = !isPanOn;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButton("Fire1"))
-        {
-            if (clicked == false)
-            {
-                clicked = true;
+        ZoomFunction();
 
-                SelectObject();
-                PlaceNewObject();
-            }
+        if (isPanOn)
+        {
+            PanFunction();
         }
         else
         {
-            clicked = false;
+            if (Input.GetButton("Fire1"))
+            {
+                if (clicked == false)
+                {
+                    clicked = true;
+
+                    SelectObject();
+                    PlaceNewObject();
+                }
+            }
+            else
+            {
+                clicked = false;
+            }
         }
     }
 }
