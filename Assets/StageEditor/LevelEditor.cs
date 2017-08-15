@@ -106,14 +106,7 @@ public class LevelEditor : MonoBehaviour
 
     void OnPrefabSelect(EditorDisplayObject info)
     {
-
-        Debug.Log(info.id);
-        //UnselectObject();
-
-        //selectedObject = hit.transform.gameObject;
-        selectedInfo = info;
-        //selectedOriginal = prefabManager.collections[selectedInfo.cid].objects[selectedInfo.id];
-        
+        selectedInfo = info;        
     }
 
     Vector3 GetRoundedPosition(Vector3 point)
