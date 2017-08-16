@@ -19,9 +19,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4109866302811554}
-  - component: {fileID: 114880602471573880}
+  - component: {fileID: 114441520760800348}
   m_Layer: 0
-  m_Name: MonsterPrefabCollection
+  m_Name: BasePrefabCollection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,7 +40,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114880602471573880
+--- !u!114 &114441520760800348
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -48,11 +48,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1458517341535814}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3db52f8fe182e8942b67147868b3d7c5, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ffd99931c4452b419f2a73b2b8a1c05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Monsters
+  name: Prefabs
   objects:
+  - {fileID: 1140242092703472, guid: 92a25b0b24cc48347a90d56bebf5b3b5, type: 2}
+  - {fileID: 1416747583241312, guid: 8de1a2b69e3a8c94d81c54b4a398cae9, type: 2}
   - {fileID: 199186, guid: 0ba63576174aeb9438ba152a9015bf90, type: 2}
-  - {fileID: 100000, guid: 7bca9c2cd581dbb4f971ad087c21f5f9, type: 2}
-  - {fileID: 100000, guid: 6fd694fb865e5524486da2da372b9730, type: 2}
