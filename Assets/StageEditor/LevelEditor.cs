@@ -14,7 +14,7 @@ public class LevelEditor : MonoBehaviour
 
     public int width = 20;
     public int height = 20;
-        
+
     EditorDisplayObject selectedInfo;
 
     Level level;
@@ -31,6 +31,8 @@ public class LevelEditor : MonoBehaviour
     int shootableMask;
     int editorMenuObjectMask;
     int editorObjectMask;
+
+    int selectedCollection = -1;
 
     bool clicked = false;
 
@@ -61,52 +63,90 @@ public class LevelEditor : MonoBehaviour
 
         //prefabManager = GetComponent<PrefabManager>();
 
-        menuObjectHolder = new GameObject("MenuObjectHolder");
-        menuObjectHolder.transform.SetParent(menuObjectSpawnPoint.transform, false);
+
 
         for (int collectionID = 0; collectionID < prefabManager.collections.Length; collectionID++)
         {
-            var collection = prefabManager.collections[collectionID];
 
-            for (int objectID = 0; objectID < collection.objects.Length; objectID++)
-            {
-                var original = collection.objects[objectID];
-
-                var newObject = Instantiate(menuObjectTemplate, menuObjectHolder.transform);
-
-                newObject.transform.SetParent(menuObjectHolder.transform, false);                                                                                                
-                newObject.GetComponent<Image>().sprite = original.GetComponent<Image>().sprite;
-
-                //newObject.transform.localPosition += new Vector3(-menuItems * 2, 0, 0);
-
-                newObject.GetComponent<RectTransform>().localPosition += new Vector3(menuItems * 50, 0, 0);
-
-
-                var info = newObject.AddComponent<EditorDisplayObject>();
-                info.cid = collectionID;
-                info.id = objectID;
-                
-                newObject.GetComponent<Button>().onClick.AddListener(() => OnPrefabSelect(info));
-
-                if (newObject.tag == "Floor")
-                {
-                    newObject.transform.localPosition += new Vector3(0, 1, 0); //shift floors up
-                }
-
-                //DisableObject(newObject);
-
-                newObject.layer = 11;
-
-                menuItems += 1;
-                
-            }
         }
 
+        OnSelectCollection(0);
+
+    }
+
+    public void OnHomeButtonPressed()
+    {
+        OnSelectCollection(0);
+    }
+
+    void OnSelectCollection(int collectionID)
+    {
+        if(selectedCollection == collectionID)
+        {
+            return;
+        }
+
+        selectedCollection = collectionID;
+
+        if (menuObjectHolder != null)
+        {
+            Destroy(menuObjectHolder);
+        }
+
+        menuObjectHolder = new GameObject("MenuObjectHolder");
+        menuObjectHolder.transform.SetParent(menuObjectSpawnPoint.transform, false);
+
+        //Debug.Log("Selected: " + collectionID);
+        var collection = prefabManager.collections[collectionID];
+
+        menuItems = 0;
+
+        for (int objectID = 0; objectID < collection.objects.Length; objectID++)
+        {
+            var original = collection.objects[objectID];
+
+            var newObject = Instantiate(menuObjectTemplate, menuObjectHolder.transform);
+
+            newObject.transform.SetParent(menuObjectHolder.transform, false);
+            newObject.GetComponent<Image>().sprite = original.GetComponent<EditorGameObject>().sprite;
+
+            //newObject.transform.localPosition += new Vector3(-menuItems * 2, 0, 0);
+
+            newObject.GetComponent<RectTransform>().localPosition += new Vector3(menuItems * 50, 0, 0);
+
+
+            var info = newObject.AddComponent<EditorDisplayObject>();
+            info.cid = collectionID;
+            info.id = objectID;
+
+            if (collectionID == 0)
+            {
+                int menuSelectID = objectID + 1;
+                newObject.GetComponent<Button>().onClick.AddListener(() => OnSelectCollection(menuSelectID));
+            }
+            else
+            {
+                newObject.GetComponent<Button>().onClick.AddListener(() => OnPrefabSelect(info));
+            }
+
+
+            if (newObject.tag == "Floor")
+            {
+                //newObject.transform.localPosition += new Vector3(0, 1, 0); //shift floors up
+            }
+
+            //DisableObject(newObject);
+
+            newObject.layer = 11;
+
+            menuItems += 1;
+
+        }
     }
 
     void OnPrefabSelect(EditorDisplayObject info)
     {
-        selectedInfo = info;        
+        selectedInfo = info;
     }
 
     Vector3 GetRoundedPosition(Vector3 point)
@@ -205,7 +245,12 @@ public class LevelEditor : MonoBehaviour
 
                 if (level.AddSquareObject(hit.point, selectedInfo.cid, selectedInfo.id, selectedOriginal) != null)
                 {
-                    CreateNewObject(selectedInfo.cid, selectedInfo.id, hit.point.ConvertToIPosition());
+                    var spawnPos = (hit.point + prefabManager.collections[selectedInfo.cid].GetComponent<PrefabCollection>().spawnOffset)
+                        .ConvertToIPosition();
+
+                    CreateNewObject(selectedInfo.cid, 
+                                    selectedInfo.id,
+                                    spawnPos);
                 }
                 else
                 {
@@ -297,7 +342,7 @@ public class LevelEditor : MonoBehaviour
                 if (clicked == false)
                 {
                     clicked = true;
-                    
+
                     PlaceNewObject();
                 }
             }

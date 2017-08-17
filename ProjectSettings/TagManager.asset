@@ -7,6 +7,8 @@ TagManager:
   - Floor
   - Key
   - Door
+  - Goal
+  - Start
   layers:
   - Default
   - TransparentFX
