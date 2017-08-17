@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 95836425807727926}
   - component: {fileID: 65199417374334396}
   - component: {fileID: 114372049406189394}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: water ground
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -124,3 +124,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: f13c6a0e338bef442b9b1c7a4b957acb, type: 3}
+  objectName: 

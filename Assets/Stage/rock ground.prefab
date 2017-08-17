@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23485166301229242}
   - component: {fileID: 65356873620401894}
   - component: {fileID: 114535150274799024}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: rock ground
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -106,3 +106,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: ff82d0e7f279eb84ba0cf6ffe0653345, type: 3}
+  objectName: 
