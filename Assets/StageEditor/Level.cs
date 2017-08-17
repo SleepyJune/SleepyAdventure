@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Level{
@@ -7,7 +8,7 @@ public class Level{
     public string name = "New Level";
     public Dictionary<IPosition, Square> map;   
     
-    public Level(int width, int height)
+    public Level()
     {
         map = new Dictionary<IPosition, Square>();
     }
@@ -55,12 +56,24 @@ public class Level{
         map.Remove(pos);
     }
         
-    public SquareObject AddSquareObject(Vector3 vPos, int cid, int id, GameObject obj)
+    public SquareObject AddSquareObject(IPosition pos, int cid, int id, GameObject obj)
     {
-        var pos = vPos.ConvertToIPosition();
         var square = this.GetSquareAtPoint(pos);
-        
-        if(square == null)
+
+        if (obj.tag == "Start")
+        {
+            foreach(var tsquare in map.Values)
+            {
+                if (tsquare.objects.Any(o => o.GetGameObject().tag == "Start"))
+                {
+                    Debug.Log("Duplicate Starts");
+                    return null; // can't have duplicate starts
+                }
+            }
+            
+        }
+
+        if (square == null)
         {
             SquareObject newObj = new SquareObject(pos, cid, id, obj);
             square = new Square(pos);
@@ -71,8 +84,18 @@ public class Level{
             return newObj;
         }
         else
-        {
-
+        {            
+            if(square.objects.Any(o => o.pos == pos))
+            {
+                return null;
+            }
+            else
+            {
+                SquareObject newObj = new SquareObject(pos, cid, id, obj);
+                square.objects.Add(newObj);
+                
+                return newObj;
+            }
         }
 
         return null;

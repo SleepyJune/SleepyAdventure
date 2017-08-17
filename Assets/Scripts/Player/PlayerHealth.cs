@@ -32,7 +32,7 @@ public class PlayerHealth : MonoBehaviour
 
     void Update ()
     {
-        if(damaged)
+        /*if(damaged)
         {
             damageImage.color = flashColour;
         }
@@ -40,7 +40,7 @@ public class PlayerHealth : MonoBehaviour
         {
             damageImage.color = Color.Lerp (damageImage.color, Color.clear, flashSpeed * Time.deltaTime);
         }
-        damaged = false;
+        damaged = false;*/
     }
 
 

@@ -5,6 +5,15 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Level_01/Level 01.unity
     guid: 8818660853626f941ab338df4cdd8555
+  - enabled: 1
+    path: Assets/Scenes/LevelLoader/IntroScreen.unity
+    guid: c11ca47f794e13a4eb9683b1cfa7f900
+  - enabled: 1
+    path: Assets/Scenes/LevelEditor/LevelEditor.unity
+    guid: 69d978e19446c6549bb778cc49813ce6
+  - enabled: 1
+    path: Assets/Scenes/LevelLoader/LevelLoader.unity
+    guid: 74e713430ba55f745be890e20c21fc33

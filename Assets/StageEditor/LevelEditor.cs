@@ -44,7 +44,7 @@ public class LevelEditor : MonoBehaviour
     void Start()
     {
 
-        level = new Level(width, height);
+        level = new Level();
         levelHolder = new GameObject("LevelHolder");
         templateLevelHolder = new GameObject("TemplateLevelHolder");
 
@@ -169,7 +169,7 @@ public class LevelEditor : MonoBehaviour
         Destroy(levelHolder);
 
         levelHolder = new GameObject("LevelHolder");
-        level = new Level(width, height);
+        level = new Level();
     }
 
     public void Load()
@@ -192,9 +192,13 @@ public class LevelEditor : MonoBehaviour
                 //var newObject = prefabManager.collections[obj.cid].objects[obj.id];
                 //Instantiate(newObject, new Vector3(obj.pos.x, obj.pos.y, obj.pos.z), new Quaternion(), levelHolder.transform);
 
-                CreateNewObject(obj.cid, obj.id, obj.pos);
+                var selectedOriginal = prefabManager.collections[obj.cid].objects[obj.id];
+                if (level.AddSquareObject(obj.pos, obj.cid, obj.id, selectedOriginal) != null)
+                {
+                    CreateNewObject(obj.cid, obj.id, obj.pos);
+                }
 
-                level.map.Add(square.position, square);
+                //level.map.Add(square.position, square);
             }
 
 
@@ -243,11 +247,11 @@ public class LevelEditor : MonoBehaviour
 
                 var selectedOriginal = prefabManager.collections[selectedInfo.cid].objects[selectedInfo.id];
 
-                if (level.AddSquareObject(hit.point, selectedInfo.cid, selectedInfo.id, selectedOriginal) != null)
-                {
-                    var spawnPos = (hit.point + prefabManager.collections[selectedInfo.cid].GetComponent<PrefabCollection>().spawnOffset)
+                var spawnPos = (hit.point + prefabManager.collections[selectedInfo.cid].GetComponent<PrefabCollection>().spawnOffset)
                         .ConvertToIPosition();
 
+                if (level.AddSquareObject(spawnPos, selectedInfo.cid, selectedInfo.id, selectedOriginal) != null)
+                {
                     CreateNewObject(selectedInfo.cid, 
                                     selectedInfo.id,
                                     spawnPos);
