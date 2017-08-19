@@ -29,7 +29,7 @@ public class LevelLoader : MonoBehaviour {
             selectedOriginal = playerPrefab;
         }
 
-        var newObject = Instantiate(selectedOriginal, new Vector3(pos.x, pos.y, pos.z), new Quaternion(), levelHolder.transform);
+        var newObject = Instantiate(selectedOriginal, new Vector3(pos.x, pos.y/2.0f, pos.z), new Quaternion(), levelHolder.transform);
         
     }
 

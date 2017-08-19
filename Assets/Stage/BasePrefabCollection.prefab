@@ -52,7 +52,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Prefabs
+  spawnOffset: {x: 0, y: 0, z: 0}
   objects:
   - {fileID: 1140242092703472, guid: 92a25b0b24cc48347a90d56bebf5b3b5, type: 2}
   - {fileID: 1416747583241312, guid: 8de1a2b69e3a8c94d81c54b4a398cae9, type: 2}
   - {fileID: 199186, guid: 0ba63576174aeb9438ba152a9015bf90, type: 2}
+  - {fileID: 1825058940204586, guid: aac90081b0296a7409f0380eaa9a73fa, type: 2}

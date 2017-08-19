@@ -54,5 +54,5 @@ MonoBehaviour:
   name: Monsters
   spawnOffset: {x: 0, y: 1, z: 0}
   objects:
-  - {fileID: 1320043536688396, guid: 1f4a8b355b999b548932b6ad0f5120e0, type: 2}
+  - {fileID: 1949649374487914, guid: 70d9a5979428b364d9e448c94384f203, type: 2}
   - {fileID: 199186, guid: 0ba63576174aeb9438ba152a9015bf90, type: 2}

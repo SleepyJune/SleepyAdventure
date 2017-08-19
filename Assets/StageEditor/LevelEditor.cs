@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 using System.IO;
 
@@ -9,8 +10,10 @@ public class LevelEditor : MonoBehaviour
 {
 
     public PrefabManager prefabManager;
-
     public GameObject defaultSquare;
+    public GameObject saveScreen;
+
+    public InputField levelNameInput;
 
     public int width = 20;
     public int height = 20;
@@ -72,6 +75,17 @@ public class LevelEditor : MonoBehaviour
 
         OnSelectCollection(0);
 
+    }
+
+    public void OnSaveScreenButtonPressed()
+    {
+        levelNameInput.text = level.name;
+        saveScreen.SetActive(true);
+    }
+
+    public void OnSaveScreenCancelButtonPressed()
+    {
+        saveScreen.SetActive(false);        
     }
 
     public void OnHomeButtonPressed()
@@ -208,6 +222,8 @@ public class LevelEditor : MonoBehaviour
 
     public void Save()
     {
+        level.name = levelNameInput.text;
+
         string str = level.SaveLevel();
 
         string path = Application.dataPath + "/Saves/";
@@ -218,12 +234,14 @@ public class LevelEditor : MonoBehaviour
         }
 
         File.WriteAllText(path + level.name + ".json", str);
+
+        saveScreen.SetActive(false);
     }
 
     void CreateNewObject(int cid, int id, IPosition pos)
     {
         var selectedOriginal = prefabManager.collections[cid].objects[id];
-        var newObject = Instantiate(selectedOriginal, new Vector3(pos.x, pos.y, pos.z), new Quaternion(), levelHolder.transform);
+        var newObject = Instantiate(selectedOriginal, new Vector3(pos.x, pos.y/2.0f, pos.z), new Quaternion(), levelHolder.transform);
 
         newObject.layer = 10;
 
@@ -242,13 +260,15 @@ public class LevelEditor : MonoBehaviour
         {
             if (Physics.Raycast(ray, out hit, 100, shootableMask))
             {
-                Vector3 playerToMouse = hit.point - transform.position;
-                playerToMouse.y = 0f;
-
+                var hitPoint = hit.point;
+                hitPoint.y = 0;
+                                
                 var selectedOriginal = prefabManager.collections[selectedInfo.cid].objects[selectedInfo.id];
 
-                var spawnPos = (hit.point + prefabManager.collections[selectedInfo.cid].GetComponent<PrefabCollection>().spawnOffset)
+                var spawnPos = (hitPoint + prefabManager.collections[selectedInfo.cid].GetComponent<PrefabCollection>().spawnOffset)
                         .ConvertToIPosition();
+                                
+                Debug.Log(spawnPos.y);
 
                 if (level.AddSquareObject(spawnPos, selectedInfo.cid, selectedInfo.id, selectedOriginal) != null)
                 {
@@ -341,18 +361,21 @@ public class LevelEditor : MonoBehaviour
         }
         else
         {
-            if (Input.GetButton("Fire1"))
+            if (EventSystem.current.IsPointerOverGameObject() == false)
             {
-                if (clicked == false)
+                if (Input.GetButton("Fire1"))
                 {
-                    clicked = true;
+                    if (clicked == false)
+                    {
+                        clicked = true;
 
-                    PlaceNewObject();
+                        PlaceNewObject();
+                    }
                 }
-            }
-            else
-            {
-                clicked = false;
+                else
+                {
+                    clicked = false;
+                }
             }
         }
     }
