@@ -17,3 +17,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LevelLoader/LevelLoader.unity
     guid: 74e713430ba55f745be890e20c21fc33
+  - enabled: 1
+    path: Assets/Scenes/LevelLoader/LevelComplete.unity
+    guid: 35e7395b341d5db4ca1b0fe51b78514a

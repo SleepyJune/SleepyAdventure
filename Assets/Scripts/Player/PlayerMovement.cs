@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
@@ -52,11 +53,11 @@ public class PlayerMovement : MonoBehaviour
             GameObject.Destroy(collision.gameObject, 0.25f);
             keys += 1;
 
-            if (keys >= 2 && gameObject.GetComponent<PlayerHealth>().currentHealth > 0)
+            /*if (keys >= 2 && gameObject.GetComponent<PlayerHealth>().currentHealth > 0)
             {
                 Instantiate(victoryParticle, collision.gameObject.transform);
                 gameObject.GetComponent<PlayerHealth>().currentHealth = 0;
-            }
+            }*/
         }
         else if (collision.gameObject.tag == "Door")
         {
@@ -64,6 +65,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 GameObject.Destroy(collision.gameObject, 0.25f);
             }
+        }
+        else if (collision.gameObject.tag == "Goal")
+        {
+            SceneManager.LoadScene("LevelComplete");
         }
     }
 
