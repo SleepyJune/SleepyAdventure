@@ -1,17 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Level{
 
     public string name = "New Level";
-    public Square[,] map;   
+    public Dictionary<IPosition, Square> map;   
     
-    public Level(int width, int height)
+    public Level()
     {
-        map = new Square[width, height];
+        map = new Dictionary<IPosition, Square>();
     }
-
+     
     public bool LoadLevel(string str)
     {
         var sqrObjects = JsonHelper.FromJson<SquareObject>(str);
@@ -22,8 +23,11 @@ public class Level{
             square.objects.Add(obj);
 
             //var newObject = manager.collections[obj.cid].objects[obj.id];
-                       
-            map[(int)obj.pos.x, (int)obj.pos.y] = square;
+
+            if (!map.ContainsKey(square.position))
+            {
+                map.Add(square.position, square);
+            }           
         }
 
         return false;
@@ -33,7 +37,7 @@ public class Level{
     {
         List<SquareObject> objects = new List<SquareObject>();
 
-        foreach(var square in map)
+        foreach(var square in map.Values)
         {
             if (square != null)
             {
@@ -47,38 +51,65 @@ public class Level{
         return JsonHelper.ToJson<SquareObject>(objects.ToArray());
     }
 
-    public void RemoveSquareObject(Vector3 point)
+    public void RemoveSquareObject(IPosition pos)
     {
-        Vector2 vec2 = new Vector2(Mathf.Round(point.x), Mathf.Round(point.z));
-        map[(int)vec2.x, (int)vec2.y] = null;
+        map.Remove(pos);
     }
-
-    public SquareObject AddSquareObject(Vector3 point, int cid, int id, GameObject obj)
-    {
-        var square = this.GetSquareAtPoint(point);
-        Vector2 vec2 = new Vector2(Mathf.Round(point.x), Mathf.Round(point.z));
         
-        if(square == null)
+    public SquareObject AddSquareObject(IPosition pos, int cid, int id, GameObject obj)
+    {
+        var square = this.GetSquareAtPoint(pos);
+
+        if (obj.tag == "Start")
         {
-            SquareObject newObj = new SquareObject(vec2, cid, id, obj);
-            square = new Square(vec2);
+            foreach(var tsquare in map.Values)
+            {
+                if (tsquare.objects.Any(o => o.GetGameObject().tag == "Start"))
+                {
+                    Debug.Log("Duplicate Starts");
+                    return null; // can't have duplicate starts
+                }
+            }
+            
+        }
+
+        if (square == null)
+        {
+            SquareObject newObj = new SquareObject(pos, cid, id, obj);
+            square = new Square(pos);
             square.objects.Add(newObj);
 
-            map[(int)vec2.x, (int)vec2.y] = square;
+            map.Add(square.position, square);
 
             return newObj;
         }
         else
-        {
-
+        {            
+            if(square.objects.Any(o => o.pos == pos))
+            {
+                return null;
+            }
+            else
+            {
+                SquareObject newObj = new SquareObject(pos, cid, id, obj);
+                square.objects.Add(newObj);
+                
+                return newObj;
+            }
         }
 
         return null;
     }
 
-    public Square GetSquareAtPoint(Vector3 point)
+    public Square GetSquareAtPoint(IPosition pos)
     {
-        return map[(int)Mathf.Round(point.x), (int)Mathf.Round(point.z)];
+        Square square;
+        if(map.TryGetValue(pos, out square))
+        {
+            return square;
+        }
+
+        return null;
     }
     	
 }

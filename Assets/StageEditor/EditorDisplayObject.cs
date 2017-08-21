@@ -7,7 +7,7 @@ public class EditorDisplayObject : MonoBehaviour {
     public int cid;
     public int id;
 
-    public Vector3 pos;
+    public IPosition pos;
 
     SquareObject sqrObject;
 

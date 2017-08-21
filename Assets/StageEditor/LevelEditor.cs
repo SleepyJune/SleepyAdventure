@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 using System.IO;
 
@@ -8,15 +10,13 @@ public class LevelEditor : MonoBehaviour
 {
 
     public PrefabManager prefabManager;
-
     public GameObject defaultSquare;
+    public GameObject saveScreen;
+
+    public InputField levelNameInput;
 
     public int width = 20;
     public int height = 20;
-
-
-    GameObject selectedObject;
-    GameObject selectedOriginal;
 
     EditorDisplayObject selectedInfo;
 
@@ -27,6 +27,7 @@ public class LevelEditor : MonoBehaviour
     GameObject menuObjectHolder;
 
     public GameObject menuObjectSpawnPoint;
+    public GameObject menuObjectTemplate;
 
     int menuItems = 0;
 
@@ -34,17 +35,19 @@ public class LevelEditor : MonoBehaviour
     int editorMenuObjectMask;
     int editorObjectMask;
 
+    int selectedCollection = -1;
+
     bool clicked = false;
-    
+
     public GameObject EraseButton;
 
-    GameObject stageSelectedObject;
+    EditorDisplayObject stageSelectedScript;
 
     // Use this for initialization
     void Start()
     {
 
-        level = new Level(width, height);
+        level = new Level();
         levelHolder = new GameObject("LevelHolder");
         templateLevelHolder = new GameObject("TemplateLevelHolder");
 
@@ -63,43 +66,101 @@ public class LevelEditor : MonoBehaviour
 
         //prefabManager = GetComponent<PrefabManager>();
 
-        menuObjectHolder = new GameObject("MenuObjectHolder");
 
-        menuObjectHolder.transform.parent = menuObjectSpawnPoint.transform;
-        menuObjectHolder.transform.localPosition = Vector3.zero;
-        menuObjectHolder.transform.localRotation = Quaternion.identity;
 
         for (int collectionID = 0; collectionID < prefabManager.collections.Length; collectionID++)
         {
-            var collection = prefabManager.collections[collectionID];
 
-            for (int objectID = 0; objectID < collection.objects.Length; objectID++)
-            {
-                var original = collection.objects[objectID];
-
-                var newObject = Instantiate(original, menuObjectHolder.transform);
-                newObject.transform.localPosition = Vector3.zero;
-                newObject.transform.localRotation = Quaternion.identity;
-
-                newObject.transform.localPosition += new Vector3(-menuItems * 2, 0, 0);
-
-                var displayScript = newObject.AddComponent<EditorDisplayObject>();
-                displayScript.cid = collectionID;
-                displayScript.id = objectID;
-
-                if (newObject.tag == "Floor")
-                {
-                    newObject.transform.localPosition += new Vector3(0, 1, 0); //shift floors up
-                }
-
-                //DisableObject(newObject);
-
-                newObject.layer = 11;
-
-                menuItems += 1;
-            }
         }
 
+        OnSelectCollection(0);
+
+    }
+
+    public void OnSaveScreenButtonPressed()
+    {
+        levelNameInput.text = level.name;
+        saveScreen.SetActive(true);
+    }
+
+    public void OnSaveScreenCancelButtonPressed()
+    {
+        saveScreen.SetActive(false);        
+    }
+
+    public void OnHomeButtonPressed()
+    {
+        OnSelectCollection(0);
+    }
+
+    void OnSelectCollection(int collectionID)
+    {
+        if(selectedCollection == collectionID)
+        {
+            return;
+        }
+
+        selectedCollection = collectionID;
+
+        if (menuObjectHolder != null)
+        {
+            Destroy(menuObjectHolder);
+        }
+
+        menuObjectHolder = new GameObject("MenuObjectHolder");
+        menuObjectHolder.transform.SetParent(menuObjectSpawnPoint.transform, false);
+
+        //Debug.Log("Selected: " + collectionID);
+        var collection = prefabManager.collections[collectionID];
+
+        menuItems = 0;
+
+        for (int objectID = 0; objectID < collection.objects.Length; objectID++)
+        {
+            var original = collection.objects[objectID];
+
+            var newObject = Instantiate(menuObjectTemplate, menuObjectHolder.transform);
+
+            newObject.transform.SetParent(menuObjectHolder.transform, false);
+            newObject.GetComponent<Image>().sprite = original.GetComponent<EditorGameObject>().sprite;
+
+            //newObject.transform.localPosition += new Vector3(-menuItems * 2, 0, 0);
+
+            newObject.GetComponent<RectTransform>().localPosition += new Vector3(menuItems * 50, 0, 0);
+
+
+            var info = newObject.AddComponent<EditorDisplayObject>();
+            info.cid = collectionID;
+            info.id = objectID;
+
+            if (collectionID == 0)
+            {
+                int menuSelectID = objectID + 1;
+                newObject.GetComponent<Button>().onClick.AddListener(() => OnSelectCollection(menuSelectID));
+            }
+            else
+            {
+                newObject.GetComponent<Button>().onClick.AddListener(() => OnPrefabSelect(info));
+            }
+
+
+            if (newObject.tag == "Floor")
+            {
+                //newObject.transform.localPosition += new Vector3(0, 1, 0); //shift floors up
+            }
+
+            //DisableObject(newObject);
+
+            newObject.layer = 11;
+
+            menuItems += 1;
+
+        }
+    }
+
+    void OnPrefabSelect(EditorDisplayObject info)
+    {
+        selectedInfo = info;
     }
 
     Vector3 GetRoundedPosition(Vector3 point)
@@ -122,7 +183,7 @@ public class LevelEditor : MonoBehaviour
         Destroy(levelHolder);
 
         levelHolder = new GameObject("LevelHolder");
-        level = new Level(width, height);
+        level = new Level();
     }
 
     public void Load()
@@ -142,11 +203,16 @@ public class LevelEditor : MonoBehaviour
                 Square square = new Square(obj.pos);
                 square.objects.Add(obj);
 
-                var newObject = prefabManager.collections[obj.cid].objects[obj.id];
+                //var newObject = prefabManager.collections[obj.cid].objects[obj.id];
+                //Instantiate(newObject, new Vector3(obj.pos.x, obj.pos.y, obj.pos.z), new Quaternion(), levelHolder.transform);
 
-                Instantiate(newObject, new Vector3(obj.pos.x, 0, obj.pos.y), new Quaternion(), levelHolder.transform);
+                var selectedOriginal = prefabManager.collections[obj.cid].objects[obj.id];
+                if (level.AddSquareObject(obj.pos, obj.cid, obj.id, selectedOriginal) != null)
+                {
+                    CreateNewObject(obj.cid, obj.id, obj.pos);
+                }
 
-                level.map[(int)obj.pos.x, (int)obj.pos.y] = square;
+                //level.map.Add(square.position, square);
             }
 
 
@@ -156,6 +222,8 @@ public class LevelEditor : MonoBehaviour
 
     public void Save()
     {
+        level.name = levelNameInput.text;
+
         string str = level.SaveLevel();
 
         string path = Application.dataPath + "/Saves/";
@@ -166,115 +234,149 @@ public class LevelEditor : MonoBehaviour
         }
 
         File.WriteAllText(path + level.name + ".json", str);
-        Debug.Log(str);
+
+        saveScreen.SetActive(false);
+    }
+
+    void CreateNewObject(int cid, int id, IPosition pos)
+    {
+        var selectedOriginal = prefabManager.collections[cid].objects[id];
+        var newObject = Instantiate(selectedOriginal, new Vector3(pos.x, pos.y/2.0f, pos.z), new Quaternion(), levelHolder.transform);
+
+        newObject.layer = 10;
+
+        var displayScript = newObject.AddComponent<EditorDisplayObject>();
+        displayScript.cid = cid;
+        displayScript.id = id;
+        displayScript.pos = pos;
     }
 
     void PlaceNewObject()
     {
-        if (selectedOriginal == null)
-        {
-            return;
-        }
-
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 100, shootableMask))
+
+        if (selectedInfo != null)
         {
-            Vector3 playerToMouse = hit.point - transform.position;
-            playerToMouse.y = 0f;
-
-            if (level.AddSquareObject(hit.point, selectedInfo.cid, selectedInfo.id, selectedOriginal) != null)
+            if (Physics.Raycast(ray, out hit, 100, shootableMask))
             {
-                var newObject = Instantiate(selectedOriginal, GetRoundedPosition(hit.point), new Quaternion(), levelHolder.transform);
-                
-                newObject.layer = 10;
+                var hitPoint = hit.point;
+                hitPoint.y = 0;
+                                
+                var selectedOriginal = prefabManager.collections[selectedInfo.cid].objects[selectedInfo.id];
 
-                var displayScript = newObject.AddComponent<EditorDisplayObject>();
-                displayScript.cid = selectedInfo.cid;
-                displayScript.id = selectedInfo.id;
-                displayScript.pos = GetRoundedPosition(hit.point);
-                EraseButton.SetActive(false);
-            }
-            else
-            {
-                if (Physics.Raycast(ray, out hit, 100, editorObjectMask))
+                var spawnPos = (hitPoint + prefabManager.collections[selectedInfo.cid].GetComponent<PrefabCollection>().spawnOffset)
+                        .ConvertToIPosition();
+                                
+                Debug.Log(spawnPos.y);
+
+                if (level.AddSquareObject(spawnPos, selectedInfo.cid, selectedInfo.id, selectedOriginal) != null)
                 {
-                    var editorScript = hit.transform.gameObject.GetComponent<EditorDisplayObject>();
+                    CreateNewObject(selectedInfo.cid, 
+                                    selectedInfo.id,
+                                    spawnPos);
+                }
+                else
+                {
 
-                    if (editorScript != null)
-                    {
-                        stageSelectedObject = hit.transform.gameObject;
-                        EraseButton.SetActive(true);
-                    }
                 }
             }
+        }
+
+        if (Physics.Raycast(ray, out hit, 100, editorObjectMask))
+        {
+            var editorScript = hit.transform.gameObject.GetComponent<EditorDisplayObject>();
+
+            if (editorScript != null)
+            {
+                stageSelectedScript = editorScript;
+                EraseButton.SetActive(true);
+            }
+        }
+        else
+        {
+            //stageSelectedScript = null;
+            //EraseButton.SetActive(false);
         }
     }
 
     public void RemoveObject()
-    {        
+    {
         //UnselectObject();
-        if(stageSelectedObject != null)
+        Debug.Log("erase");
+        if (stageSelectedScript != null)
         {
-            var editorScript = stageSelectedObject.GetComponent<EditorDisplayObject>();
-            
-            level.RemoveSquareObject(editorScript.pos);
-            editorScript.RemoveObject();
+            level.RemoveSquareObject(stageSelectedScript.pos);
+            stageSelectedScript.RemoveObject();
             EraseButton.SetActive(false);
-        }        
-    }
-
-    void UnselectObject()
-    {
-        if (selectedObject != null)
-        {
-            selectedObject.transform.localScale = new Vector3(1f, 1f, 1f);
-            selectedObject = null;
-            selectedOriginal = null;
         }
     }
 
-    void SelectObject()
+    public float minFov = 15f;
+    public float maxFov = 90f;
+    public float sensitivity = 10f;
+    public float panSensitivity = .01f;
+
+    bool isPanOn = false;
+
+    Vector3 lastPanMousePosition;
+
+    void ZoomFunction()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 100, editorMenuObjectMask))
+        float fov = Camera.main.fieldOfView;
+        fov -= Input.GetAxis("Mouse ScrollWheel") * sensitivity;
+        fov = Mathf.Clamp(fov, minFov, maxFov);
+        Camera.main.fieldOfView = fov;
+    }
+
+    void PanFunction()
+    {
+        if (Input.GetButtonDown("Fire1"))
         {
-            if (selectedObject == hit.transform.gameObject)
-            {
-
-            }
-            //activated too many times, need a delay
-
-            UnselectObject();
-
-            selectedObject = hit.transform.gameObject;
-            selectedInfo = selectedObject.GetComponent<EditorDisplayObject>();
-            selectedOriginal = prefabManager.collections[selectedInfo.cid].objects[selectedInfo.id];
-            selectedObject.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+            lastPanMousePosition = Input.mousePosition;
         }
-        else
+
+        if (Input.GetButton("Fire1"))
         {
-            
+            Vector3 delta = -Input.mousePosition + lastPanMousePosition;
+            Camera.main.transform.Translate(delta.x * panSensitivity, delta.y * panSensitivity, 0);
+            lastPanMousePosition = Input.mousePosition;
         }
+
+    }
+
+    public void OnPanPressed()
+    {
+        isPanOn = !isPanOn;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButton("Fire1"))
-        {
-            if (clicked == false)
-            {
-                clicked = true;
+        ZoomFunction();
 
-                SelectObject();
-                PlaceNewObject();
-            }
+        if (isPanOn)
+        {
+            PanFunction();
         }
         else
         {
-            clicked = false;
+            if (EventSystem.current.IsPointerOverGameObject() == false)
+            {
+                if (Input.GetButton("Fire1"))
+                {
+                    if (clicked == false)
+                    {
+                        clicked = true;
+
+                        PlaceNewObject();
+                    }
+                }
+                else
+                {
+                    clicked = false;
+                }
+            }
         }
     }
 }

@@ -52,9 +52,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Walls
+  spawnOffset: {x: 0, y: 1, z: 0}
   objects:
-  - {fileID: 1140242092703472, guid: 92a25b0b24cc48347a90d56bebf5b3b5, type: 2}
-  - {fileID: 1140242092703472, guid: 112d10656517d104e9ff07a7f6100675, type: 2}
-  - {fileID: 1700009201018878, guid: 26fa2ddb70fb2e94abbddb8594d81b75, type: 2}
-  - {fileID: 1051890721545654, guid: d90878379e2e7554e95a2bce3a1ae068, type: 2}
-  - {fileID: 1863425848653852, guid: 52ce5ce352950734f808ed49efdcf98e, type: 2}
+  - {fileID: 1825058940204586, guid: aac90081b0296a7409f0380eaa9a73fa, type: 2}
+  - {fileID: 1133800034728982, guid: 71289425e137ead43819723476a3dc1d, type: 2}
+  - {fileID: 1825058940204586, guid: ab3ef95a03ce51e44817650420fa71a8, type: 2}

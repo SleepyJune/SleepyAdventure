@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Square {
 
-    public Vector2 position;
+    public IPosition position;
     public List<SquareObject> objects;
 
-    public Square(Vector2 pos)
+    public Square(IPosition pos)
     {
         this.position = pos;
         this.objects = new List<SquareObject>();

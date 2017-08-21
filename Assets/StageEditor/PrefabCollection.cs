@@ -5,5 +5,8 @@ using UnityEngine;
 public class PrefabCollection : MonoBehaviour {
 
     public string name;
-    public GameObject[] objects;    
+    public Vector3 spawnOffset;
+
+    public GameObject[] objects;
+
 }

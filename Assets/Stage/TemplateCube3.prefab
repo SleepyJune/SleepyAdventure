@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33629767400647760}
   - component: {fileID: 65843845162995820}
   - component: {fileID: 23460283424814116}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TemplateCube3
   m_TagString: Floor
   m_Icon: {fileID: 0}
