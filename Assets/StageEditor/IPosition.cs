@@ -58,6 +58,11 @@ public struct IPosition : IEquatable<IPosition>
     {
         return new IPosition(x, 0, z);
     }
+
+    public Vector3 ToVector()
+    {
+        return new Vector3(x, y/2.0f, z);
+    }
 }
 
 public static class PositionExtensions

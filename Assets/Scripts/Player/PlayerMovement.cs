@@ -90,7 +90,7 @@ public class PlayerMovement : MonoBehaviour
         {
             float distance = Vector3.Distance(VectorTo2D(transform.position), VectorTo2D(destination));
 
-            if (distance > 0.5)
+            if (distance > 0.01)
             {
                 Vector3 dir = (destination - transform.position).normalized;
                 dir.y = 0;
@@ -141,8 +141,6 @@ public class PlayerMovement : MonoBehaviour
                 Destroy(indicatorCube);
             }
         }
-
-
     }
 
     private void GetMoveTo()
@@ -161,7 +159,7 @@ public class PlayerMovement : MonoBehaviour
 
                 if (Input.GetButton("Fire2"))
                 {
-                    destination = hit.point;
+                    destination = hit.point.ConvertToIPosition().To2D().ToVector();
                 }
 
                 //transform.position = hit.point;
