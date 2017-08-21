@@ -43,6 +43,8 @@ public class LevelEditor : MonoBehaviour
 
     EditorDisplayObject stageSelectedScript;
 
+    GameObject indicatorCube;
+
     // Use this for initialization
     void Start()
     {
@@ -350,6 +352,46 @@ public class LevelEditor : MonoBehaviour
         isPanOn = !isPanOn;
     }
 
+    void HighlightSquare()
+    {
+        if (selectedInfo == null)
+        {
+            return;
+        }
+
+        var selectedOriginal = prefabManager.collections[selectedInfo.cid].objects[selectedInfo.id];
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 100, shootableMask))
+        {
+            var pos = hit.point.ConvertToIPosition().To2D();
+
+            var hitPoint = hit.point;
+            hitPoint.y = 0;
+
+            var spawnPos = (hitPoint + prefabManager.collections[selectedInfo.cid].GetComponent<PrefabCollection>().spawnOffset)
+                        .ConvertToIPosition();
+
+            if (indicatorCube == null)
+            {
+                indicatorCube = Instantiate(selectedOriginal, new Vector3(spawnPos.x, spawnPos.y / 2.0f, spawnPos.z), Quaternion.identity);
+            }
+            else if (indicatorCube.transform.position.ConvertToIPosition().To2D() != pos)
+            {
+                Destroy(indicatorCube);
+                indicatorCube = Instantiate(selectedOriginal, new Vector3(spawnPos.x, spawnPos.y / 2.0f, spawnPos.z), Quaternion.identity);
+            }
+        }
+        else
+        {
+            if (indicatorCube != null)
+            {
+                Destroy(indicatorCube);
+            }
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -363,6 +405,8 @@ public class LevelEditor : MonoBehaviour
         {
             if (EventSystem.current.IsPointerOverGameObject() == false)
             {
+                HighlightSquare();
+
                 if (Input.GetButton("Fire1"))
                 {
                     if (clicked == false)
@@ -375,6 +419,13 @@ public class LevelEditor : MonoBehaviour
                 else
                 {
                     clicked = false;
+                }
+            }
+            else
+            {
+                if (indicatorCube != null)
+                {
+                    Destroy(indicatorCube);
                 }
             }
         }

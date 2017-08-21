@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     public Image joystick;
 
     public GameObject victoryParticle;
-
+        
     private Vector3 movement;
     private Vector3 destination;
 
@@ -23,11 +23,16 @@ public class PlayerMovement : MonoBehaviour
     bool isCharging;
     bool isKicking;
 
+    GameObject indicatorCubePrefab;
+    GameObject indicatorCube;
+
     void Awake()
     {
         floorMask = LayerMask.GetMask("Floor");
         anim = GetComponent<Animator>();
         playerRigidbody = GetComponent<Rigidbody>();
+
+        indicatorCubePrefab = Resources.Load("IndicatorCubeGreen", typeof(GameObject)) as GameObject;
     }
 
     void FixedUpdate()
@@ -42,6 +47,8 @@ public class PlayerMovement : MonoBehaviour
 
         GetMoveTo();
         Move(h, v);
+
+        HighlightSquare();
     }
 
     void OnTriggerStay(Collider collision)
@@ -108,6 +115,34 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         return false;
+    }
+
+    void HighlightSquare()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, camRayLength, floorMask))
+        {
+            var pos = hit.point.ConvertToIPosition();
+            if (indicatorCube == null)
+            {
+                indicatorCube = Instantiate(indicatorCubePrefab, new Vector3(pos.x, 0, pos.z), Quaternion.identity);
+            }
+            else if (indicatorCube.transform.position.ConvertToIPosition() != pos)
+            {
+                Destroy(indicatorCube);
+                indicatorCube = Instantiate(indicatorCubePrefab, new Vector3(pos.x, 0, pos.z), Quaternion.identity);
+            }
+        }
+        else
+        {
+            if(indicatorCube != null)
+            {
+                Destroy(indicatorCube);
+            }
+        }
+
+
     }
 
     private void GetMoveTo()

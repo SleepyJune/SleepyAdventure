@@ -9,25 +9,26 @@ public class LevelLoader : MonoBehaviour
 {
 
     public PrefabManager prefabManager;
-    public GameObject playerPrefab;
-
+    
     public GameObject levelSelectionButton;
     public GameObject levelSelectionButtonStart;
 
     public GameObject levelSelectionMenu;
 
     GameObject levelSelectionButtonHolder;
-
-    GameObject levelHolder;
+        
+    GameManager game;
 
     Level level;
 
     void Start()
-    {
-        levelHolder = new GameObject("LevelHolder");
+    {        
         level = new Level();
 
         //Load();
+
+        game = GameObject.Find("GameManager").GetComponent<GameManager>();
+
 
         LoadLevelNames();
     }
@@ -64,48 +65,10 @@ public class LevelLoader : MonoBehaviour
 
     }
 
-    void CreateNewObject(int cid, int id, IPosition pos)
-    {
-        var selectedOriginal = prefabManager.collections[cid].objects[id];
-
-        if (selectedOriginal.tag == "Start")
-        {
-            selectedOriginal = playerPrefab;
-        }
-
-        var newObject = Instantiate(selectedOriginal, new Vector3(pos.x, pos.y / 2.0f, pos.z), new Quaternion(), levelHolder.transform);
-
-    }
-
     public void LoadLevel(string path)
     {
         levelSelectionMenu.SetActive(false);
-        Load(path);
-    }
-
-    public void Load(string path)
-    {
-        string str = File.ReadAllText(path);
-
-        var sqrObjects = JsonHelper.FromJson<SquareObject>(str);
-
-        foreach (var obj in sqrObjects)
-        {
-            Square square = new Square(obj.pos);
-            square.objects.Add(obj);
-
-            var selectedOriginal = prefabManager.collections[obj.cid].objects[obj.id];
-            if (level.AddSquareObject(obj.pos, obj.cid, obj.id, selectedOriginal) != null)
-            {
-                CreateNewObject(obj.cid, obj.id, obj.pos);
-            }
-
-            //level.map.Add(square.position, square);
-        }
-
-
-        //level.LoadLevel(str);
-
+        game.LoadLevel(path);
     }
 
 }

@@ -44,6 +44,20 @@ public struct IPosition : IEquatable<IPosition>
         return this.x * 100 + this.y * 10 + this.z;
     }
 
+    public double DistanceSqr(IPosition pos2)
+    {
+        return ((pos2.x - this.x) * (pos2.x - this.x) + (pos2.y - this.y) * (pos2.y - this.y));
+    }
+
+    public double Distance(IPosition pos2)
+    {
+        return Math.Sqrt((pos2.x - this.x) * (pos2.x - this.x) + (pos2.y - this.y) * (pos2.y - this.y));
+    }
+
+    public IPosition To2D()
+    {
+        return new IPosition(x, 0, z);
+    }
 }
 
 public static class PositionExtensions
