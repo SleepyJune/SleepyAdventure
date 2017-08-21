@@ -1,0 +1,1551 @@
+fileFormatVersion: 2
+guid: 18313c3f161e25f49a663746f1935fa1
+timeCreated: 1502484353
+licenseType: Free
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: 40_+Mask.mask_0.7_16_16.002
+    100002: 40_+Skirt.skirt_2.3_16_16.002
+    100004: 40_+Sword.sword_0.7_0_0.002
+    100006: 40_body dets_0.7_16_16.002
+    100008: 40_eye bubbles_7.3_16_16.002
+    100010: 40_face_0.1_16_16.002
+    100012: 40_outfit a_2.3_16_16.002
+    100014: 40_skin_0.1_16_16.002
+    100016: 40_tooth_0.1_16_16.002
+    100018: 41_feathers_0.1_16_16.002
+    100020: 5_snood_0.1_16_16.002
+    100022: 6_hair 1_0.7_16_16.002
+    100024: 6_hair 2_0.7_16_16.002
+    100026: 7_eyelashes_0.1_16_16.002
+    100028: arm left elbow
+    100030: arm left elbow ctr
+    100032: arm left elbow ctr2
+    100034: arm left elbow ctr2_end
+    100036: arm left elbow ctr_end
+    100038: arm left finger 1a
+    100040: arm left finger 1b
+    100042: arm left finger 1c
+    100044: arm left finger 1c_end
+    100046: arm left finger 2a
+    100048: arm left finger 2b
+    100050: arm left finger 2c
+    100052: arm left finger 2c_end
+    100054: arm left finger 3a
+    100056: arm left finger 3b
+    100058: arm left finger 3c
+    100060: arm left finger 3c_end
+    100062: arm left finger 4a
+    100064: arm left finger 4b
+    100066: arm left finger 4c
+    100068: arm left finger 4c_end
+    100070: arm left finger 5a
+    100072: arm left finger 5b
+    100074: arm left finger 5c
+    100076: arm left finger 5c_end
+    100078: arm left metacarpal
+    100080: arm left shoulder 1
+    100082: arm left shoulder 2
+    100084: arm left shoulder 2 ctr
+    100086: arm left shoulder 2 ctr2
+    100088: arm left shoulder 2 ctr2_end
+    100090: arm left shoulder 2 ctr_end
+    100092: arm left wrist
+    100094: arm left wrist ctr
+    100096: arm left wrist ctr_end
+    100098: arm right elbow
+    100100: arm right elbow ctr
+    100102: arm right elbow ctr2
+    100104: arm right elbow ctr2_end
+    100106: arm right elbow ctr_end
+    100108: arm right finger 1a
+    100110: arm right finger 1b
+    100112: arm right finger 1c
+    100114: arm right finger 1c_end
+    100116: arm right finger 2a
+    100118: arm right finger 2b
+    100120: arm right finger 2c
+    100122: arm right finger 2c_end
+    100124: arm right finger 3a
+    100126: arm right finger 3b
+    100128: arm right finger 3c
+    100130: arm right finger 3c_end
+    100132: arm right finger 4a
+    100134: arm right finger 4b
+    100136: arm right finger 4c
+    100138: arm right finger 4c_end
+    100140: arm right finger 5a
+    100142: arm right finger 5b
+    100144: arm right finger 5c
+    100146: arm right finger 5c_end
+    100148: arm right metacarpal
+    100150: arm right shoulder 1
+    100152: arm right shoulder 2
+    100154: arm right shoulder 2 ctr
+    100156: arm right shoulder 2 ctr2
+    100158: arm right shoulder 2 ctr2_end
+    100160: arm right shoulder 2 ctr_end
+    100162: arm right wrist
+    100164: arm right wrist ctr
+    100166: arm right wrist ctr_end
+    100168: Armature
+    100170: breast left a
+    100172: breast left a_end
+    100174: breast left b
+    100176: breast left b_end
+    100178: breast left base
+    100180: breast left c
+    100182: breast left c_end
+    100184: breast left d
+    100186: breast left d_end
+    100188: breast left e
+    100190: breast left e_end
+    100192: breast left tip
+    100194: breast right a
+    100196: breast right a_end
+    100198: breast right b
+    100200: breast right b_end
+    100202: breast right base
+    100204: breast right c
+    100206: breast right c_end
+    100208: breast right d
+    100210: breast right d_end
+    100212: breast right e
+    100214: breast right e_end
+    100216: breast right tip
+    100218: Camera
+    100220: //RootNode
+    100222: hair back left 1a
+    100224: hair back left 1b
+    100226: hair back left 1c
+    100228: hair back left 1d
+    100230: hair back left 1e
+    100232: hair back left 1e_end
+    100234: hair back left 2a
+    100236: hair back left 2b
+    100238: hair back left 2c
+    100240: hair back left 2d
+    100242: hair back left 2e
+    100244: hair back left 2e_end
+    100246: hair back left 3a
+    100248: hair back left 3b
+    100250: hair back left 3c
+    100252: hair back left 3d
+    100254: hair back left 3e
+    100256: hair back right 1a
+    100258: hair back right 1b
+    100260: hair back right 1c
+    100262: hair back right 1d
+    100264: hair back right 1e
+    100266: hair back right 1e_end
+    100268: hair back right 2a
+    100270: hair back right 2b
+    100272: hair back right 2c
+    100274: hair back right 2d
+    100276: hair back right 2e
+    100278: hair back right 2e_end
+    100280: hair back right 3a
+    100282: hair back right 3b
+    100284: hair back right 3c
+    100286: hair back right 3d
+    100288: hair back right 3e
+    100290: hair front left 1a
+    100292: hair front left 1b
+    100294: hair front left 1c
+    100296: hair front left 1c_end
+    100298: hair front right 1a
+    100300: hair front right 1b
+    100302: hair front right 1c
+    100304: hair front right 1c_end
+    100306: hair left side a
+    100308: hair left side b
+    100310: hair left side c
+    100312: hair left side d
+    100314: hair left side e
+    100316: hair left side f
+    100318: hair left side f_end
+    100320: hair right side a
+    100322: hair right side b
+    100324: hair right side c
+    100326: hair right side d
+    100328: hair right side e
+    100330: hair right side f
+    100332: hair right side f_end
+    100334: head cheek left a
+    100336: head cheek left a_end
+    100338: head cheek left b
+    100340: head cheek left b_end
+    100342: head cheek left c
+    100344: head cheek left c_end
+    100346: head cheek right a
+    100348: head cheek right a_end
+    100350: head cheek right b
+    100352: head cheek right b_end
+    100354: head cheek right c
+    100356: head cheek right c_end
+    100358: head eyeball left
+    100360: head eyeball left_end
+    100362: head eyeball right
+    100364: head eyeball right_end
+    100366: head eyebrow left a
+    100368: head eyebrow left a_end
+    100370: head eyebrow left b
+    100372: head eyebrow left b_end
+    100374: head eyebrow left c
+    100376: head eyebrow left c_end
+    100378: head eyebrow middle
+    100380: head eyebrow middle_end
+    100382: head eyebrow right a
+    100384: head eyebrow right a_end
+    100386: head eyebrow right b
+    100388: head eyebrow right b_end
+    100390: head eyebrow right c
+    100392: head eyebrow right c_end
+    100394: head eyelid lower left a
+    100396: head eyelid lower left a_end
+    100398: head eyelid lower left b
+    100400: head eyelid lower left b_end
+    100402: head eyelid lower right a
+    100404: head eyelid lower right a_end
+    100406: head eyelid lower right b
+    100408: head eyelid lower right b_end
+    100410: head eyelid upper left
+    100412: head eyelid upper left_end
+    100414: head eyelid upper right
+    100416: head eyelid upper right_end
+    100418: head forehead left
+    100420: head forehead left_end
+    100422: head forehead right
+    100424: head forehead right_end
+    100426: head jaw
+    100428: head lip corner left
+    100430: head lip corner left_end
+    100432: head lip corner right
+    100434: head lip corner right_end
+    100436: head lip lower left
+    100438: head lip lower left_end
+    100440: head lip lower middle
+    100442: head lip lower middle_end
+    100444: head lip lower right
+    100446: head lip lower right_end
+    100448: head lip upper left
+    100450: head lip upper left_end
+    100452: head lip upper middle
+    100454: head lip upper middle_end
+    100456: head lip upper right
+    100458: head lip upper right_end
+    100460: head neck lower
+    100462: head neck upper
+    100464: head nose left 1a
+    100466: head nose left 1a_end
+    100468: head nose left 1b
+    100470: head nose left 1b_end
+    100472: head nose left 1c
+    100474: head nose left 1c_end
+    100476: head nose left 1d
+    100478: head nose left 1d_end
+    100480: head nose middle
+    100482: head nose middle_end
+    100484: head nose right 1a
+    100486: head nose right 1a_end
+    100488: head nose right 1b
+    100490: head nose right 1b_end
+    100492: head nose right 1c
+    100494: head nose right 1c_end
+    100496: head nose right 1d
+    100498: head nose right 1d_end
+    100500: head tongue a
+    100502: head tongue b
+    100504: head tongue b_end
+    100506: Lamp
+    100508: leg left butt ctr
+    100510: leg left butt ctr_end
+    100512: leg left foot
+    100514: leg left knee
+    100516: leg left knee ctr
+    100518: leg left knee ctr_end
+    100520: leg left thigh
+    100522: leg left thigh ctr
+    100524: leg left thigh ctr2
+    100526: leg left thigh ctr2_end
+    100528: leg left thigh ctr_end
+    100530: leg left toe
+    100532: leg left toe_end
+    100534: leg right butt ctr
+    100536: leg right butt ctr_end
+    100538: leg right foot
+    100540: leg right knee
+    100542: leg right knee ctr
+    100544: leg right knee ctr_end
+    100546: leg right thigh
+    100548: leg right thigh ctr
+    100550: leg right thigh ctr2
+    100552: leg right thigh ctr2_end
+    100554: leg right thigh ctr_end
+    100556: leg right toe
+    100558: leg right toe_end
+    100560: root ground
+    100562: root hips
+    100564: skirt back left 1a
+    100566: skirt back left 1b
+    100568: skirt back left 1c
+    100570: skirt back left 1d
+    100572: skirt back left 1e
+    100574: skirt back left 1f
+    100576: skirt back left 1g
+    100578: skirt back left 1g_end
+    100580: skirt back left 2a
+    100582: skirt back left 2b
+    100584: skirt back left 2c
+    100586: skirt back left 2d
+    100588: skirt back left 2e
+    100590: skirt back left 2f
+    100592: skirt back left 2g
+    100594: skirt back left 2g_end
+    100596: skirt back left 3a
+    100598: skirt back left 3b
+    100600: skirt back left 3c
+    100602: skirt back left 3d
+    100604: skirt back left 3e
+    100606: skirt back left 3f
+    100608: skirt back left 3g
+    100610: skirt back left 3g_end
+    100612: skirt back right 1a
+    100614: skirt back right 1b
+    100616: skirt back right 1c
+    100618: skirt back right 1d
+    100620: skirt back right 1e
+    100622: skirt back right 1f
+    100624: skirt back right 1g
+    100626: skirt back right 1g_end
+    100628: skirt back right 2a
+    100630: skirt back right 2b
+    100632: skirt back right 2c
+    100634: skirt back right 2d
+    100636: skirt back right 2e
+    100638: skirt back right 2f
+    100640: skirt back right 2g
+    100642: skirt back right 2g_end
+    100644: skirt back right 3a
+    100646: skirt back right 3b
+    100648: skirt back right 3c
+    100650: skirt back right 3d
+    100652: skirt back right 3e
+    100654: skirt back right 3f
+    100656: skirt back right 3g
+    100658: skirt back right 3g_end
+    100660: skirt front left 1a
+    100662: skirt front left 1b
+    100664: skirt front left 1c
+    100666: skirt front left 1d
+    100668: skirt front left 1e
+    100670: skirt front left 1f
+    100672: skirt front left 1g
+    100674: skirt front left 1g_end
+    100676: skirt front left 2a
+    100678: skirt front left 2b
+    100680: skirt front left 2c
+    100682: skirt front left 2d
+    100684: skirt front left 2e
+    100686: skirt front left 2f
+    100688: skirt front left 2g
+    100690: skirt front left 2g_end
+    100692: skirt front left 3a
+    100694: skirt front left 3b
+    100696: skirt front left 3c
+    100698: skirt front left 3d
+    100700: skirt front left 3e
+    100702: skirt front left 3f
+    100704: skirt front left 3g
+    100706: skirt front left 3g_end
+    100708: skirt front left 4a
+    100710: skirt front left 4b
+    100712: skirt front left 4c
+    100714: skirt front left 4d
+    100716: skirt front left 4e
+    100718: skirt front left 4f
+    100720: skirt front left 4g
+    100722: skirt front left 4g_end
+    100724: skirt front middle a
+    100726: skirt front middle b
+    100728: skirt front middle c
+    100730: skirt front middle d
+    100732: skirt front middle e
+    100734: skirt front middle f
+    100736: skirt front middle g
+    100738: skirt front middle g_end
+    100740: skirt front right 1a
+    100742: skirt front right 1b
+    100744: skirt front right 1c
+    100746: skirt front right 1d
+    100748: skirt front right 1e
+    100750: skirt front right 1f
+    100752: skirt front right 1g
+    100754: skirt front right 1g_end
+    100756: skirt front right 2a
+    100758: skirt front right 2b
+    100760: skirt front right 2c
+    100762: skirt front right 2d
+    100764: skirt front right 2e
+    100766: skirt front right 2f
+    100768: skirt front right 2g
+    100770: skirt front right 2g_end
+    100772: skirt front right 3a
+    100774: skirt front right 3b
+    100776: skirt front right 3c
+    100778: skirt front right 3d
+    100780: skirt front right 3e
+    100782: skirt front right 3f
+    100784: skirt front right 3g
+    100786: skirt front right 3g_end
+    100788: skirt front right 4a
+    100790: skirt front right 4b
+    100792: skirt front right 4c
+    100794: skirt front right 4d
+    100796: skirt front right 4e
+    100798: skirt front right 4f
+    100800: skirt front right 4g
+    100802: skirt front right 4g_end
+    100804: skirt left side a
+    100806: skirt left side b
+    100808: skirt left side c
+    100810: skirt left side d
+    100812: skirt left side e
+    100814: skirt left side f
+    100816: skirt left side g
+    100818: skirt left side g_end
+    100820: skirt right side a
+    100822: skirt right side b
+    100824: skirt right side c
+    100826: skirt right side d
+    100828: skirt right side e
+    100830: skirt right side f
+    100832: skirt right side g
+    100834: skirt right side g_end
+    100836: skirt root
+    100838: spine lower
+    100840: spine upper
+    100842: sword root
+    100844: tassel a
+    100846: tassel b
+    100848: tassel c
+    100850: tassel d
+    100852: tassel d_end
+    100854: unused !!!!!!!!!!!!!!!!!!!2b
+    100856: unused !!!!!!!!!!!!!!!!!!!2b armature
+    100858: unused !!!!!!!!!!!!!!!!!!!2b armature item_head and hair
+    100860: unused !!!!!!!!!!!!!!!!!!!2b item_head and hair
+    100862: 'unused !!!!!!!!!!!!!!!!!!!2b.face armature item_hair and head #'
+    100864: 'unused !!!!!!!!!!!!!!!!!!!2b.face item_hair and head #2 item_he'
+    100866: unused !!!!!!!!!!!!!!!!!!!2b.hair with animation armature item_
+    100868: unused !!!!!!!!!!!!!!!!!!!2b.hair with animation item_hair fix
+    100870: unused arm left elbow ctr item_head and hair
+    100872: unused arm left elbow ctr item_head and hair_end
+    100874: unused arm left elbow ctr2 item_head and hair
+    100876: unused arm left elbow ctr2 item_head and hair_end
+    100878: unused arm left elbow item_head and hair
+    100880: unused arm left finger 1a item_head and hair
+    100882: unused arm left finger 1b item_head and hair
+    100884: unused arm left finger 1c item_head and hair
+    100886: unused arm left finger 1c item_head and hair_end
+    100888: unused arm left finger 2a item_head and hair
+    100890: unused arm left finger 2b item_head and hair
+    100892: unused arm left finger 2c item_head and hair
+    100894: unused arm left finger 2c item_head and hair_end
+    100896: unused arm left finger 3a item_head and hair
+    100898: unused arm left finger 3b item_head and hair
+    100900: unused arm left finger 3c item_head and hair
+    100902: unused arm left finger 3c item_head and hair_end
+    100904: unused arm left finger 4a item_head and hair
+    100906: unused arm left finger 4b item_head and hair
+    100908: unused arm left finger 4c item_head and hair
+    100910: unused arm left finger 4c item_head and hair_end
+    100912: unused arm left finger 5a item_head and hair
+    100914: unused arm left finger 5b item_head and hair
+    100916: unused arm left finger 5c item_head and hair
+    100918: unused arm left finger 5c item_head and hair_end
+    100920: unused arm left metacarpal item_head and hair
+    100922: unused arm left shoulder 1 item_head and hair
+    100924: unused arm left shoulder 2 ctr item_head and hair
+    100926: unused arm left shoulder 2 ctr item_head and hair_end
+    100928: unused arm left shoulder 2 ctr2 item_head and hair
+    100930: unused arm left shoulder 2 ctr2 item_head and hair_end
+    100932: unused arm left shoulder 2 item_head and hair
+    100934: unused arm left wrist ctr item_head and hair
+    100936: unused arm left wrist ctr item_head and hair_end
+    100938: unused arm left wrist item_head and hair
+    100940: unused arm right elbow ctr item_head and hair
+    100942: unused arm right elbow ctr item_head and hair_end
+    100944: unused arm right elbow ctr2 item_head and hair
+    100946: unused arm right elbow ctr2 item_head and hair_end
+    100948: unused arm right elbow item_head and hair
+    100950: unused arm right finger 1a item_head and hair
+    100952: unused arm right finger 1b item_head and hair
+    100954: unused arm right finger 1c item_head and hair
+    100956: unused arm right finger 1c item_head and hair_end
+    100958: unused arm right finger 2a item_head and hair
+    100960: unused arm right finger 2b item_head and hair
+    100962: unused arm right finger 2c item_head and hair
+    100964: unused arm right finger 2c item_head and hair_end
+    100966: unused arm right finger 3a item_head and hair
+    100968: unused arm right finger 3b item_head and hair
+    100970: unused arm right finger 3c item_head and hair
+    100972: unused arm right finger 3c item_head and hair_end
+    100974: unused arm right finger 4a item_head and hair
+    100976: unused arm right finger 4b item_head and hair
+    100978: unused arm right finger 4c item_head and hair
+    100980: unused arm right finger 4c item_head and hair_end
+    100982: unused arm right finger 5a item_head and hair
+    100984: unused arm right finger 5b item_head and hair
+    100986: unused arm right finger 5c item_head and hair
+    100988: unused arm right finger 5c item_head and hair_end
+    100990: unused arm right metacarpal item_head and hair
+    100992: unused arm right shoulder 1 item_head and hair
+    100994: unused arm right shoulder 2 ctr item_head and hair
+    100996: unused arm right shoulder 2 ctr item_head and hair_end
+    100998: unused arm right shoulder 2 ctr2 item_head and hair
+    101000: unused arm right shoulder 2 ctr2 item_head and hair_end
+    101002: unused arm right shoulder 2 item_head and hair
+    101004: unused arm right wrist ctr item_head and hair
+    101006: unused arm right wrist ctr item_head and hair_end
+    101008: unused arm right wrist item_head and hair
+    101010: unused breast left a item_head and hair
+    101012: unused breast left a item_head and hair_end
+    101014: unused breast left b item_head and hair
+    101016: unused breast left b item_head and hair_end
+    101018: unused breast left base item_head and hair
+    101020: unused breast left c item_head and hair
+    101022: unused breast left c item_head and hair_end
+    101024: unused breast left d item_head and hair
+    101026: unused breast left d item_head and hair_end
+    101028: unused breast left e item_head and hair
+    101030: unused breast left e item_head and hair_end
+    101032: unused breast left tip item_head and hair
+    101034: unused breast right a item_head and hair
+    101036: unused breast right a item_head and hair_end
+    101038: unused breast right b item_head and hair
+    101040: unused breast right b item_head and hair_end
+    101042: unused breast right base item_head and hair
+    101044: unused breast right c item_head and hair
+    101046: unused breast right c item_head and hair_end
+    101048: unused breast right d item_head and hair
+    101050: unused breast right d item_head and hair_end
+    101052: unused breast right e item_head and hair
+    101054: unused breast right e item_head and hair_end
+    101056: unused breast right tip item_head and hair
+    101058: 'unused head neck upper attached_hair and head #2 head neck lowe'
+    101060: 'unused head neck upper attached_hair and head #2 head neck uppe'
+    101062: 'unused head neck upper attached_hair and head #2 root ground it'
+    101064: unused head neck upper attached_hair fix !!!!!!!!!!!!!!!!!!!2b.
+    101066: unused head neck upper attached_hair fix !!!!!!!!!!!!!!!!!.001
+    101068: unused head neck upper attached_hair fix head neck upper i.001
+    101070: unused head neck upper attached_hair fix head neck upper item_h
+    101072: unused head neck upper attached_hair fix opt dummy head item_ha
+    101074: unused head neck upper attached_hair fix opt dummy head item_ha_end
+    101076: unused head neck upper attached_hair fix root ground item_hair
+    101078: unused head neck upper attached_hair fix root ground item_head
+    101080: unused head neck upper attached_head and hair head neck lower
+    101082: unused head neck upper attached_head and hair head neck upper
+    101084: unused head neck upper attached_head and hair root ground
+    101086: unused head neck upper attached_head and hair root hips
+    101088: unused leg left butt ctr item_head and hair
+    101090: unused leg left butt ctr item_head and hair_end
+    101092: unused leg left foot item_head and hair
+    101094: unused leg left knee ctr item_head and hair
+    101096: unused leg left knee ctr item_head and hair_end
+    101098: unused leg left knee item_head and hair
+    101100: unused leg left thigh ctr item_head and hair
+    101102: unused leg left thigh ctr item_head and hair_end
+    101104: unused leg left thigh ctr2 item_head and hair
+    101106: unused leg left thigh ctr2 item_head and hair_end
+    101108: unused leg left thigh item_head and hair
+    101110: unused leg left toe item_head and hair
+    101112: unused leg left toe item_head and hair_end
+    101114: unused leg right butt ctr item_head and hair
+    101116: unused leg right butt ctr item_head and hair_end
+    101118: unused leg right foot item_head and hair
+    101120: unused leg right knee ctr item_head and hair
+    101122: unused leg right knee ctr item_head and hair_end
+    101124: unused leg right knee item_head and hair
+    101126: unused leg right thigh ctr item_head and hair
+    101128: unused leg right thigh ctr item_head and hair_end
+    101130: unused leg right thigh ctr2 item_head and hair
+    101132: unused leg right thigh ctr2 item_head and hair_end
+    101134: unused leg right thigh item_head and hair
+    101136: unused leg right toe item_head and hair
+    101138: unused leg right toe item_head and hair_end
+    101140: unused opt acs hair c1 bone1 item_hair fix item_head and hair
+    101142: unused opt acs hair c1 bone1 item_hair fix item_head and hair_end
+    101144: unused opt acs hair c2 bone13 item_hair fix item_head and hair
+    101146: unused opt acs hair c2 bone13 item_hair fix item_head and hair_end
+    101148: unused opt acs osage l16 item_hair fix item_head and hair
+    101150: unused opt acs osage l17 item_hair fix item_head and hair
+    101152: unused opt acs osage r16 item_hair fix item_head and hair
+    101154: unused opt acs osage r17 item_hair fix item_head and hair
+    101156: unused opt dummy head item_hair fix item_head and hair
+    101158: unused opt dummy head item_hair fix item_head and hair_end
+    101160: unused skirt back left 1a item_head and hair
+    101162: unused skirt back left 1b item_head and hair
+    101164: unused skirt back left 1c item_head and hair
+    101166: unused skirt back left 1d item_head and hair
+    101168: unused skirt back left 1e item_head and hair
+    101170: unused skirt back left 1f item_head and hair
+    101172: unused skirt back left 1g item_head and hair
+    101174: unused skirt back left 1g item_head and hair_end
+    101176: unused skirt back left 2a item_head and hair
+    101178: unused skirt back left 2b item_head and hair
+    101180: unused skirt back left 2c item_head and hair
+    101182: unused skirt back left 2d item_head and hair
+    101184: unused skirt back left 2e item_head and hair
+    101186: unused skirt back left 2f item_head and hair
+    101188: unused skirt back left 2g item_head and hair
+    101190: unused skirt back left 2g item_head and hair_end
+    101192: unused skirt back left 3a item_head and hair
+    101194: unused skirt back left 3b item_head and hair
+    101196: unused skirt back left 3c item_head and hair
+    101198: unused skirt back left 3d item_head and hair
+    101200: unused skirt back left 3e item_head and hair
+    101202: unused skirt back left 3f item_head and hair
+    101204: unused skirt back left 3g item_head and hair
+    101206: unused skirt back left 3g item_head and hair_end
+    101208: unused skirt back right 1a item_head and hair
+    101210: unused skirt back right 1b item_head and hair
+    101212: unused skirt back right 1c item_head and hair
+    101214: unused skirt back right 1d item_head and hair
+    101216: unused skirt back right 1e item_head and hair
+    101218: unused skirt back right 1f item_head and hair
+    101220: unused skirt back right 1g item_head and hair
+    101222: unused skirt back right 1g item_head and hair_end
+    101224: unused skirt back right 2a item_head and hair
+    101226: unused skirt back right 2b item_head and hair
+    101228: unused skirt back right 2c item_head and hair
+    101230: unused skirt back right 2d item_head and hair
+    101232: unused skirt back right 2e item_head and hair
+    101234: unused skirt back right 2f item_head and hair
+    101236: unused skirt back right 2g item_head and hair
+    101238: unused skirt back right 2g item_head and hair_end
+    101240: unused skirt back right 3a item_head and hair
+    101242: unused skirt back right 3b item_head and hair
+    101244: unused skirt back right 3c item_head and hair
+    101246: unused skirt back right 3d item_head and hair
+    101248: unused skirt back right 3e item_head and hair
+    101250: unused skirt back right 3f item_head and hair
+    101252: unused skirt back right 3g item_head and hair
+    101254: unused skirt back right 3g item_head and hair_end
+    101256: unused skirt front left 1a item_head and hair
+    101258: unused skirt front left 1b item_head and hair
+    101260: unused skirt front left 1c item_head and hair
+    101262: unused skirt front left 1d item_head and hair
+    101264: unused skirt front left 1e item_head and hair
+    101266: unused skirt front left 1f item_head and hair
+    101268: unused skirt front left 1g item_head and hair
+    101270: unused skirt front left 1g item_head and hair_end
+    101272: unused skirt front left 2a item_head and hair
+    101274: unused skirt front left 2b item_head and hair
+    101276: unused skirt front left 2c item_head and hair
+    101278: unused skirt front left 2d item_head and hair
+    101280: unused skirt front left 2e item_head and hair
+    101282: unused skirt front left 2f item_head and hair
+    101284: unused skirt front left 2g item_head and hair
+    101286: unused skirt front left 2g item_head and hair_end
+    101288: unused skirt front left 3a item_head and hair
+    101290: unused skirt front left 3b item_head and hair
+    101292: unused skirt front left 3c item_head and hair
+    101294: unused skirt front left 3d item_head and hair
+    101296: unused skirt front left 3e item_head and hair
+    101298: unused skirt front left 3f item_head and hair
+    101300: unused skirt front left 3g item_head and hair
+    101302: unused skirt front left 3g item_head and hair_end
+    101304: unused skirt front left 4a item_head and hair
+    101306: unused skirt front left 4b item_head and hair
+    101308: unused skirt front left 4c item_head and hair
+    101310: unused skirt front left 4d item_head and hair
+    101312: unused skirt front left 4e item_head and hair
+    101314: unused skirt front left 4f item_head and hair
+    101316: unused skirt front left 4g item_head and hair
+    101318: unused skirt front left 4g item_head and hair_end
+    101320: unused skirt front middle a item_head and hair
+    101322: unused skirt front middle b item_head and hair
+    101324: unused skirt front middle c item_head and hair
+    101326: unused skirt front middle d item_head and hair
+    101328: unused skirt front middle e item_head and hair
+    101330: unused skirt front middle f item_head and hair
+    101332: unused skirt front middle g item_head and hair
+    101334: unused skirt front middle g item_head and hair_end
+    101336: unused skirt front right 1a item_head and hair
+    101338: unused skirt front right 1b item_head and hair
+    101340: unused skirt front right 1c item_head and hair
+    101342: unused skirt front right 1d item_head and hair
+    101344: unused skirt front right 1e item_head and hair
+    101346: unused skirt front right 1f item_head and hair
+    101348: unused skirt front right 1g item_head and hair
+    101350: unused skirt front right 1g item_head and hair_end
+    101352: unused skirt front right 2a item_head and hair
+    101354: unused skirt front right 2b item_head and hair
+    101356: unused skirt front right 2c item_head and hair
+    101358: unused skirt front right 2d item_head and hair
+    101360: unused skirt front right 2e item_head and hair
+    101362: unused skirt front right 2f item_head and hair
+    101364: unused skirt front right 2g item_head and hair
+    101366: unused skirt front right 2g item_head and hair_end
+    101368: unused skirt front right 3a item_head and hair
+    101370: unused skirt front right 3b item_head and hair
+    101372: unused skirt front right 3c item_head and hair
+    101374: unused skirt front right 3d item_head and hair
+    101376: unused skirt front right 3e item_head and hair
+    101378: unused skirt front right 3f item_head and hair
+    101380: unused skirt front right 3g item_head and hair
+    101382: unused skirt front right 3g item_head and hair_end
+    101384: unused skirt front right 4a item_head and hair
+    101386: unused skirt front right 4b item_head and hair
+    101388: unused skirt front right 4c item_head and hair
+    101390: unused skirt front right 4d item_head and hair
+    101392: unused skirt front right 4e item_head and hair
+    101394: unused skirt front right 4f item_head and hair
+    101396: unused skirt front right 4g item_head and hair
+    101398: unused skirt front right 4g item_head and hair_end
+    101400: unused skirt left side 4a item_head and hair
+    101402: unused skirt left side 4b item_head and hair
+    101404: unused skirt left side 4c item_head and hair
+    101406: unused skirt left side 4d item_head and hair
+    101408: unused skirt left side 4e item_head and hair
+    101410: unused skirt left side 4f item_head and hair
+    101412: unused skirt left side 4g item_head and hair
+    101414: unused skirt left side 4g item_head and hair_end
+    101416: unused skirt right side a item_head and hair
+    101418: unused skirt right side b item_head and hair
+    101420: unused skirt right side c item_head and hair
+    101422: unused skirt right side d item_head and hair
+    101424: unused skirt right side e item_head and hair
+    101426: unused skirt right side f item_head and hair
+    101428: unused skirt right side g item_head and hair
+    101430: unused skirt right side g item_head and hair_end
+    101432: unused skirt root item_head and hair
+    101434: unused spine lower item_head and hair
+    101436: unused spine upper item_head and hair
+    400000: 40_+Mask.mask_0.7_16_16.002
+    400002: 40_+Skirt.skirt_2.3_16_16.002
+    400004: 40_+Sword.sword_0.7_0_0.002
+    400006: 40_body dets_0.7_16_16.002
+    400008: 40_eye bubbles_7.3_16_16.002
+    400010: 40_face_0.1_16_16.002
+    400012: 40_outfit a_2.3_16_16.002
+    400014: 40_skin_0.1_16_16.002
+    400016: 40_tooth_0.1_16_16.002
+    400018: 41_feathers_0.1_16_16.002
+    400020: 5_snood_0.1_16_16.002
+    400022: 6_hair 1_0.7_16_16.002
+    400024: 6_hair 2_0.7_16_16.002
+    400026: 7_eyelashes_0.1_16_16.002
+    400028: arm left elbow
+    400030: arm left elbow ctr
+    400032: arm left elbow ctr2
+    400034: arm left elbow ctr2_end
+    400036: arm left elbow ctr_end
+    400038: arm left finger 1a
+    400040: arm left finger 1b
+    400042: arm left finger 1c
+    400044: arm left finger 1c_end
+    400046: arm left finger 2a
+    400048: arm left finger 2b
+    400050: arm left finger 2c
+    400052: arm left finger 2c_end
+    400054: arm left finger 3a
+    400056: arm left finger 3b
+    400058: arm left finger 3c
+    400060: arm left finger 3c_end
+    400062: arm left finger 4a
+    400064: arm left finger 4b
+    400066: arm left finger 4c
+    400068: arm left finger 4c_end
+    400070: arm left finger 5a
+    400072: arm left finger 5b
+    400074: arm left finger 5c
+    400076: arm left finger 5c_end
+    400078: arm left metacarpal
+    400080: arm left shoulder 1
+    400082: arm left shoulder 2
+    400084: arm left shoulder 2 ctr
+    400086: arm left shoulder 2 ctr2
+    400088: arm left shoulder 2 ctr2_end
+    400090: arm left shoulder 2 ctr_end
+    400092: arm left wrist
+    400094: arm left wrist ctr
+    400096: arm left wrist ctr_end
+    400098: arm right elbow
+    400100: arm right elbow ctr
+    400102: arm right elbow ctr2
+    400104: arm right elbow ctr2_end
+    400106: arm right elbow ctr_end
+    400108: arm right finger 1a
+    400110: arm right finger 1b
+    400112: arm right finger 1c
+    400114: arm right finger 1c_end
+    400116: arm right finger 2a
+    400118: arm right finger 2b
+    400120: arm right finger 2c
+    400122: arm right finger 2c_end
+    400124: arm right finger 3a
+    400126: arm right finger 3b
+    400128: arm right finger 3c
+    400130: arm right finger 3c_end
+    400132: arm right finger 4a
+    400134: arm right finger 4b
+    400136: arm right finger 4c
+    400138: arm right finger 4c_end
+    400140: arm right finger 5a
+    400142: arm right finger 5b
+    400144: arm right finger 5c
+    400146: arm right finger 5c_end
+    400148: arm right metacarpal
+    400150: arm right shoulder 1
+    400152: arm right shoulder 2
+    400154: arm right shoulder 2 ctr
+    400156: arm right shoulder 2 ctr2
+    400158: arm right shoulder 2 ctr2_end
+    400160: arm right shoulder 2 ctr_end
+    400162: arm right wrist
+    400164: arm right wrist ctr
+    400166: arm right wrist ctr_end
+    400168: Armature
+    400170: breast left a
+    400172: breast left a_end
+    400174: breast left b
+    400176: breast left b_end
+    400178: breast left base
+    400180: breast left c
+    400182: breast left c_end
+    400184: breast left d
+    400186: breast left d_end
+    400188: breast left e
+    400190: breast left e_end
+    400192: breast left tip
+    400194: breast right a
+    400196: breast right a_end
+    400198: breast right b
+    400200: breast right b_end
+    400202: breast right base
+    400204: breast right c
+    400206: breast right c_end
+    400208: breast right d
+    400210: breast right d_end
+    400212: breast right e
+    400214: breast right e_end
+    400216: breast right tip
+    400218: Camera
+    400220: //RootNode
+    400222: hair back left 1a
+    400224: hair back left 1b
+    400226: hair back left 1c
+    400228: hair back left 1d
+    400230: hair back left 1e
+    400232: hair back left 1e_end
+    400234: hair back left 2a
+    400236: hair back left 2b
+    400238: hair back left 2c
+    400240: hair back left 2d
+    400242: hair back left 2e
+    400244: hair back left 2e_end
+    400246: hair back left 3a
+    400248: hair back left 3b
+    400250: hair back left 3c
+    400252: hair back left 3d
+    400254: hair back left 3e
+    400256: hair back right 1a
+    400258: hair back right 1b
+    400260: hair back right 1c
+    400262: hair back right 1d
+    400264: hair back right 1e
+    400266: hair back right 1e_end
+    400268: hair back right 2a
+    400270: hair back right 2b
+    400272: hair back right 2c
+    400274: hair back right 2d
+    400276: hair back right 2e
+    400278: hair back right 2e_end
+    400280: hair back right 3a
+    400282: hair back right 3b
+    400284: hair back right 3c
+    400286: hair back right 3d
+    400288: hair back right 3e
+    400290: hair front left 1a
+    400292: hair front left 1b
+    400294: hair front left 1c
+    400296: hair front left 1c_end
+    400298: hair front right 1a
+    400300: hair front right 1b
+    400302: hair front right 1c
+    400304: hair front right 1c_end
+    400306: hair left side a
+    400308: hair left side b
+    400310: hair left side c
+    400312: hair left side d
+    400314: hair left side e
+    400316: hair left side f
+    400318: hair left side f_end
+    400320: hair right side a
+    400322: hair right side b
+    400324: hair right side c
+    400326: hair right side d
+    400328: hair right side e
+    400330: hair right side f
+    400332: hair right side f_end
+    400334: head cheek left a
+    400336: head cheek left a_end
+    400338: head cheek left b
+    400340: head cheek left b_end
+    400342: head cheek left c
+    400344: head cheek left c_end
+    400346: head cheek right a
+    400348: head cheek right a_end
+    400350: head cheek right b
+    400352: head cheek right b_end
+    400354: head cheek right c
+    400356: head cheek right c_end
+    400358: head eyeball left
+    400360: head eyeball left_end
+    400362: head eyeball right
+    400364: head eyeball right_end
+    400366: head eyebrow left a
+    400368: head eyebrow left a_end
+    400370: head eyebrow left b
+    400372: head eyebrow left b_end
+    400374: head eyebrow left c
+    400376: head eyebrow left c_end
+    400378: head eyebrow middle
+    400380: head eyebrow middle_end
+    400382: head eyebrow right a
+    400384: head eyebrow right a_end
+    400386: head eyebrow right b
+    400388: head eyebrow right b_end
+    400390: head eyebrow right c
+    400392: head eyebrow right c_end
+    400394: head eyelid lower left a
+    400396: head eyelid lower left a_end
+    400398: head eyelid lower left b
+    400400: head eyelid lower left b_end
+    400402: head eyelid lower right a
+    400404: head eyelid lower right a_end
+    400406: head eyelid lower right b
+    400408: head eyelid lower right b_end
+    400410: head eyelid upper left
+    400412: head eyelid upper left_end
+    400414: head eyelid upper right
+    400416: head eyelid upper right_end
+    400418: head forehead left
+    400420: head forehead left_end
+    400422: head forehead right
+    400424: head forehead right_end
+    400426: head jaw
+    400428: head lip corner left
+    400430: head lip corner left_end
+    400432: head lip corner right
+    400434: head lip corner right_end
+    400436: head lip lower left
+    400438: head lip lower left_end
+    400440: head lip lower middle
+    400442: head lip lower middle_end
+    400444: head lip lower right
+    400446: head lip lower right_end
+    400448: head lip upper left
+    400450: head lip upper left_end
+    400452: head lip upper middle
+    400454: head lip upper middle_end
+    400456: head lip upper right
+    400458: head lip upper right_end
+    400460: head neck lower
+    400462: head neck upper
+    400464: head nose left 1a
+    400466: head nose left 1a_end
+    400468: head nose left 1b
+    400470: head nose left 1b_end
+    400472: head nose left 1c
+    400474: head nose left 1c_end
+    400476: head nose left 1d
+    400478: head nose left 1d_end
+    400480: head nose middle
+    400482: head nose middle_end
+    400484: head nose right 1a
+    400486: head nose right 1a_end
+    400488: head nose right 1b
+    400490: head nose right 1b_end
+    400492: head nose right 1c
+    400494: head nose right 1c_end
+    400496: head nose right 1d
+    400498: head nose right 1d_end
+    400500: head tongue a
+    400502: head tongue b
+    400504: head tongue b_end
+    400506: Lamp
+    400508: leg left butt ctr
+    400510: leg left butt ctr_end
+    400512: leg left foot
+    400514: leg left knee
+    400516: leg left knee ctr
+    400518: leg left knee ctr_end
+    400520: leg left thigh
+    400522: leg left thigh ctr
+    400524: leg left thigh ctr2
+    400526: leg left thigh ctr2_end
+    400528: leg left thigh ctr_end
+    400530: leg left toe
+    400532: leg left toe_end
+    400534: leg right butt ctr
+    400536: leg right butt ctr_end
+    400538: leg right foot
+    400540: leg right knee
+    400542: leg right knee ctr
+    400544: leg right knee ctr_end
+    400546: leg right thigh
+    400548: leg right thigh ctr
+    400550: leg right thigh ctr2
+    400552: leg right thigh ctr2_end
+    400554: leg right thigh ctr_end
+    400556: leg right toe
+    400558: leg right toe_end
+    400560: root ground
+    400562: root hips
+    400564: skirt back left 1a
+    400566: skirt back left 1b
+    400568: skirt back left 1c
+    400570: skirt back left 1d
+    400572: skirt back left 1e
+    400574: skirt back left 1f
+    400576: skirt back left 1g
+    400578: skirt back left 1g_end
+    400580: skirt back left 2a
+    400582: skirt back left 2b
+    400584: skirt back left 2c
+    400586: skirt back left 2d
+    400588: skirt back left 2e
+    400590: skirt back left 2f
+    400592: skirt back left 2g
+    400594: skirt back left 2g_end
+    400596: skirt back left 3a
+    400598: skirt back left 3b
+    400600: skirt back left 3c
+    400602: skirt back left 3d
+    400604: skirt back left 3e
+    400606: skirt back left 3f
+    400608: skirt back left 3g
+    400610: skirt back left 3g_end
+    400612: skirt back right 1a
+    400614: skirt back right 1b
+    400616: skirt back right 1c
+    400618: skirt back right 1d
+    400620: skirt back right 1e
+    400622: skirt back right 1f
+    400624: skirt back right 1g
+    400626: skirt back right 1g_end
+    400628: skirt back right 2a
+    400630: skirt back right 2b
+    400632: skirt back right 2c
+    400634: skirt back right 2d
+    400636: skirt back right 2e
+    400638: skirt back right 2f
+    400640: skirt back right 2g
+    400642: skirt back right 2g_end
+    400644: skirt back right 3a
+    400646: skirt back right 3b
+    400648: skirt back right 3c
+    400650: skirt back right 3d
+    400652: skirt back right 3e
+    400654: skirt back right 3f
+    400656: skirt back right 3g
+    400658: skirt back right 3g_end
+    400660: skirt front left 1a
+    400662: skirt front left 1b
+    400664: skirt front left 1c
+    400666: skirt front left 1d
+    400668: skirt front left 1e
+    400670: skirt front left 1f
+    400672: skirt front left 1g
+    400674: skirt front left 1g_end
+    400676: skirt front left 2a
+    400678: skirt front left 2b
+    400680: skirt front left 2c
+    400682: skirt front left 2d
+    400684: skirt front left 2e
+    400686: skirt front left 2f
+    400688: skirt front left 2g
+    400690: skirt front left 2g_end
+    400692: skirt front left 3a
+    400694: skirt front left 3b
+    400696: skirt front left 3c
+    400698: skirt front left 3d
+    400700: skirt front left 3e
+    400702: skirt front left 3f
+    400704: skirt front left 3g
+    400706: skirt front left 3g_end
+    400708: skirt front left 4a
+    400710: skirt front left 4b
+    400712: skirt front left 4c
+    400714: skirt front left 4d
+    400716: skirt front left 4e
+    400718: skirt front left 4f
+    400720: skirt front left 4g
+    400722: skirt front left 4g_end
+    400724: skirt front middle a
+    400726: skirt front middle b
+    400728: skirt front middle c
+    400730: skirt front middle d
+    400732: skirt front middle e
+    400734: skirt front middle f
+    400736: skirt front middle g
+    400738: skirt front middle g_end
+    400740: skirt front right 1a
+    400742: skirt front right 1b
+    400744: skirt front right 1c
+    400746: skirt front right 1d
+    400748: skirt front right 1e
+    400750: skirt front right 1f
+    400752: skirt front right 1g
+    400754: skirt front right 1g_end
+    400756: skirt front right 2a
+    400758: skirt front right 2b
+    400760: skirt front right 2c
+    400762: skirt front right 2d
+    400764: skirt front right 2e
+    400766: skirt front right 2f
+    400768: skirt front right 2g
+    400770: skirt front right 2g_end
+    400772: skirt front right 3a
+    400774: skirt front right 3b
+    400776: skirt front right 3c
+    400778: skirt front right 3d
+    400780: skirt front right 3e
+    400782: skirt front right 3f
+    400784: skirt front right 3g
+    400786: skirt front right 3g_end
+    400788: skirt front right 4a
+    400790: skirt front right 4b
+    400792: skirt front right 4c
+    400794: skirt front right 4d
+    400796: skirt front right 4e
+    400798: skirt front right 4f
+    400800: skirt front right 4g
+    400802: skirt front right 4g_end
+    400804: skirt left side a
+    400806: skirt left side b
+    400808: skirt left side c
+    400810: skirt left side d
+    400812: skirt left side e
+    400814: skirt left side f
+    400816: skirt left side g
+    400818: skirt left side g_end
+    400820: skirt right side a
+    400822: skirt right side b
+    400824: skirt right side c
+    400826: skirt right side d
+    400828: skirt right side e
+    400830: skirt right side f
+    400832: skirt right side g
+    400834: skirt right side g_end
+    400836: skirt root
+    400838: spine lower
+    400840: spine upper
+    400842: sword root
+    400844: tassel a
+    400846: tassel b
+    400848: tassel c
+    400850: tassel d
+    400852: tassel d_end
+    400854: unused !!!!!!!!!!!!!!!!!!!2b
+    400856: unused !!!!!!!!!!!!!!!!!!!2b armature
+    400858: unused !!!!!!!!!!!!!!!!!!!2b armature item_head and hair
+    400860: unused !!!!!!!!!!!!!!!!!!!2b item_head and hair
+    400862: 'unused !!!!!!!!!!!!!!!!!!!2b.face armature item_hair and head #'
+    400864: 'unused !!!!!!!!!!!!!!!!!!!2b.face item_hair and head #2 item_he'
+    400866: unused !!!!!!!!!!!!!!!!!!!2b.hair with animation armature item_
+    400868: unused !!!!!!!!!!!!!!!!!!!2b.hair with animation item_hair fix
+    400870: unused arm left elbow ctr item_head and hair
+    400872: unused arm left elbow ctr item_head and hair_end
+    400874: unused arm left elbow ctr2 item_head and hair
+    400876: unused arm left elbow ctr2 item_head and hair_end
+    400878: unused arm left elbow item_head and hair
+    400880: unused arm left finger 1a item_head and hair
+    400882: unused arm left finger 1b item_head and hair
+    400884: unused arm left finger 1c item_head and hair
+    400886: unused arm left finger 1c item_head and hair_end
+    400888: unused arm left finger 2a item_head and hair
+    400890: unused arm left finger 2b item_head and hair
+    400892: unused arm left finger 2c item_head and hair
+    400894: unused arm left finger 2c item_head and hair_end
+    400896: unused arm left finger 3a item_head and hair
+    400898: unused arm left finger 3b item_head and hair
+    400900: unused arm left finger 3c item_head and hair
+    400902: unused arm left finger 3c item_head and hair_end
+    400904: unused arm left finger 4a item_head and hair
+    400906: unused arm left finger 4b item_head and hair
+    400908: unused arm left finger 4c item_head and hair
+    400910: unused arm left finger 4c item_head and hair_end
+    400912: unused arm left finger 5a item_head and hair
+    400914: unused arm left finger 5b item_head and hair
+    400916: unused arm left finger 5c item_head and hair
+    400918: unused arm left finger 5c item_head and hair_end
+    400920: unused arm left metacarpal item_head and hair
+    400922: unused arm left shoulder 1 item_head and hair
+    400924: unused arm left shoulder 2 ctr item_head and hair
+    400926: unused arm left shoulder 2 ctr item_head and hair_end
+    400928: unused arm left shoulder 2 ctr2 item_head and hair
+    400930: unused arm left shoulder 2 ctr2 item_head and hair_end
+    400932: unused arm left shoulder 2 item_head and hair
+    400934: unused arm left wrist ctr item_head and hair
+    400936: unused arm left wrist ctr item_head and hair_end
+    400938: unused arm left wrist item_head and hair
+    400940: unused arm right elbow ctr item_head and hair
+    400942: unused arm right elbow ctr item_head and hair_end
+    400944: unused arm right elbow ctr2 item_head and hair
+    400946: unused arm right elbow ctr2 item_head and hair_end
+    400948: unused arm right elbow item_head and hair
+    400950: unused arm right finger 1a item_head and hair
+    400952: unused arm right finger 1b item_head and hair
+    400954: unused arm right finger 1c item_head and hair
+    400956: unused arm right finger 1c item_head and hair_end
+    400958: unused arm right finger 2a item_head and hair
+    400960: unused arm right finger 2b item_head and hair
+    400962: unused arm right finger 2c item_head and hair
+    400964: unused arm right finger 2c item_head and hair_end
+    400966: unused arm right finger 3a item_head and hair
+    400968: unused arm right finger 3b item_head and hair
+    400970: unused arm right finger 3c item_head and hair
+    400972: unused arm right finger 3c item_head and hair_end
+    400974: unused arm right finger 4a item_head and hair
+    400976: unused arm right finger 4b item_head and hair
+    400978: unused arm right finger 4c item_head and hair
+    400980: unused arm right finger 4c item_head and hair_end
+    400982: unused arm right finger 5a item_head and hair
+    400984: unused arm right finger 5b item_head and hair
+    400986: unused arm right finger 5c item_head and hair
+    400988: unused arm right finger 5c item_head and hair_end
+    400990: unused arm right metacarpal item_head and hair
+    400992: unused arm right shoulder 1 item_head and hair
+    400994: unused arm right shoulder 2 ctr item_head and hair
+    400996: unused arm right shoulder 2 ctr item_head and hair_end
+    400998: unused arm right shoulder 2 ctr2 item_head and hair
+    401000: unused arm right shoulder 2 ctr2 item_head and hair_end
+    401002: unused arm right shoulder 2 item_head and hair
+    401004: unused arm right wrist ctr item_head and hair
+    401006: unused arm right wrist ctr item_head and hair_end
+    401008: unused arm right wrist item_head and hair
+    401010: unused breast left a item_head and hair
+    401012: unused breast left a item_head and hair_end
+    401014: unused breast left b item_head and hair
+    401016: unused breast left b item_head and hair_end
+    401018: unused breast left base item_head and hair
+    401020: unused breast left c item_head and hair
+    401022: unused breast left c item_head and hair_end
+    401024: unused breast left d item_head and hair
+    401026: unused breast left d item_head and hair_end
+    401028: unused breast left e item_head and hair
+    401030: unused breast left e item_head and hair_end
+    401032: unused breast left tip item_head and hair
+    401034: unused breast right a item_head and hair
+    401036: unused breast right a item_head and hair_end
+    401038: unused breast right b item_head and hair
+    401040: unused breast right b item_head and hair_end
+    401042: unused breast right base item_head and hair
+    401044: unused breast right c item_head and hair
+    401046: unused breast right c item_head and hair_end
+    401048: unused breast right d item_head and hair
+    401050: unused breast right d item_head and hair_end
+    401052: unused breast right e item_head and hair
+    401054: unused breast right e item_head and hair_end
+    401056: unused breast right tip item_head and hair
+    401058: 'unused head neck upper attached_hair and head #2 head neck lowe'
+    401060: 'unused head neck upper attached_hair and head #2 head neck uppe'
+    401062: 'unused head neck upper attached_hair and head #2 root ground it'
+    401064: unused head neck upper attached_hair fix !!!!!!!!!!!!!!!!!!!2b.
+    401066: unused head neck upper attached_hair fix !!!!!!!!!!!!!!!!!.001
+    401068: unused head neck upper attached_hair fix head neck upper i.001
+    401070: unused head neck upper attached_hair fix head neck upper item_h
+    401072: unused head neck upper attached_hair fix opt dummy head item_ha
+    401074: unused head neck upper attached_hair fix opt dummy head item_ha_end
+    401076: unused head neck upper attached_hair fix root ground item_hair
+    401078: unused head neck upper attached_hair fix root ground item_head
+    401080: unused head neck upper attached_head and hair head neck lower
+    401082: unused head neck upper attached_head and hair head neck upper
+    401084: unused head neck upper attached_head and hair root ground
+    401086: unused head neck upper attached_head and hair root hips
+    401088: unused leg left butt ctr item_head and hair
+    401090: unused leg left butt ctr item_head and hair_end
+    401092: unused leg left foot item_head and hair
+    401094: unused leg left knee ctr item_head and hair
+    401096: unused leg left knee ctr item_head and hair_end
+    401098: unused leg left knee item_head and hair
+    401100: unused leg left thigh ctr item_head and hair
+    401102: unused leg left thigh ctr item_head and hair_end
+    401104: unused leg left thigh ctr2 item_head and hair
+    401106: unused leg left thigh ctr2 item_head and hair_end
+    401108: unused leg left thigh item_head and hair
+    401110: unused leg left toe item_head and hair
+    401112: unused leg left toe item_head and hair_end
+    401114: unused leg right butt ctr item_head and hair
+    401116: unused leg right butt ctr item_head and hair_end
+    401118: unused leg right foot item_head and hair
+    401120: unused leg right knee ctr item_head and hair
+    401122: unused leg right knee ctr item_head and hair_end
+    401124: unused leg right knee item_head and hair
+    401126: unused leg right thigh ctr item_head and hair
+    401128: unused leg right thigh ctr item_head and hair_end
+    401130: unused leg right thigh ctr2 item_head and hair
+    401132: unused leg right thigh ctr2 item_head and hair_end
+    401134: unused leg right thigh item_head and hair
+    401136: unused leg right toe item_head and hair
+    401138: unused leg right toe item_head and hair_end
+    401140: unused opt acs hair c1 bone1 item_hair fix item_head and hair
+    401142: unused opt acs hair c1 bone1 item_hair fix item_head and hair_end
+    401144: unused opt acs hair c2 bone13 item_hair fix item_head and hair
+    401146: unused opt acs hair c2 bone13 item_hair fix item_head and hair_end
+    401148: unused opt acs osage l16 item_hair fix item_head and hair
+    401150: unused opt acs osage l17 item_hair fix item_head and hair
+    401152: unused opt acs osage r16 item_hair fix item_head and hair
+    401154: unused opt acs osage r17 item_hair fix item_head and hair
+    401156: unused opt dummy head item_hair fix item_head and hair
+    401158: unused opt dummy head item_hair fix item_head and hair_end
+    401160: unused skirt back left 1a item_head and hair
+    401162: unused skirt back left 1b item_head and hair
+    401164: unused skirt back left 1c item_head and hair
+    401166: unused skirt back left 1d item_head and hair
+    401168: unused skirt back left 1e item_head and hair
+    401170: unused skirt back left 1f item_head and hair
+    401172: unused skirt back left 1g item_head and hair
+    401174: unused skirt back left 1g item_head and hair_end
+    401176: unused skirt back left 2a item_head and hair
+    401178: unused skirt back left 2b item_head and hair
+    401180: unused skirt back left 2c item_head and hair
+    401182: unused skirt back left 2d item_head and hair
+    401184: unused skirt back left 2e item_head and hair
+    401186: unused skirt back left 2f item_head and hair
+    401188: unused skirt back left 2g item_head and hair
+    401190: unused skirt back left 2g item_head and hair_end
+    401192: unused skirt back left 3a item_head and hair
+    401194: unused skirt back left 3b item_head and hair
+    401196: unused skirt back left 3c item_head and hair
+    401198: unused skirt back left 3d item_head and hair
+    401200: unused skirt back left 3e item_head and hair
+    401202: unused skirt back left 3f item_head and hair
+    401204: unused skirt back left 3g item_head and hair
+    401206: unused skirt back left 3g item_head and hair_end
+    401208: unused skirt back right 1a item_head and hair
+    401210: unused skirt back right 1b item_head and hair
+    401212: unused skirt back right 1c item_head and hair
+    401214: unused skirt back right 1d item_head and hair
+    401216: unused skirt back right 1e item_head and hair
+    401218: unused skirt back right 1f item_head and hair
+    401220: unused skirt back right 1g item_head and hair
+    401222: unused skirt back right 1g item_head and hair_end
+    401224: unused skirt back right 2a item_head and hair
+    401226: unused skirt back right 2b item_head and hair
+    401228: unused skirt back right 2c item_head and hair
+    401230: unused skirt back right 2d item_head and hair
+    401232: unused skirt back right 2e item_head and hair
+    401234: unused skirt back right 2f item_head and hair
+    401236: unused skirt back right 2g item_head and hair
+    401238: unused skirt back right 2g item_head and hair_end
+    401240: unused skirt back right 3a item_head and hair
+    401242: unused skirt back right 3b item_head and hair
+    401244: unused skirt back right 3c item_head and hair
+    401246: unused skirt back right 3d item_head and hair
+    401248: unused skirt back right 3e item_head and hair
+    401250: unused skirt back right 3f item_head and hair
+    401252: unused skirt back right 3g item_head and hair
+    401254: unused skirt back right 3g item_head and hair_end
+    401256: unused skirt front left 1a item_head and hair
+    401258: unused skirt front left 1b item_head and hair
+    401260: unused skirt front left 1c item_head and hair
+    401262: unused skirt front left 1d item_head and hair
+    401264: unused skirt front left 1e item_head and hair
+    401266: unused skirt front left 1f item_head and hair
+    401268: unused skirt front left 1g item_head and hair
+    401270: unused skirt front left 1g item_head and hair_end
+    401272: unused skirt front left 2a item_head and hair
+    401274: unused skirt front left 2b item_head and hair
+    401276: unused skirt front left 2c item_head and hair
+    401278: unused skirt front left 2d item_head and hair
+    401280: unused skirt front left 2e item_head and hair
+    401282: unused skirt front left 2f item_head and hair
+    401284: unused skirt front left 2g item_head and hair
+    401286: unused skirt front left 2g item_head and hair_end
+    401288: unused skirt front left 3a item_head and hair
+    401290: unused skirt front left 3b item_head and hair
+    401292: unused skirt front left 3c item_head and hair
+    401294: unused skirt front left 3d item_head and hair
+    401296: unused skirt front left 3e item_head and hair
+    401298: unused skirt front left 3f item_head and hair
+    401300: unused skirt front left 3g item_head and hair
+    401302: unused skirt front left 3g item_head and hair_end
+    401304: unused skirt front left 4a item_head and hair
+    401306: unused skirt front left 4b item_head and hair
+    401308: unused skirt front left 4c item_head and hair
+    401310: unused skirt front left 4d item_head and hair
+    401312: unused skirt front left 4e item_head and hair
+    401314: unused skirt front left 4f item_head and hair
+    401316: unused skirt front left 4g item_head and hair
+    401318: unused skirt front left 4g item_head and hair_end
+    401320: unused skirt front middle a item_head and hair
+    401322: unused skirt front middle b item_head and hair
+    401324: unused skirt front middle c item_head and hair
+    401326: unused skirt front middle d item_head and hair
+    401328: unused skirt front middle e item_head and hair
+    401330: unused skirt front middle f item_head and hair
+    401332: unused skirt front middle g item_head and hair
+    401334: unused skirt front middle g item_head and hair_end
+    401336: unused skirt front right 1a item_head and hair
+    401338: unused skirt front right 1b item_head and hair
+    401340: unused skirt front right 1c item_head and hair
+    401342: unused skirt front right 1d item_head and hair
+    401344: unused skirt front right 1e item_head and hair
+    401346: unused skirt front right 1f item_head and hair
+    401348: unused skirt front right 1g item_head and hair
+    401350: unused skirt front right 1g item_head and hair_end
+    401352: unused skirt front right 2a item_head and hair
+    401354: unused skirt front right 2b item_head and hair
+    401356: unused skirt front right 2c item_head and hair
+    401358: unused skirt front right 2d item_head and hair
+    401360: unused skirt front right 2e item_head and hair
+    401362: unused skirt front right 2f item_head and hair
+    401364: unused skirt front right 2g item_head and hair
+    401366: unused skirt front right 2g item_head and hair_end
+    401368: unused skirt front right 3a item_head and hair
+    401370: unused skirt front right 3b item_head and hair
+    401372: unused skirt front right 3c item_head and hair
+    401374: unused skirt front right 3d item_head and hair
+    401376: unused skirt front right 3e item_head and hair
+    401378: unused skirt front right 3f item_head and hair
+    401380: unused skirt front right 3g item_head and hair
+    401382: unused skirt front right 3g item_head and hair_end
+    401384: unused skirt front right 4a item_head and hair
+    401386: unused skirt front right 4b item_head and hair
+    401388: unused skirt front right 4c item_head and hair
+    401390: unused skirt front right 4d item_head and hair
+    401392: unused skirt front right 4e item_head and hair
+    401394: unused skirt front right 4f item_head and hair
+    401396: unused skirt front right 4g item_head and hair
+    401398: unused skirt front right 4g item_head and hair_end
+    401400: unused skirt left side 4a item_head and hair
+    401402: unused skirt left side 4b item_head and hair
+    401404: unused skirt left side 4c item_head and hair
+    401406: unused skirt left side 4d item_head and hair
+    401408: unused skirt left side 4e item_head and hair
+    401410: unused skirt left side 4f item_head and hair
+    401412: unused skirt left side 4g item_head and hair
+    401414: unused skirt left side 4g item_head and hair_end
+    401416: unused skirt right side a item_head and hair
+    401418: unused skirt right side b item_head and hair
+    401420: unused skirt right side c item_head and hair
+    401422: unused skirt right side d item_head and hair
+    401424: unused skirt right side e item_head and hair
+    401426: unused skirt right side f item_head and hair
+    401428: unused skirt right side g item_head and hair
+    401430: unused skirt right side g item_head and hair_end
+    401432: unused skirt root item_head and hair
+    401434: unused spine lower item_head and hair
+    401436: unused spine upper item_head and hair
+    2000000: Camera
+    4300000: 7_eyelashes_0.1_16_16.002
+    4300002: 6_hair 2_0.7_16_16.002
+    4300004: 6_hair 1_0.7_16_16.002
+    4300006: 5_snood_0.1_16_16.002
+    4300008: 41_feathers_0.1_16_16.002
+    4300010: 40_tooth_0.1_16_16.002
+    4300012: 40_skin_0.1_16_16.002
+    4300014: 40_outfit a_2.3_16_16.002
+    4300016: 40_face_0.1_16_16.002
+    4300018: 40_eye bubbles_7.3_16_16.002
+    4300020: 40_body dets_0.7_16_16.002
+    4300022: 40_+Sword.sword_0.7_0_0.002
+    4300024: 40_+Skirt.skirt_2.3_16_16.002
+    4300026: 40_+Mask.mask_0.7_16_16.002
+    9500000: //RootNode
+    10800000: Lamp
+    13700000: 40_+Mask.mask_0.7_16_16.002
+    13700002: 40_+Skirt.skirt_2.3_16_16.002
+    13700004: 40_+Sword.sword_0.7_0_0.002
+    13700006: 40_body dets_0.7_16_16.002
+    13700008: 40_eye bubbles_7.3_16_16.002
+    13700010: 40_face_0.1_16_16.002
+    13700012: 40_outfit a_2.3_16_16.002
+    13700014: 40_skin_0.1_16_16.002
+    13700016: 40_tooth_0.1_16_16.002
+    13700018: 41_feathers_0.1_16_16.002
+    13700020: 5_snood_0.1_16_16.002
+    13700022: 6_hair 1_0.7_16_16.002
+    13700024: 6_hair 2_0.7_16_16.002
+    13700026: 7_eyelashes_0.1_16_16.002
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
