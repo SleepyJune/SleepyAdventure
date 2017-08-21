@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class Pathfinding {
+public class Pathfinding
+{
 
     public static Dictionary<IPosition, PathSquare> pathSquares = new Dictionary<IPosition, PathSquare>();
 
@@ -25,18 +26,18 @@ public class Pathfinding {
             new IPosition(1, 0, 1), //3
         };
 
-        foreach(var sqr in level.map.Values)
+        foreach (var sqr in level.map.Values)
         {
             var newPathSqr = new PathSquare(sqr);
 
             pathSquares.Add(sqr.position, newPathSqr);
         }
 
-        foreach(var pathSqr in pathSquares.Values)
+        foreach (var pathSqr in pathSquares.Values)
         {
             var sqrPosition = pathSqr.pos;
 
-            foreach(var dir in neighbourPositions)
+            foreach (var dir in neighbourPositions)
             {
                 var pos = sqrPosition + dir;
 
@@ -63,8 +64,8 @@ public class Pathfinding {
     {
         IPosition ipos = pos.ConvertToIPosition().To2D();
         PathSquare sqr;
-        
-        if(pathSquares.TryGetValue(ipos, out sqr))
+
+        if (pathSquares.TryGetValue(ipos, out sqr))
         {
             return sqr;
         }
@@ -78,8 +79,8 @@ public class Pathfinding {
     {
         PathSquare startSqr = GetPathSquare(start);
         PathSquare endSqr = GetPathSquare(end);
-                
-        if(start != null && end != null)
+
+        if (start != null && end != null)
         {
             return GetShortestPath(startSqr, endSqr);
         }
@@ -87,11 +88,31 @@ public class Pathfinding {
         return null;
     }
 
+    public static bool CanPlayerWalkToSquare(PathSquare pathSquare)
+    {
+        var sqr = pathSquare.square;
+
+        foreach (var obj in sqr.objects)
+        {
+            var gameObj = obj.GetGameObject();
+            if (gameObj.tag == "Hazard")
+            {
+                return false;
+            }
+            else if (gameObj.tag == "Wall")
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public static PathInfo GetShortestPath(PathSquare start, PathSquare end)
     {
         HashSet<PathSquare> closedSet = new HashSet<PathSquare>();
         HashSet<PathSquare> openSet = new HashSet<PathSquare>();
-        
+
         openSet.Add(start);
 
         ResetPathSquare();
@@ -115,8 +136,13 @@ public class Pathfinding {
             {
                 var neighbour = pair.Key;
                 var distance = pair.Value;
-                
+
                 if (closedSet.Contains(neighbour))
+                {
+                    continue;
+                }
+
+                if (!CanPlayerWalkToSquare(neighbour))
                 {
                     continue;
                 }
@@ -138,7 +164,7 @@ public class Pathfinding {
             }
         }
 
-        return null;   
+        return null;
     }
 
 }
