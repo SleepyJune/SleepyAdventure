@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour {
 
     public void LoadLevel(string path)
     {
+        level = new Level();
+
         string str = File.ReadAllText(path);
 
         var sqrObjects = JsonHelper.FromJson<SquareObject>(str);
@@ -40,8 +42,15 @@ public class GameManager : MonoBehaviour {
             {
                 CreateNewObject(obj.cid, obj.id, obj.pos);
             }
-        }       
+        }
 
+        InitLevel();
+
+    }
+
+    void InitLevel()
+    {
+        Pathfinding.InitPathSquares(level);
     }
 
     void CreateNewObject(int cid, int id, IPosition pos)

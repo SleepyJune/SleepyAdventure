@@ -17,6 +17,14 @@ public struct IPosition : IEquatable<IPosition>
         this.z = z;
     }
 
+    public static IPosition operator +(IPosition value1, IPosition value2)
+    {
+        value1.x += value2.x;
+        value1.y += value2.y;
+        value1.z += value2.z;
+        return value1;
+    }
+
     public static bool operator ==(IPosition value1, IPosition value2)
     {
         return value1.x == value2.x
@@ -46,12 +54,16 @@ public struct IPosition : IEquatable<IPosition>
 
     public double DistanceSqr(IPosition pos2)
     {
-        return ((pos2.x - this.x) * (pos2.x - this.x) + (pos2.y - this.y) * (pos2.y - this.y));
+        return ((pos2.x - this.x) * (pos2.x - this.x) 
+                + (pos2.y - this.y) * (pos2.y - this.y)
+                + (pos2.z - this.z) * (pos2.z - this.z));
     }
 
     public double Distance(IPosition pos2)
     {
-        return Math.Sqrt((pos2.x - this.x) * (pos2.x - this.x) + (pos2.y - this.y) * (pos2.y - this.y));
+        return Math.Sqrt((pos2.x - this.x) * (pos2.x - this.x) 
+                        + (pos2.y - this.y) * (pos2.y - this.y)
+                        + (pos2.z - this.z) * (pos2.z - this.z));
     }
 
     public IPosition To2D()

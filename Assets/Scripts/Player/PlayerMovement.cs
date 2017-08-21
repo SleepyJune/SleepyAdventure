@@ -2,13 +2,15 @@
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+using System.Linq;
+
 public class PlayerMovement : MonoBehaviour
 {
     public float speed = 6f;
     public Image joystick;
 
     public GameObject victoryParticle;
-        
+
     private Vector3 movement;
     private Vector3 destination;
 
@@ -26,6 +28,10 @@ public class PlayerMovement : MonoBehaviour
     GameObject indicatorCubePrefab;
     GameObject indicatorCube;
 
+    PathInfo path;
+
+    GameObject pathHighlightHolder;
+
     void Awake()
     {
         floorMask = LayerMask.GetMask("Floor");
@@ -33,10 +39,12 @@ public class PlayerMovement : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody>();
 
         indicatorCubePrefab = Resources.Load("IndicatorCubeGreen", typeof(GameObject)) as GameObject;
+
+        
     }
 
     void FixedUpdate()
-    {
+    {        
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
         var vec = new Vector3(h, 0, v);
@@ -86,17 +94,51 @@ public class PlayerMovement : MonoBehaviour
 
     void Move(float h, float v)
     {
+        if(path != null && path.points.Count > 0)
+        {
+            var next = path.points.First();
+
+            if(next != null)
+            {
+                if(transform.position.ConvertToIPosition().To2D() == next)
+                {
+                    path.points.Remove(next);
+                }
+                else
+                {
+                    destination = next.ToVector();
+                }
+            }
+
+        }else
+        {
+            path = null;
+            Destroy(pathHighlightHolder);
+        }
+
         if (destination != null)
         {
             float distance = Vector3.Distance(VectorTo2D(transform.position), VectorTo2D(destination));
 
-            if (distance > 0.01)
+            if (distance > 0.05)
             {
                 Vector3 dir = (destination - transform.position).normalized;
                 dir.y = 0;
 
-                transform.position += dir * speed * Time.deltaTime;
+                if (distance >= .1)
+                {
+                    transform.position += dir * speed * Time.deltaTime;
+                }
+                else
+                {
+                    transform.position = new Vector3(0,transform.position.y,0) 
+                            + transform.position.ConvertToIPosition().To2D().ToVector();
+                }
                 isWalking = true;
+                
+                Quaternion newRotation = Quaternion.LookRotation(dir);
+                playerRigidbody.MoveRotation(newRotation);
+
             }
             else
             {
@@ -136,9 +178,35 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            if(indicatorCube != null)
+            if (indicatorCube != null)
             {
                 Destroy(indicatorCube);
+            }
+        }
+    }
+
+    void GeneratePathHighlight()
+    {
+        if(path != null)
+        {
+            if (pathHighlightHolder != null)
+            {
+                Destroy(pathHighlightHolder);
+            }
+
+            pathHighlightHolder = new GameObject();
+
+            foreach(var pos in path.points)
+            {
+                Instantiate(indicatorCubePrefab, new Vector3(pos.x, 0, pos.z), Quaternion.identity, pathHighlightHolder.transform);
+            }
+
+        }
+        else
+        {
+            if(pathHighlightHolder != null)
+            {
+                Destroy(pathHighlightHolder);
             }
         }
     }
@@ -150,16 +218,15 @@ public class PlayerMovement : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, camRayLength, floorMask))
-            {
-                Vector3 playerToMouse = hit.point - transform.position;
-                playerToMouse.y = 0f;
-
-                Quaternion newRotation = Quaternion.LookRotation(playerToMouse);
-                playerRigidbody.MoveRotation(newRotation);
+            {                                              
 
                 if (Input.GetButton("Fire2"))
                 {
-                    destination = hit.point.ConvertToIPosition().To2D().ToVector();
+                    var end = hit.point.ConvertToIPosition().To2D().ToVector();
+
+                    path = Pathfinding.GetShortestPath(transform.position, end);
+
+                    GeneratePathHighlight();
                 }
 
                 //transform.position = hit.point;

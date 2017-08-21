@@ -14,14 +14,14 @@ public class PathSquare
 
     public PathSquare parent = null;
 
-    public List<PathSquare> neighbours;
+    public Dictionary<PathSquare, double> neighbours;
 
     public PathSquare(Square square)
     {
         this.square = square;
         this.pos = square.position;
 
-        this.neighbours = new List<PathSquare>();
+        this.neighbours = new Dictionary<PathSquare, double>();
 
         gScore = 9999;
         fScore = 9999;
