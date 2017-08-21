@@ -128,6 +128,8 @@ public class PlayerMovement : MonoBehaviour
                 if (distance >= .1)
                 {
                     transform.position += dir * speed * Time.deltaTime;
+
+                    anim.SetFloat("Speed", speed * Time.deltaTime);
                 }
                 else
                 {
@@ -143,6 +145,7 @@ public class PlayerMovement : MonoBehaviour
             else
             {
                 isWalking = false;
+                anim.SetFloat("Speed", 0);
             }
         }
     }

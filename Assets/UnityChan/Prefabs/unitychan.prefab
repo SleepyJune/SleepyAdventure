@@ -737,8 +737,8 @@ GameObject:
   - component: {fileID: 400096}
   - component: {fileID: 9500000}
   - component: {fileID: 114106201293640388}
-  - component: {fileID: 54403579327141508}
   - component: {fileID: 136216635187851254}
+  - component: {fileID: 54248384601016600}
   m_Layer: 0
   m_Name: unitychan
   m_TagString: Player
@@ -5038,7 +5038,7 @@ Animator:
   m_GameObject: {fileID: 100096}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 8f0565f23a2b58541a475bd3c1393052, type: 3}
-  m_Controller: {fileID: 9100000, guid: 3173dc991e314594abd6180b45c49c92, type: 2}
+  m_Controller: {fileID: 9100000, guid: 8d5a0e0d58f4e4176a844a1a03976c19, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -6425,16 +6425,16 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 100096}
   m_IsPrefabParent: 1
---- !u!54 &54403579327141508
+--- !u!54 &54248384601016600
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100096}
   serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_Mass: 100
+  m_Drag: Infinity
+  m_AngularDrag: Infinity
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
