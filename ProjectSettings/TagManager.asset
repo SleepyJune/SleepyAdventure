@@ -9,6 +9,8 @@ TagManager:
   - Door
   - Goal
   - Start
+  - Hazard
+  - Wall
   layers:
   - Default
   - TransparentFX
