@@ -87,7 +87,7 @@ public class LevelEditor : MonoBehaviour
 
     public void OnSaveScreenCancelButtonPressed()
     {
-        saveScreen.SetActive(false);        
+        saveScreen.SetActive(false);
     }
 
     public void OnHomeButtonPressed()
@@ -97,7 +97,7 @@ public class LevelEditor : MonoBehaviour
 
     void OnSelectCollection(int collectionID)
     {
-        if(selectedCollection == collectionID)
+        if (selectedCollection == collectionID)
         {
             return;
         }
@@ -243,7 +243,7 @@ public class LevelEditor : MonoBehaviour
     void CreateNewObject(int cid, int id, IPosition pos)
     {
         var selectedOriginal = prefabManager.collections[cid].objects[id];
-        var newObject = Instantiate(selectedOriginal, new Vector3(pos.x, pos.y/2.0f, pos.z), new Quaternion(), levelHolder.transform);
+        var newObject = Instantiate(selectedOriginal, new Vector3(pos.x, pos.y / 2.0f, pos.z), new Quaternion(), levelHolder.transform);
 
         newObject.layer = 10;
 
@@ -264,17 +264,17 @@ public class LevelEditor : MonoBehaviour
             {
                 var hitPoint = hit.point;
                 hitPoint.y = 0;
-                                
+
                 var selectedOriginal = prefabManager.collections[selectedInfo.cid].objects[selectedInfo.id];
 
                 var spawnPos = (hitPoint + prefabManager.collections[selectedInfo.cid].GetComponent<PrefabCollection>().spawnOffset)
                         .ConvertToIPosition();
-                                
+
                 Debug.Log(spawnPos.y);
 
                 if (level.AddSquareObject(spawnPos, selectedInfo.cid, selectedInfo.id, selectedOriginal) != null)
                 {
-                    CreateNewObject(selectedInfo.cid, 
+                    CreateNewObject(selectedInfo.cid,
                                     selectedInfo.id,
                                     spawnPos);
                 }
@@ -284,6 +284,12 @@ public class LevelEditor : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void EditorScriptActions()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, 100, editorObjectMask))
         {
@@ -292,13 +298,13 @@ public class LevelEditor : MonoBehaviour
             if (editorScript != null)
             {
                 stageSelectedScript = editorScript;
-                EraseButton.SetActive(true);
+                //EraseButton.SetActive(true);
+
+                if (Input.GetButtonDown("Fire2"))
+                {
+                    RemoveObject();
+                }
             }
-        }
-        else
-        {
-            //stageSelectedScript = null;
-            //EraseButton.SetActive(false);
         }
     }
 
@@ -397,6 +403,12 @@ public class LevelEditor : MonoBehaviour
     {
         ZoomFunction();
 
+        if (Input.GetButtonDown("Fire2"))
+        {
+            selectedInfo = null;
+            Destroy(indicatorCube);
+        }
+
         if (isPanOn)
         {
             PanFunction();
@@ -406,6 +418,12 @@ public class LevelEditor : MonoBehaviour
             if (EventSystem.current.IsPointerOverGameObject() == false)
             {
                 HighlightSquare();
+
+                if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2"))
+                {
+                    EditorScriptActions();
+
+                }
 
                 if (Input.GetButton("Fire1"))
                 {

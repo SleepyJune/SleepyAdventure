@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using System.Linq;
+
 public class CameraController : MonoBehaviour {
 
     public float minFov = 15f;
@@ -12,6 +14,11 @@ public class CameraController : MonoBehaviour {
     bool isPanOn = false;
 
     Vector3 lastPanMousePosition;
+
+    Vector3 playerCameraPos;
+    Transform player;
+
+    public float smooth = 3f;
 
     void ZoomFunction()
     {
@@ -25,9 +32,46 @@ public class CameraController : MonoBehaviour {
     void Start () {
 		
 	}
-	
+
+    void PanFunction()
+    {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            lastPanMousePosition = Input.mousePosition;
+        }
+
+        if (Input.GetButton("Fire1"))
+        {
+            Vector3 delta = -Input.mousePosition + lastPanMousePosition;
+            Camera.main.transform.Translate(delta.x * panSensitivity, delta.y * panSensitivity, 0);
+            lastPanMousePosition = Input.mousePosition;
+        }
+
+    }
+
+    void FollowPlayer()
+    {
+        if (player == null)
+        {
+            var playerObj = GameObject.FindWithTag("Player");
+
+            if (playerObj == null) return; //if still can't find player
+
+            player = playerObj.transform;
+            playerCameraPos = Camera.main.transform.position;
+        }
+
+        var camera = Camera.main.transform;
+
+        camera.position = Vector3.Lerp(camera.position, player.position + playerCameraPos, Time.fixedDeltaTime * smooth);
+        //camera.forward = Vector3.Lerp(camera.forward, playerCameraPos.forward, Time.fixedDeltaTime * smooth);
+
+    }
+
 	// Update is called once per frame
 	void Update () {
         ZoomFunction();
+        PanFunction();
+        //FollowPlayer();
     }
 }
