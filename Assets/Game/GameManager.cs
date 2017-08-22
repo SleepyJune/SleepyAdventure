@@ -38,9 +38,9 @@ public class GameManager : MonoBehaviour {
             square.objects.Add(obj);
 
             var selectedOriginal = prefabManager.collections[obj.cid].objects[obj.id];
-            if (level.AddSquareObject(obj.pos, obj.cid, obj.id, selectedOriginal) != null)
+            if (level.AddSquareObject(obj.pos, obj.rotation, obj.cid, obj.id, selectedOriginal) != null)
             {
-                CreateNewObject(obj.cid, obj.id, obj.pos);
+                CreateNewObject(obj.cid, obj.id, obj.pos, obj.rotation);
             }
         }
 
@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour {
         Pathfinding.InitPathSquares(level);
     }
 
-    void CreateNewObject(int cid, int id, IPosition pos)
+    void CreateNewObject(int cid, int id, IPosition pos, Vector3 rotation)
     {
         var selectedOriginal = prefabManager.collections[cid].objects[id];
 
@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour {
             selectedOriginal = playerPrefab;
         }
 
-        var newObject = Instantiate(selectedOriginal, new Vector3(pos.x, pos.y / 2.0f, pos.z), new Quaternion(), levelHolder.transform);
+        var newObject = Instantiate(selectedOriginal, new Vector3(pos.x, pos.y / 2.0f, pos.z), Quaternion.Euler(rotation), levelHolder.transform);
 
     }
 }

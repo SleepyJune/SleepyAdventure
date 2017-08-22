@@ -35,8 +35,13 @@ public class Level{
     {
         map.Remove(pos);
     }
-        
+
     public SquareObject AddSquareObject(IPosition pos, int cid, int id, GameObject obj)
+    {
+        return AddSquareObject(pos, Vector3.zero, cid, id, obj);
+    }
+
+    public SquareObject AddSquareObject(IPosition pos, Vector3 rotation, int cid, int id, GameObject obj)
     {
         var square = this.GetSquareAtPoint(pos.To2D());
 
@@ -54,7 +59,7 @@ public class Level{
 
         if (square == null)
         {
-            SquareObject newObj = new SquareObject(pos, cid, id, obj);
+            SquareObject newObj = new SquareObject(pos, rotation, cid, id, obj);
             square = new Square(pos.To2D());
             square.objects.Add(newObj);
 
@@ -70,7 +75,7 @@ public class Level{
             }
             else
             {
-                SquareObject newObj = new SquareObject(pos, cid, id, obj);
+                SquareObject newObj = new SquareObject(pos, rotation, cid, id, obj);
                 square.objects.Add(newObj);
                 
                 return newObj;

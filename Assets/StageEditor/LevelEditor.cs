@@ -45,6 +45,8 @@ public class LevelEditor : MonoBehaviour
 
     GameObject indicatorCube;
 
+    Vector3 currentRotation;
+
     // Use this for initialization
     void Start()
     {
@@ -163,6 +165,7 @@ public class LevelEditor : MonoBehaviour
     void OnPrefabSelect(EditorDisplayObject info)
     {
         selectedInfo = info;
+        currentRotation = Vector3.zero;
     }
 
     Vector3 GetRoundedPosition(Vector3 point)
@@ -209,9 +212,9 @@ public class LevelEditor : MonoBehaviour
                 //Instantiate(newObject, new Vector3(obj.pos.x, obj.pos.y, obj.pos.z), new Quaternion(), levelHolder.transform);
 
                 var selectedOriginal = prefabManager.collections[obj.cid].objects[obj.id];
-                if (level.AddSquareObject(obj.pos, obj.cid, obj.id, selectedOriginal) != null)
+                if (level.AddSquareObject(obj.pos, obj.rotation, obj.cid, obj.id, selectedOriginal) != null)
                 {
-                    CreateNewObject(obj.cid, obj.id, obj.pos);
+                    CreateNewObject(obj.cid, obj.id, obj.pos, obj.rotation);
                 }
 
                 //level.map.Add(square.position, square);
@@ -240,10 +243,10 @@ public class LevelEditor : MonoBehaviour
         saveScreen.SetActive(false);
     }
 
-    void CreateNewObject(int cid, int id, IPosition pos)
+    void CreateNewObject(int cid, int id, IPosition pos, Vector3 rotation)
     {
         var selectedOriginal = prefabManager.collections[cid].objects[id];
-        var newObject = Instantiate(selectedOriginal, new Vector3(pos.x, pos.y / 2.0f, pos.z), new Quaternion(), levelHolder.transform);
+        var newObject = Instantiate(selectedOriginal, new Vector3(pos.x, pos.y / 2.0f, pos.z), Quaternion.Euler(rotation), levelHolder.transform);
 
         newObject.layer = 10;
 
@@ -272,11 +275,12 @@ public class LevelEditor : MonoBehaviour
 
                 Debug.Log(spawnPos.y);
 
-                if (level.AddSquareObject(spawnPos, selectedInfo.cid, selectedInfo.id, selectedOriginal) != null)
+                if (level.AddSquareObject(spawnPos, currentRotation, selectedInfo.cid, selectedInfo.id, selectedOriginal) != null)
                 {
                     CreateNewObject(selectedInfo.cid,
                                     selectedInfo.id,
-                                    spawnPos);
+                                    spawnPos,
+                                    currentRotation);
                 }
                 else
                 {
@@ -381,12 +385,12 @@ public class LevelEditor : MonoBehaviour
 
             if (indicatorCube == null)
             {
-                indicatorCube = Instantiate(selectedOriginal, new Vector3(spawnPos.x, spawnPos.y / 2.0f, spawnPos.z), Quaternion.identity);
+                indicatorCube = Instantiate(selectedOriginal, new Vector3(spawnPos.x, spawnPos.y / 2.0f, spawnPos.z), Quaternion.Euler(currentRotation));
             }
             else if (indicatorCube.transform.position.ConvertToIPosition().To2D() != pos)
             {
                 Destroy(indicatorCube);
-                indicatorCube = Instantiate(selectedOriginal, new Vector3(spawnPos.x, spawnPos.y / 2.0f, spawnPos.z), Quaternion.identity);
+                indicatorCube = Instantiate(selectedOriginal, new Vector3(spawnPos.x, spawnPos.y / 2.0f, spawnPos.z), Quaternion.Euler(currentRotation));
             }
         }
         else
@@ -396,6 +400,11 @@ public class LevelEditor : MonoBehaviour
                 Destroy(indicatorCube);
             }
         }
+    }
+
+    public void OnRotateButtonPress()
+    {
+        currentRotation += new Vector3(0, 90, 0);
     }
 
     // Update is called once per frame
