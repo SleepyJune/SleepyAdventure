@@ -12,26 +12,6 @@ public class Level{
     {
         map = new Dictionary<IPosition, Square>();
     }
-     
-    public bool LoadLevel(string str)
-    {
-        var sqrObjects = JsonHelper.FromJson<SquareObject>(str);
-
-        foreach(var obj in sqrObjects)
-        {                        
-            Square square = new Square(obj.pos);
-            square.objects.Add(obj);
-
-            //var newObject = manager.collections[obj.cid].objects[obj.id];
-
-            if (!map.ContainsKey(square.position))
-            {
-                map.Add(square.position, square);
-            }           
-        }
-
-        return false;
-    }
 
     public string SaveLevel()
     {
@@ -58,7 +38,7 @@ public class Level{
         
     public SquareObject AddSquareObject(IPosition pos, int cid, int id, GameObject obj)
     {
-        var square = this.GetSquareAtPoint(pos);
+        var square = this.GetSquareAtPoint(pos.To2D());
 
         if (obj.tag == "Start")
         {
@@ -69,14 +49,13 @@ public class Level{
                     Debug.Log("Duplicate Starts");
                     return null; // can't have duplicate starts
                 }
-            }
-            
+            }            
         }
 
         if (square == null)
         {
             SquareObject newObj = new SquareObject(pos, cid, id, obj);
-            square = new Square(pos);
+            square = new Square(pos.To2D());
             square.objects.Add(newObj);
 
             map.Add(square.position, square);
