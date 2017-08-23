@@ -15,6 +15,8 @@ public class LevelEditor : MonoBehaviour
 
     public InputField levelNameInput;
 
+    public GameObject levelLoader;
+
     public int width = 20;
     public int height = 20;
 
@@ -191,15 +193,21 @@ public class LevelEditor : MonoBehaviour
         level = new Level();
     }
 
-    public void Load()
+    public void OnLoadButtonPressed()
     {
-        string path = Application.dataPath + "/Saves/";
+        levelLoader.SetActive(true);
+    }
 
-        if (File.Exists(path + level.name + ".json"))
+    public void LoadLevel(string path)
+    {
+        //string path = Application.dataPath + "/Saves/";
+
+        //if (File.Exists(path + level.name + ".json"))
+        if (File.Exists(path))
         {
             Clear();
 
-            string str = File.ReadAllText(path + level.name + ".json");
+            string str = File.ReadAllText(path);
 
             var sqrObjects = JsonHelper.FromJson<SquareObject>(str);
 
@@ -272,9 +280,7 @@ public class LevelEditor : MonoBehaviour
 
                 var spawnPos = (hitPoint + prefabManager.collections[selectedInfo.cid].GetComponent<PrefabCollection>().spawnOffset)
                         .ConvertToIPosition();
-
-                Debug.Log(spawnPos.y);
-
+                
                 if (level.AddSquareObject(spawnPos, currentRotation, selectedInfo.cid, selectedInfo.id, selectedOriginal) != null)
                 {
                     CreateNewObject(selectedInfo.cid,
@@ -319,8 +325,7 @@ public class LevelEditor : MonoBehaviour
         if (stageSelectedScript != null)
         {
             level.RemoveSquareObject(stageSelectedScript.pos);
-            stageSelectedScript.RemoveObject();
-            EraseButton.SetActive(false);
+            stageSelectedScript.RemoveObject();            
         }
     }
 

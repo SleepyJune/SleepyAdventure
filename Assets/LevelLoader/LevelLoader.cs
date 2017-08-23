@@ -7,39 +7,34 @@ using System.IO;
 
 public class LevelLoader : MonoBehaviour
 {
-
-    public PrefabManager prefabManager;
-    
     public GameObject levelSelectionButton;
-    public GameObject levelSelectionButtonStart;
+    Transform levelSelectionGrid;
 
-    public GameObject levelSelectionMenu;
+    delegate void LoadLevelCall(string path);
 
-    GameObject levelSelectionButtonHolder;
-        
-    GameManager game;
-
-    Level level;
+    LoadLevelCall buttonEvent;
 
     void Start()
-    {        
-        level = new Level();
+    {
+        //game = GameObject.Find("GameManager").GetComponent<GameManager>();
 
-        //Load();
+        var game = GameObject.Find("GameManager");
+        if (game)
+        {
+            buttonEvent = game.GetComponent<GameManager>().LoadLevel;
+        }
+        else
+        {
+            buttonEvent = GameObject.Find("LevelEditor").GetComponent<LevelEditor>().LoadLevel;
+        }
 
-        game = GameObject.Find("GameManager").GetComponent<GameManager>();
-
-
+        levelSelectionGrid = transform.Find("Panel/List/Grid");
+                
         LoadLevelNames();
     }
 
     void LoadLevelNames()
     {
-        levelSelectionButtonHolder = new GameObject("LevelSelectionButtonHolder");
-        levelSelectionButtonHolder.AddComponent<RectTransform>();
-
-        levelSelectionButtonHolder.transform.SetParent(levelSelectionButtonStart.transform, false);
-
         string path = Application.dataPath + "/Saves/";
 
         DirectoryInfo d = new DirectoryInfo(path);
@@ -47,12 +42,9 @@ public class LevelLoader : MonoBehaviour
         int numfiles = 0;
         foreach (var file in d.GetFiles("*.json"))
         {
-            var newButton = Instantiate(levelSelectionButton, 
-                                        new Vector2(0, -numfiles * 50), 
-                                        Quaternion.identity
-                                        );
+            var newButton = Instantiate(levelSelectionButton, levelSelectionGrid);
 
-            newButton.transform.SetParent(levelSelectionButtonHolder.transform, false);
+            //newButton.transform.SetParent(levelSelectionButtonHolder.transform, false);
             newButton.GetComponentInChildren<Text>().text = Path.GetFileNameWithoutExtension(file.Name);
 
             string fullPath = file.FullName;
@@ -67,8 +59,8 @@ public class LevelLoader : MonoBehaviour
 
     public void LoadLevel(string path)
     {
-        levelSelectionMenu.SetActive(false);
-        game.LoadLevel(path);
+        buttonEvent(path);
+        transform.gameObject.SetActive(false);
     }
 
 }
