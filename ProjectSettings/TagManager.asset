@@ -11,6 +11,7 @@ TagManager:
   - Start
   - Hazard
   - Wall
+  - Monster
   layers:
   - Default
   - TransparentFX

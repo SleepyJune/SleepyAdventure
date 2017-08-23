@@ -31,30 +31,20 @@ public class PlayerMovement : MonoBehaviour
     PathInfo path;
 
     GameObject pathHighlightHolder;
-
-    void Awake()
+    
+    void Start()
     {
         floorMask = LayerMask.GetMask("Floor");
         anim = GetComponent<Animator>();
         playerRigidbody = GetComponent<Rigidbody>();
 
-        indicatorCubePrefab = Resources.Load("IndicatorCubeGreen", typeof(GameObject)) as GameObject;
-
-        
+        indicatorCubePrefab = Resources.Load("IndicatorCubeGreen", typeof(GameObject)) as GameObject; 
     }
 
     void FixedUpdate()
     {        
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
-        var vec = new Vector3(h, 0, v);
-
-        //playerRigidbody.AddForce(vec * 1000);
-        //Turning ();
-        //Animating(h, v);
-
         GetMoveTo();
-        Move(h, v);
+        Move();
 
         HighlightSquare();
     }
@@ -92,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
         return new Vector3(vector.x, 0, vector.z);
     }
 
-    void Move(float h, float v)
+    void Move()
     {
         if(path != null && path.points.Count > 0)
         {
@@ -216,19 +206,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void GetMoveTo()
     {
-        if (Input.GetButton("Fire2") || Input.GetButton("Fire1"))
+        if (Input.GetButton("Fire2"))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, camRayLength, floorMask))
-            {                                              
+            {
+                var end = hit.point.ConvertToIPosition().To2D().ToVector();
 
-                if (Input.GetButton("Fire2"))
+                //path = Pathfinding.GetShortestPath(transform.position, end);
+
+                path = GameManager.instance.UnitMoveTo(transform.position, end);
+
+                if(path != null)
                 {
-                    var end = hit.point.ConvertToIPosition().To2D().ToVector();
-
-                    path = Pathfinding.GetShortestPath(transform.position, end);
-
                     GeneratePathHighlight();
                 }
 
