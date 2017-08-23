@@ -6,6 +6,7 @@ using UnityEngine;
 public class SquareObject
 {
     public IPosition pos;
+    public Vector3 rotation;
     public int cid;
     public int id;
     GameObject obj;
@@ -16,6 +17,15 @@ public class SquareObject
         this.cid = cid;
         this.id = id;
         this.pos = pos;
+    }
+
+    public SquareObject(IPosition pos, Vector3 rotation, int cid, int id, GameObject obj)
+    {
+        this.obj = obj;
+        this.cid = cid;
+        this.id = id;
+        this.pos = pos;
+        this.rotation = rotation;
     }
 
     public GameObject GetGameObject()
