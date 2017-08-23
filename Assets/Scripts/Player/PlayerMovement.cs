@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
         anim = GetComponent<Animator>();
         playerRigidbody = GetComponent<Rigidbody>();
 
-        indicatorCubePrefab = Resources.Load("IndicatorCubeGreen", typeof(GameObject)) as GameObject; 
+        indicatorCubePrefab = Resources.Load("IndicatorCubeGreen", typeof(GameObject)) as GameObject;
     }
 
     void FixedUpdate()
@@ -106,7 +106,7 @@ public class PlayerMovement : MonoBehaviour
             Destroy(pathHighlightHolder);
         }
 
-        if (destination != null)
+        if (destination != Vector3.zero)
         {
             float distance = Vector3.Distance(VectorTo2D(transform.position), VectorTo2D(destination));
 
