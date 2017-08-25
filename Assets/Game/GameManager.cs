@@ -95,6 +95,7 @@ public class GameManager : MonoBehaviour
             if(interactable != null)
             {
                 interactable.Use();
+                return null;
             }            
         }
 
