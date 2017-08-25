@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public PrefabManager prefabManager;
     public GameObject playerPrefab;
 
+    public Unit player;
+
     GameObject levelHolder;
     Level level;
 
@@ -80,13 +82,23 @@ public class GameManager : MonoBehaviour
 
         var newObject = Instantiate(selectedOriginal, new Vector3(pos.x, pos.y / 2.0f, pos.z), Quaternion.Euler(rotation), levelHolder.transform);
 
+        if(newObject.tag == "Player")
+        {
+            player = newObject.GetComponent<PlayerMovement>();
+        }
+
         return newObject;
+    }
+
+    public PathInfo UnitMoveTo(Unit unit, Vector3 to)
+    {
+        return UnitMoveTo(unit.transform.position, to);
     }
 
     public PathInfo UnitMoveTo(Vector3 from, Vector3 to)
     {
         var from2d = from.ConvertToIPosition().To2D();
-        var to2d = to.ConvertToIPosition().To2D();
+        var to2d = to.ConvertToIPosition().To2D();        
 
         if (from2d.Distance(to2d) < 2)
         {
@@ -100,5 +112,13 @@ public class GameManager : MonoBehaviour
         }
 
         return Pathfinding.GetShortestPath(from, to);
+    }
+}
+
+public static class UnitExtensions
+{
+    public static PathInfo UnitMoveTo(this Unit unit, Vector3 to)
+    {
+        return GameManager.instance.UnitMoveTo(unit, to);
     }
 }

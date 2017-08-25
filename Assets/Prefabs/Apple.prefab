@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 4141649525306244}
   - component: {fileID: 114871998172035302}
   - component: {fileID: 135124130039191500}
+  - component: {fileID: 114588726771818944}
   m_Layer: 0
   m_Name: Apple
   m_TagString: Monster
@@ -89,6 +90,19 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114588726771818944
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1898119437938522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b67ae60dfb5470448dd5aa5da2647c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0
+  health: 0
 --- !u!114 &114871998172035302
 MonoBehaviour:
   m_ObjectHideFlags: 1

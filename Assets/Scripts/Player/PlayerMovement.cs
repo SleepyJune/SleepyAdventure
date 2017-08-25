@@ -4,9 +4,8 @@ using UnityEngine.UI;
 
 using System.Linq;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : Unit
 {
-    public float speed = 6f;
     public Image joystick;
 
     public GameObject victoryParticle;
@@ -27,11 +26,9 @@ public class PlayerMovement : MonoBehaviour
 
     GameObject indicatorCubePrefab;
     GameObject indicatorCube;
-
-    PathInfo path;
-
-    GameObject pathHighlightHolder;
     
+    GameObject pathHighlightHolder;
+
     void Start()
     {
         floorMask = LayerMask.GetMask("Floor");
@@ -42,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void FixedUpdate()
-    {        
+    {
         GetMoveTo();
         Move();
 
@@ -84,13 +81,13 @@ public class PlayerMovement : MonoBehaviour
 
     void Move()
     {
-        if(path != null && path.points.Count > 0)
+        if (path != null && path.points.Count > 0)
         {
             var next = path.points.First();
 
-            if(next != null)
+            if (next != null)
             {
-                if(transform.position.ConvertToIPosition().To2D() == next)
+                if (transform.position.ConvertToIPosition().To2D() == next)
                 {
                     path.points.Remove(next);
                 }
@@ -100,7 +97,8 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
 
-        }else
+        }
+        else
         {
             path = null;
             Destroy(pathHighlightHolder);
@@ -123,11 +121,11 @@ public class PlayerMovement : MonoBehaviour
                 }
                 else
                 {
-                    transform.position = new Vector3(0,transform.position.y,0) 
+                    transform.position = new Vector3(0, transform.position.y, 0)
                             + transform.position.ConvertToIPosition().To2D().ToVector();
                 }
                 isWalking = true;
-                
+
                 Quaternion newRotation = Quaternion.LookRotation(dir);
                 playerRigidbody.MoveRotation(newRotation);
 
@@ -180,7 +178,7 @@ public class PlayerMovement : MonoBehaviour
 
     void GeneratePathHighlight()
     {
-        if(path != null)
+        if (path != null)
         {
             if (pathHighlightHolder != null)
             {
@@ -189,7 +187,7 @@ public class PlayerMovement : MonoBehaviour
 
             pathHighlightHolder = new GameObject();
 
-            foreach(var pos in path.points)
+            foreach (var pos in path.points)
             {
                 Instantiate(indicatorCubePrefab, new Vector3(pos.x, 0, pos.z), Quaternion.identity, pathHighlightHolder.transform);
             }
@@ -197,7 +195,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            if(pathHighlightHolder != null)
+            if (pathHighlightHolder != null)
             {
                 Destroy(pathHighlightHolder);
             }
@@ -218,7 +216,7 @@ public class PlayerMovement : MonoBehaviour
 
                 path = GameManager.instance.UnitMoveTo(transform.position, end);
 
-                if(path != null)
+                if (path != null)
                 {
                     GeneratePathHighlight();
                 }
