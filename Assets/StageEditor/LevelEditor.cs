@@ -262,6 +262,43 @@ public class LevelEditor : MonoBehaviour
         displayScript.cid = cid;
         displayScript.id = id;
         displayScript.pos = pos;
+
+        DisableComponents(newObject);
+    }
+
+    void DisableComponents(GameObject obj)
+    {
+        MonoBehaviour[] components = obj.GetComponents<MonoBehaviour>();
+
+        foreach(var component in components)
+        {
+            //Debug.Log(component.GetType().FullName);
+
+            string name = component.GetType().FullName;
+            
+            if(name == "EditorGameObject" || name == "EditorDisplayObject")
+            {
+
+            }
+            else
+            {
+                component.enabled = false;
+            }
+
+        }
+
+        var collider = obj.GetComponent<Collider>();
+        if(collider != null)
+        {
+            collider.enabled = false;
+        }
+
+        var rigidbody = obj.GetComponent<Rigidbody>();
+        if(rigidbody != null)
+        {
+            rigidbody.isKinematic = true;
+        }
+
     }
 
     void PlaceNewObject()
@@ -391,11 +428,15 @@ public class LevelEditor : MonoBehaviour
             if (indicatorCube == null)
             {
                 indicatorCube = Instantiate(selectedOriginal, new Vector3(spawnPos.x, spawnPos.y / 2.0f, spawnPos.z), Quaternion.Euler(currentRotation));
+                DisableComponents(indicatorCube);
             }
             else if (indicatorCube.transform.position.ConvertToIPosition().To2D() != pos)
             {
+
+
                 Destroy(indicatorCube);
                 indicatorCube = Instantiate(selectedOriginal, new Vector3(spawnPos.x, spawnPos.y / 2.0f, spawnPos.z), Quaternion.Euler(currentRotation));
+                DisableComponents(indicatorCube);
             }
         }
         else
