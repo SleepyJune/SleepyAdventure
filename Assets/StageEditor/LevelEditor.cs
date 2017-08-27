@@ -276,11 +276,7 @@ public class LevelEditor : MonoBehaviour
 
             string name = component.GetType().FullName;
             
-            if(name == "EditorGameObject" || name == "EditorDisplayObject")
-            {
-
-            }
-            else
+            if(name != "EditorGameObject" && name != "EditorDisplayObject")
             {
                 component.enabled = false;
             }
@@ -432,11 +428,7 @@ public class LevelEditor : MonoBehaviour
             }
             else if (indicatorCube.transform.position.ConvertToIPosition().To2D() != pos)
             {
-
-
-                Destroy(indicatorCube);
-                indicatorCube = Instantiate(selectedOriginal, new Vector3(spawnPos.x, spawnPos.y / 2.0f, spawnPos.z), Quaternion.Euler(currentRotation));
-                DisableComponents(indicatorCube);
+                indicatorCube.transform.position = new Vector3(spawnPos.x, spawnPos.y / 2.0f, spawnPos.z);
             }
         }
         else
