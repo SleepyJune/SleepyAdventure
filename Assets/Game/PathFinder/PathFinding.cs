@@ -94,12 +94,7 @@ public class Pathfinding
 
         foreach (var obj in sqr.objects)
         {
-            var gameObj = obj.GetGameObject();
-            if (gameObj.tag == "Hazard")
-            {
-                return false;
-            }
-            else if (gameObj.tag == "Wall")
+            if (!obj.isWalkable)
             {
                 return false;
             }

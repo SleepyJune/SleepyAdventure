@@ -4,9 +4,8 @@ using UnityEngine.UI;
 
 using System.Linq;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : Unit
 {
-    public float speed = 6f;
     public Image joystick;
 
     public GameObject victoryParticle;
@@ -27,34 +26,22 @@ public class PlayerMovement : MonoBehaviour
 
     GameObject indicatorCubePrefab;
     GameObject indicatorCube;
-
-    PathInfo path;
-
+    
     GameObject pathHighlightHolder;
 
-    void Awake()
+    void Start()
     {
         floorMask = LayerMask.GetMask("Floor");
         anim = GetComponent<Animator>();
         playerRigidbody = GetComponent<Rigidbody>();
 
         indicatorCubePrefab = Resources.Load("IndicatorCubeGreen", typeof(GameObject)) as GameObject;
-
-        
     }
 
     void FixedUpdate()
-    {        
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
-        var vec = new Vector3(h, 0, v);
-
-        //playerRigidbody.AddForce(vec * 1000);
-        //Turning ();
-        //Animating(h, v);
-
+    {
         GetMoveTo();
-        Move(h, v);
+        Move();
 
         HighlightSquare();
     }
@@ -92,15 +79,15 @@ public class PlayerMovement : MonoBehaviour
         return new Vector3(vector.x, 0, vector.z);
     }
 
-    void Move(float h, float v)
+    void Move()
     {
-        if(path != null && path.points.Count > 0)
+        if (path != null && path.points.Count > 0)
         {
             var next = path.points.First();
 
-            if(next != null)
+            if (next != null)
             {
-                if(transform.position.ConvertToIPosition().To2D() == next)
+                if (transform.position.ConvertToIPosition().To2D() == next)
                 {
                     path.points.Remove(next);
                 }
@@ -110,13 +97,14 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
 
-        }else
+        }
+        else
         {
             path = null;
             Destroy(pathHighlightHolder);
         }
 
-        if (destination != null)
+        if (destination != Vector3.zero)
         {
             float distance = Vector3.Distance(VectorTo2D(transform.position), VectorTo2D(destination));
 
@@ -133,11 +121,11 @@ public class PlayerMovement : MonoBehaviour
                 }
                 else
                 {
-                    transform.position = new Vector3(0,transform.position.y,0) 
+                    transform.position = new Vector3(0, transform.position.y, 0)
                             + transform.position.ConvertToIPosition().To2D().ToVector();
                 }
                 isWalking = true;
-                
+
                 Quaternion newRotation = Quaternion.LookRotation(dir);
                 playerRigidbody.MoveRotation(newRotation);
 
@@ -190,7 +178,7 @@ public class PlayerMovement : MonoBehaviour
 
     void GeneratePathHighlight()
     {
-        if(path != null)
+        if (path != null)
         {
             if (pathHighlightHolder != null)
             {
@@ -199,7 +187,7 @@ public class PlayerMovement : MonoBehaviour
 
             pathHighlightHolder = new GameObject();
 
-            foreach(var pos in path.points)
+            foreach (var pos in path.points)
             {
                 Instantiate(indicatorCubePrefab, new Vector3(pos.x, 0, pos.z), Quaternion.identity, pathHighlightHolder.transform);
             }
@@ -207,7 +195,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            if(pathHighlightHolder != null)
+            if (pathHighlightHolder != null)
             {
                 Destroy(pathHighlightHolder);
             }
@@ -216,19 +204,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void GetMoveTo()
     {
-        if (Input.GetButton("Fire2") || Input.GetButton("Fire1"))
+        if (Input.GetButton("Fire2"))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, camRayLength, floorMask))
-            {                                              
+            {
+                var end = hit.point.ConvertToIPosition().To2D().ToVector();
 
-                if (Input.GetButton("Fire2"))
+                //path = Pathfinding.GetShortestPath(transform.position, end);
+
+                path = GameManager.instance.UnitMoveTo(transform.position, end);
+
+                if (path != null)
                 {
-                    var end = hit.point.ConvertToIPosition().To2D().ToVector();
-
-                    path = Pathfinding.GetShortestPath(transform.position, end);
-
                     GeneratePathHighlight();
                 }
 

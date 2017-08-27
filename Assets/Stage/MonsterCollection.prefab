@@ -55,3 +55,4 @@ MonoBehaviour:
   spawnOffset: {x: 0, y: 1, z: 0}
   objects:
   - {fileID: 1898119437938522, guid: dd4fd00fe7c8c2a43ba90d14bae6e53e, type: 2}
+  - {fileID: 1412736728263532, guid: 40306f5d900914047bcc4b217ef61d42, type: 2}
