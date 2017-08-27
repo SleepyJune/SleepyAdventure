@@ -93,7 +93,7 @@ public class ScreenShotUtility : MonoBehaviour
                 // creates off-screen render texture that can rendered into
                 rect = new Rect(0, 0, captureWidth, captureHeight);
                 renderTexture = new RenderTexture(captureWidth, captureHeight, 24);
-                screenShot = new Texture2D(captureWidth, captureHeight, TextureFormat.RGB24, false);
+                screenShot = new Texture2D(captureWidth, captureHeight, TextureFormat.ARGB32, false);
             }
 
             // get main camera and manually render scene into rt

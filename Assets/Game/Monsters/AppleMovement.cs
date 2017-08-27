@@ -38,7 +38,7 @@ class AppleMovement : Monster, MonsterMovement
         if (path != null && path.points.Count > 0)
         {            
             var next = path.points.First();
-            Debug.Log("move");
+            
             if (next != null)
             {
                 if (transform.position.ConvertToIPosition().To2D() == next)
