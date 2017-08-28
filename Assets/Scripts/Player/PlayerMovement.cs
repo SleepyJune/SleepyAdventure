@@ -6,10 +6,6 @@ using System.Linq;
 
 public class PlayerMovement : Unit
 {
-    public Image joystick;
-
-    public GameObject victoryParticle;
-
     private Vector3 movement;
     private Vector3 destination;
 
@@ -26,7 +22,7 @@ public class PlayerMovement : Unit
 
     GameObject indicatorCubePrefab;
     GameObject indicatorCube;
-    
+
     GameObject pathHighlightHolder;
 
     void Start()
@@ -36,10 +32,21 @@ public class PlayerMovement : Unit
         playerRigidbody = GetComponent<Rigidbody>();
 
         indicatorCubePrefab = Resources.Load("IndicatorCubeGreen", typeof(GameObject)) as GameObject;
+
+#if UNITY_EDITOR
+        Debug.Log("Unity Editor");
+#elif UNITY_ANDROID
+        Debug.Log("Unity Editor");
+#elif UNITY_IOS
+    Debug.Log("Unity iPhone");
+#else
+    Debug.Log("Any other platform");
+#endif
+
     }
 
     void FixedUpdate()
-    {
+    {        
         GetMoveTo();
         Move();
 
@@ -204,7 +211,7 @@ public class PlayerMovement : Unit
 
     private void GetMoveTo()
     {
-        if (Input.GetButton("Fire2"))
+        if (Input.GetButton("Fire1"))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;

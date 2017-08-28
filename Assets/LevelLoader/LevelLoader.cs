@@ -14,8 +14,21 @@ public class LevelLoader : MonoBehaviour
 
     LoadLevelCall buttonEvent;
 
+    string savePath;
+
     void Start()
     {
+
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            savePath = Application.persistentDataPath + "/Saves/";
+        }
+        else
+        {
+            savePath = Application.dataPath + "/Saves/";
+        }
+
+
         //game = GameObject.Find("GameManager").GetComponent<GameManager>();
 
         var game = GameObject.Find("GameManager");
@@ -29,15 +42,27 @@ public class LevelLoader : MonoBehaviour
         }
 
         levelSelectionGrid = transform.Find("Panel/List/Grid");
-                
+
         LoadLevelNames();
     }
 
     void LoadLevelNames()
     {
-        string path = Application.dataPath + "/Saves/";
+        if (!Directory.Exists(savePath))
+        {
+            Directory.CreateDirectory(savePath);
 
-        DirectoryInfo d = new DirectoryInfo(path);
+            var levels = Resources.LoadAll("Levels", typeof(TextAsset));
+
+            foreach (var obj in levels)
+            {
+                var level = obj as TextAsset;
+                File.WriteAllText(savePath + level.name + ".json", level.text);
+            }
+
+        }
+
+        DirectoryInfo d = new DirectoryInfo(savePath);
 
         int numfiles = 0;
         foreach (var file in d.GetFiles("*.json"))

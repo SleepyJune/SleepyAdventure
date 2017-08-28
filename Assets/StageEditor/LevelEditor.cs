@@ -49,6 +49,8 @@ public class LevelEditor : MonoBehaviour
 
     Vector3 currentRotation;
 
+    string savePath;
+
     // Use this for initialization
     void Start()
     {
@@ -72,6 +74,15 @@ public class LevelEditor : MonoBehaviour
 
         //prefabManager = GetComponent<PrefabManager>();
 
+
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            savePath = Application.persistentDataPath + "/Saves/";
+        }
+        else
+        {
+            savePath = Application.dataPath + "/Saves/";
+        }
 
 
         for (int collectionID = 0; collectionID < prefabManager.collections.Length; collectionID++)
@@ -200,7 +211,7 @@ public class LevelEditor : MonoBehaviour
 
     public void LoadLevel(string path)
     {
-        //string path = Application.dataPath + "/Saves/";
+        //string path = Application.persistentDataPath + "/Saves/";
 
         //if (File.Exists(path + level.name + ".json"))
         if (File.Exists(path))
@@ -239,14 +250,12 @@ public class LevelEditor : MonoBehaviour
 
         string str = level.SaveLevel();
 
-        string path = Application.dataPath + "/Saves/";
-
-        if (!Directory.Exists(path))
+        if (!Directory.Exists(savePath))
         {
-            Directory.CreateDirectory(path);
+            Directory.CreateDirectory(savePath);
         }
 
-        File.WriteAllText(path + level.name + ".json", str);
+        File.WriteAllText(savePath + level.name + ".json", str);
 
         saveScreen.SetActive(false);
     }
@@ -270,13 +279,13 @@ public class LevelEditor : MonoBehaviour
     {
         MonoBehaviour[] components = obj.GetComponents<MonoBehaviour>();
 
-        foreach(var component in components)
+        foreach (var component in components)
         {
             //Debug.Log(component.GetType().FullName);
 
             string name = component.GetType().FullName;
-            
-            if(name != "EditorGameObject" && name != "EditorDisplayObject")
+
+            if (name != "EditorGameObject" && name != "EditorDisplayObject")
             {
                 component.enabled = false;
             }
@@ -284,13 +293,13 @@ public class LevelEditor : MonoBehaviour
         }
 
         var collider = obj.GetComponent<Collider>();
-        if(collider != null)
+        if (collider != null)
         {
             collider.enabled = false;
         }
 
         var rigidbody = obj.GetComponent<Rigidbody>();
-        if(rigidbody != null)
+        if (rigidbody != null)
         {
             rigidbody.isKinematic = true;
         }
@@ -313,7 +322,7 @@ public class LevelEditor : MonoBehaviour
 
                 var spawnPos = (hitPoint + prefabManager.collections[selectedInfo.cid].GetComponent<PrefabCollection>().spawnOffset)
                         .ConvertToIPosition();
-                
+
                 if (level.AddSquareObject(spawnPos, currentRotation, selectedInfo.cid, selectedInfo.id, selectedOriginal) != null)
                 {
                     CreateNewObject(selectedInfo.cid,
@@ -358,7 +367,7 @@ public class LevelEditor : MonoBehaviour
         if (stageSelectedScript != null)
         {
             level.RemoveSquareObject(stageSelectedScript.pos);
-            stageSelectedScript.RemoveObject();            
+            stageSelectedScript.RemoveObject();
         }
     }
 
@@ -445,9 +454,18 @@ public class LevelEditor : MonoBehaviour
         currentRotation += new Vector3(0, 90, 0);
     }
 
+    void BackButton()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GetComponent<SceneChanger>().OnLoadButtonPressed("IntroScreen");
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
+        BackButton();
         ZoomFunction();
 
         if (Input.GetButtonDown("Fire2"))
