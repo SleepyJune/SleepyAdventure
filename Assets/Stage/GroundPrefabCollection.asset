@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ffd99931c4452b419f2a73b2b8a1c05, type: 3}
+  m_Name: GroundPrefabCollection
+  m_EditorClassIdentifier: 
+  height: 0
+  images:
+  - {fileID: 21300000, guid: 10ac77e4ba20b74448d226e0f1eb36e1, type: 3}
+  - {fileID: 21300000, guid: 51eff7f61138e2c4b8b45f02ac847bf7, type: 3}
+  - {fileID: 21300000, guid: 0d0b20a6ca0147e4a8cfa7810f97ef8c, type: 3}
+  - {fileID: 21300000, guid: ff82d0e7f279eb84ba0cf6ffe0653345, type: 3}
+  - {fileID: 21300000, guid: f13c6a0e338bef442b9b1c7a4b957acb, type: 3}
+  objects:
+  - {fileID: 1140242092703472, guid: 92a25b0b24cc48347a90d56bebf5b3b5, type: 2}
+  - {fileID: 1140242092703472, guid: 112d10656517d104e9ff07a7f6100675, type: 2}
+  - {fileID: 1700009201018878, guid: 26fa2ddb70fb2e94abbddb8594d81b75, type: 2}
+  - {fileID: 1051890721545654, guid: d90878379e2e7554e95a2bce3a1ae068, type: 2}
+  - {fileID: 1863425848653852, guid: 52ce5ce352950734f808ed49efdcf98e, type: 2}

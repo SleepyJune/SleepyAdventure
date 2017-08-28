@@ -19,5 +19,10 @@ public class SceneChanger : MonoBehaviour
     {
         SceneManager.LoadScene(str);
     }
+
+    public void OnQuitButtonPressed()
+    {
+        Application.Quit();
+    }
 }
 

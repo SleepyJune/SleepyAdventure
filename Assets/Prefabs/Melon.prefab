@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 4997744382209368}
   - component: {fileID: 54036373876255338}
   - component: {fileID: 135500581665031078}
+  - component: {fileID: 114809319901369892}
   m_Layer: 0
   m_Name: Melon
   m_TagString: Untagged
@@ -178,6 +179,19 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114809319901369892
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1412736728263532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a31442963d0a935468842882b9e06567, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 21300000, guid: 42b78de20f8876b4eac59ecffe4dc1a2, type: 3}
+  objectName: 
 --- !u!135 &135199851784277278
 SphereCollider:
   m_ObjectHideFlags: 1

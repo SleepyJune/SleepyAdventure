@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
 
         level = new Level();
         levelHolder = new GameObject("LevelHolder");
@@ -36,7 +36,15 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        BackButton();
+    }
 
+    void BackButton()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GetComponent<SceneChanger>().OnLoadButtonPressed("IntroScreen");
+        }
     }
 
     public void LoadLevel(string path)

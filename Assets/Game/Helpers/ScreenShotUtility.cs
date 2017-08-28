@@ -21,7 +21,12 @@ public class ScreenShotUtility : MonoBehaviour
 
     // configure with raw, jpg, png, or ppm (simple raw format)
     public enum Format { RAW, JPG, PNG, PPM };
+    
     public Format format = Format.PPM;
+
+    public enum AlphaType { Alpha, Solid };
+
+    public AlphaType alphaType = AlphaType.Solid;
 
     // folder to write output (defaults to data path)
     public string folder;
@@ -93,7 +98,15 @@ public class ScreenShotUtility : MonoBehaviour
                 // creates off-screen render texture that can rendered into
                 rect = new Rect(0, 0, captureWidth, captureHeight);
                 renderTexture = new RenderTexture(captureWidth, captureHeight, 24);
-                screenShot = new Texture2D(captureWidth, captureHeight, TextureFormat.ARGB32, false);
+
+                if(alphaType == AlphaType.Alpha)
+                {
+                    screenShot = new Texture2D(captureWidth, captureHeight, TextureFormat.ARGB32, false);
+                }
+                else
+                {
+                    screenShot = new Texture2D(captureWidth, captureHeight, TextureFormat.RGB24, false);
+                }
             }
 
             // get main camera and manually render scene into rt
