@@ -139,7 +139,7 @@ public class LevelEditor : MonoBehaviour
             var newObject = Instantiate(menuObjectTemplate, menuObjectHolder.transform);
 
             newObject.transform.SetParent(menuObjectHolder.transform, false);
-            newObject.GetComponent<Image>().sprite = original.GetComponent<EditorGameObject>().sprite;
+            newObject.GetComponent<Image>().sprite = collection.images[objectID];
 
             //newObject.transform.localPosition += new Vector3(-menuItems * 2, 0, 0);
 
@@ -320,7 +320,7 @@ public class LevelEditor : MonoBehaviour
 
                 var selectedOriginal = prefabManager.collections[selectedInfo.cid].objects[selectedInfo.id];
 
-                var spawnPos = (hitPoint + prefabManager.collections[selectedInfo.cid].GetComponent<PrefabCollection>().spawnOffset)
+                var spawnPos = (hitPoint + new Vector3(0, prefabManager.collections[selectedInfo.cid].height,0))
                         .ConvertToIPosition();
 
                 if (level.AddSquareObject(spawnPos, currentRotation, selectedInfo.cid, selectedInfo.id, selectedOriginal) != null)
@@ -427,7 +427,7 @@ public class LevelEditor : MonoBehaviour
             var hitPoint = hit.point;
             hitPoint.y = 0;
 
-            var spawnPos = (hitPoint + prefabManager.collections[selectedInfo.cid].GetComponent<PrefabCollection>().spawnOffset)
+            var spawnPos = (hitPoint + new Vector3(0, prefabManager.collections[selectedInfo.cid].height, 0))
                         .ConvertToIPosition();
 
             if (indicatorCube == null)
