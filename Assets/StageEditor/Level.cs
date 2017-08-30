@@ -113,7 +113,7 @@ public class Level
         return null;
     }
 
-    public InteractiveGameObject GetInteractableObject(IPosition pos)
+    public Interactable GetInteractableObject(IPosition pos)
     {
         Square square;
         if (map.TryGetValue(pos, out square))
@@ -122,7 +122,7 @@ public class Level
             {
                 if(obj.GetGameObject() != null)
                 {
-                    var interactable = obj.GetGameObject().GetComponent<InteractiveGameObject>();
+                    var interactable = obj.GetGameObject().GetComponent<Interactable>();
 
                     if(interactable != null)
                     {

@@ -9,7 +9,8 @@ public abstract class Unit : MonoBehaviour
 {
     public float speed = 1.0f;
     public PathInfo path;
-
+    
     public int health;
 
+    public int id;
 }

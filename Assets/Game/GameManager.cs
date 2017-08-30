@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 using System.IO;
 
@@ -12,6 +14,10 @@ public class GameManager : MonoBehaviour
     public GameObject playerPrefab;
 
     public Unit player;
+
+    public Dictionary<int, Unit> units = new Dictionary<int, Unit>();
+
+    private int unitIDCounter = 0;
 
     GameObject levelHolder;
     Level level;
@@ -67,11 +73,30 @@ public class GameManager : MonoBehaviour
             {
                 var newObject = CreateNewObject(obj.cid, obj.id, obj.pos, obj.rotation);
                 sqrObject.SetGameObject(newObject);
+
+                var unitScript = newObject.GetComponent<Unit>();
+                if (unitScript != null)
+                {
+                    CreateUnit(unitScript);
+                }
+
             }
         }
 
         InitLevel();
 
+    }
+
+    public void CreateUnit(Unit unit)
+    {
+        units.Add(unitIDCounter, unit);
+        unitIDCounter+= 1;
+    }
+
+    public void DeleteUnit(Unit unit)
+    {
+        units.Remove(unitIDCounter);
+        Destroy(unit.gameObject);
     }
 
     void InitLevel()
@@ -90,7 +115,7 @@ public class GameManager : MonoBehaviour
 
         var newObject = Instantiate(selectedOriginal, new Vector3(pos.x, pos.y / 2.0f, pos.z), Quaternion.Euler(rotation), levelHolder.transform);
 
-        if(newObject.tag == "Player")
+        if (newObject.tag == "Player")
         {
             player = newObject.GetComponent<PlayerMovement>();
         }
@@ -100,26 +125,33 @@ public class GameManager : MonoBehaviour
 
     public PathInfo UnitMoveTo(Unit unit, Vector3 to)
     {
-        return UnitMoveTo(unit.transform.position, to);
+        return UnitMoveTo(unit, unit.transform.position, to);
     }
 
-    public PathInfo UnitMoveTo(Vector3 from, Vector3 to)
+    public PathInfo UnitMoveTo(Unit unit, Vector3 from, Vector3 to)
     {
         var from2d = from.ConvertToIPosition().To2D();
-        var to2d = to.ConvertToIPosition().To2D();        
+        var to2d = to.ConvertToIPosition().To2D();
 
         if (from2d.Distance(to2d) < 2)
         {
             var interactable = level.GetInteractableObject(to2d);
 
-            if(interactable != null)
+            if (interactable != null)
             {
-                interactable.Use();
-                return null;
-            }            
+                if (interactable.Use(unit))
+                {
+                    return null;
+                }
+            }
         }
 
         return Pathfinding.GetShortestPath(from, to);
+    }
+
+    public void SetScene(string str)
+    {
+        SceneManager.LoadScene(str);
     }
 }
 

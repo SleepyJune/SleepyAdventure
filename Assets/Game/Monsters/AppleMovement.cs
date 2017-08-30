@@ -18,22 +18,25 @@ class AppleMovement : Monster, MonsterMovement
     {
         anim = this.GetComponentInChildren<Animator>();
         rb = this.gameObject.GetComponent<Rigidbody>();
+
+        attackFrequency = 1 / attackSpeed;
     }
 
     void Update()
     {
-        MoveTo();
+        GetDestination();
 
         if (Time.time - lastUpdate > updateFrequency)
         {
             Move();
             Idle();
+            Attack();
             lastUpdate = Time.time;
         }
         
     }
 
-    void MoveTo()
+    void GetDestination()
     {
         if (path != null && path.points.Count > 0)
         {            
@@ -71,7 +74,7 @@ class AppleMovement : Monster, MonsterMovement
                 {
                     transform.position += dir * speed * Time.deltaTime;
 
-                    //anim.SetFloat("Speed", speed * Time.deltaTime);
+                    anim.SetFloat("Speed", speed * Time.deltaTime);
                 }
                 else
                 {
@@ -80,14 +83,11 @@ class AppleMovement : Monster, MonsterMovement
                 }
 
                 Quaternion newRotation = Quaternion.LookRotation(dir);
-                rb.MoveRotation(newRotation);
-
-                anim.SetBool("isMoving", true);
+                rb.MoveRotation(newRotation);                
             }
             else
             {
-                anim.SetBool("isMoving", false);
-                //anim.SetFloat("Speed", 0);
+                anim.SetFloat("Speed", 0);
             }
         }
     }
@@ -119,6 +119,21 @@ class AppleMovement : Monster, MonsterMovement
             Quaternion newRotation = Quaternion.LookRotation(dir);
             rb.MoveRotation(newRotation);
 
+        }
+    }
+
+    public void Attack()
+    {
+        if (Time.time - lastAttack > attackFrequency)
+        {
+
+            var pos = GameManager.instance.player.transform.position.ConvertToIPosition();
+
+            if (transform.position.ConvertToIPosition().Distance(pos) < 2)
+            {
+                GameManager.instance.player.GetComponent<PlayerHealth>().TakeDamage(this, 5);
+                lastAttack = Time.time;
+            }
         }
     }
 }

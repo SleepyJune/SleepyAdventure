@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33629767400647760}
   - component: {fileID: 65843845162995820}
   - component: {fileID: 23460283424814116}
-  - component: {fileID: 114943527127429884}
+  - component: {fileID: 114979006907166028}
   m_Layer: 8
   m_Name: TemplateCube
   m_TagString: Floor
@@ -94,7 +94,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114943527127429884
+--- !u!114 &114979006907166028
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

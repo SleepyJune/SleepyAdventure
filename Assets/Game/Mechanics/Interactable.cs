@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-public interface InteractiveGameObject
+public interface Interactable
 {
-    void Use();
+    bool Use(Unit source);
 }

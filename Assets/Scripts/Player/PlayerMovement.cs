@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 using System.Linq;
 
-public class PlayerMovement : Unit
+public class PlayerMovement : Hero
 {
     private Vector3 movement;
     private Vector3 destination;
@@ -33,6 +32,9 @@ public class PlayerMovement : Unit
 
         indicatorCubePrefab = Resources.Load("IndicatorCubeGreen", typeof(GameObject)) as GameObject;
 
+        attackFrequency = 1 / attackSpeed;
+
+        /*
 #if UNITY_EDITOR
         Debug.Log("Unity Editor");
 #elif UNITY_ANDROID
@@ -42,6 +44,7 @@ public class PlayerMovement : Unit
 #else
     Debug.Log("Any other platform");
 #endif
+*/
 
     }
 
@@ -49,8 +52,31 @@ public class PlayerMovement : Unit
     {        
         GetMoveTo();
         Move();
-
         HighlightSquare();
+        OnAnimation();
+    }
+
+    void OnAnimation()
+    {
+        if (Time.time - lastAttack > attackFrequency)
+        {
+            if (Input.GetKey("space"))
+            {
+                var enemies = GameManager.instance.units.Values.Where(u => u is Monster);
+
+                foreach(var enemy in enemies)
+                {
+                    if(enemy.transform.position.ConvertToIPosition().To2D()
+                        .Distance(transform.position.ConvertToIPosition().To2D()) < 2)
+                    {
+                        enemy.transform.GetComponent<Rigidbody>().AddForce(1000 * transform.forward);
+                    }
+                }
+
+                anim.SetTrigger("Punch");
+                lastAttack = Time.time;
+            }
+        }
     }
 
     void OnTriggerStay(Collider collision)
@@ -77,7 +103,7 @@ public class PlayerMovement : Unit
         }
         else if (collision.gameObject.tag == "Goal")
         {
-            SceneManager.LoadScene("LevelComplete");
+            GameManager.instance.SetScene("LevelComplete");
         }
     }
 
@@ -130,12 +156,14 @@ public class PlayerMovement : Unit
                 {
                     transform.position = new Vector3(0, transform.position.y, 0)
                             + transform.position.ConvertToIPosition().To2D().ToVector();
+
+                    //playerRigidbody.velocity = Vector3.zero;
+                    //playerRigidbody.angularVelocity = Vector3.zero;
                 }
                 isWalking = true;
 
                 Quaternion newRotation = Quaternion.LookRotation(dir);
-                playerRigidbody.MoveRotation(newRotation);
-
+                playerRigidbody.MoveRotation(newRotation);                
             }
             else
             {
@@ -143,6 +171,18 @@ public class PlayerMovement : Unit
                 anim.SetFloat("Speed", 0);
             }
         }
+    }
+
+    public void LookAt(Unit source)
+    {
+        Vector3 dir = (source.transform.position - transform.position).normalized;
+        dir.y = 0;
+
+        Quaternion newRotation = Quaternion.LookRotation(dir);
+        playerRigidbody.MoveRotation(newRotation);
+
+        var rot = source.transform.rotation;
+        //transform.rotation = Quaternion.Euler(new Vector3(rot.x, rot.y + 180, rot.z));
     }
 
     bool testTouch()
@@ -209,6 +249,12 @@ public class PlayerMovement : Unit
         }
     }
 
+    public void OnPointerClick(BaseEventData data)
+    {        
+        PointerEventData pData = (PointerEventData)data;
+        var end = pData.pointerCurrentRaycast.worldPosition.ConvertToIPosition().To2D().ToVector();
+    }
+
     private void GetMoveTo()
     {
         if (Input.GetButton("Fire1"))
@@ -218,10 +264,15 @@ public class PlayerMovement : Unit
             if (Physics.Raycast(ray, out hit, camRayLength, floorMask))
             {
                 var end = hit.point.ConvertToIPosition().To2D().ToVector();
+                                
+                //check if current path is the same
+                if(path != null && path.end == end.ConvertToIPosition())
+                {
+                    return;
+                }
+                
 
-                //path = Pathfinding.GetShortestPath(transform.position, end);
-
-                path = GameManager.instance.UnitMoveTo(transform.position, end);
+                path = GameManager.instance.UnitMoveTo(this, transform.position, end);
 
                 if (path != null)
                 {
@@ -236,10 +287,5 @@ public class PlayerMovement : Unit
             }
         }
     }
-
-    void Animating(float h, float v)
-    {
-        bool walking = h != 0f || v != 0f;
-        anim.SetBool("IsWalking", walking);
-    }
+    
 }

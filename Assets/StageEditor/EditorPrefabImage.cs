@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EditorGameObject : MonoBehaviour {
+public class EditorPrefabImage : MonoBehaviour {
 
     public Sprite sprite;
     public string objectName;

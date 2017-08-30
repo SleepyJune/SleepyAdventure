@@ -80,6 +80,8 @@ public class Pathfinding
         PathSquare startSqr = GetPathSquare(start);
         PathSquare endSqr = GetPathSquare(end);
 
+        //Debug.Log(end.x);
+
         if (start != null && end != null)
         {
             return GetShortestPath(startSqr, endSqr);

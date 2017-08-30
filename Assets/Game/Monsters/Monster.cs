@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-public abstract class Monster : Unit
+﻿
+public abstract class Monster : AttackUnit
 {
-    public float updateFrequency = 0.25f;    
+    public float updateFrequency = 0.25f;
+
 }

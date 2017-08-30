@@ -5,7 +5,7 @@ using System.Text;
 
 using UnityEngine;
 
-public class FenceDoor : MonoBehaviour, InteractiveGameObject
+public class FenceDoor : MonoBehaviour, Interactable
 {
     Animator anim;
     BoxCollider boxCollider;
@@ -19,8 +19,13 @@ public class FenceDoor : MonoBehaviour, InteractiveGameObject
         boxCollider = transform.GetComponent<BoxCollider>();
     }
 
-    public void Use()
+    public bool Use(Unit source)
     {
+        if(source.tag != "Player")
+        {
+            return false;
+        }
+
         if (Time.time - lastUseTime > reUseableTime)
         {
             var isDoorOpen = anim.GetBool("isOpen");
@@ -29,6 +34,9 @@ public class FenceDoor : MonoBehaviour, InteractiveGameObject
             boxCollider.isTrigger = !isDoorOpen;
 
             lastUseTime = Time.time;
+            return true;
         }
+
+        return false;
     }
 }
