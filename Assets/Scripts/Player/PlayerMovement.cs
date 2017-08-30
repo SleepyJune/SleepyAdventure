@@ -79,34 +79,6 @@ public class PlayerMovement : Hero
         }
     }
 
-    void OnTriggerStay(Collider collision)
-    {
-        if (collision.gameObject.tag == "Key")
-        {
-            collision.gameObject.transform.GetComponent<Collider>().isTrigger = false;
-
-            GameObject.Destroy(collision.gameObject, 0.25f);
-            keys += 1;
-
-            /*if (keys >= 2 && gameObject.GetComponent<PlayerHealth>().currentHealth > 0)
-            {
-                Instantiate(victoryParticle, collision.gameObject.transform);
-                gameObject.GetComponent<PlayerHealth>().currentHealth = 0;
-            }*/
-        }
-        else if (collision.gameObject.tag == "Door")
-        {
-            if (keys > 0)
-            {
-                GameObject.Destroy(collision.gameObject, 0.25f);
-            }
-        }
-        else if (collision.gameObject.tag == "Goal")
-        {
-            GameManager.instance.SetScene("LevelComplete");
-        }
-    }
-
     Vector3 VectorTo2D(Vector3 vector)
     {
         return new Vector3(vector.x, 0, vector.z);

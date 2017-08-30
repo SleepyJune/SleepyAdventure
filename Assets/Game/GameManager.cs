@@ -149,6 +149,17 @@ public class GameManager : MonoBehaviour
         return Pathfinding.GetShortestPath(from, to);
     }
 
+    public void SetSceneWithWait(string str, float waitTime)
+    {
+        StartCoroutine(SetScene(str, waitTime));
+    }
+
+    private IEnumerator SetScene(string str, float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        SceneManager.LoadScene(str);
+    }
+
     public void SetScene(string str)
     {
         SceneManager.LoadScene(str);

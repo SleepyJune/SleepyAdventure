@@ -65,7 +65,7 @@ public class PlayerHealth : MonoBehaviour
 
         if(currentHealth <= 0 && !isDead)
         {
-            StartCoroutine(Death ());
+            Death();
         }
         else if(currentHealth > 0)
         {
@@ -87,7 +87,7 @@ public class PlayerHealth : MonoBehaviour
     }
 
 
-    IEnumerator Death ()
+    void Death ()
     {
         isDead = true;
         
@@ -99,9 +99,7 @@ public class PlayerHealth : MonoBehaviour
         playerMovement.enabled = false;
 
         //return null;
-
-        yield return new WaitForSeconds(2);
-
-        GameManager.instance.SetScene("LevelFailed");
+                
+        GameManager.instance.SetSceneWithWait("LevelFailed",2);
     }
 }
