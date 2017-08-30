@@ -7,19 +7,13 @@ using UnityEngine;
 
 class AppleMovement : Monster, MonsterMovement
 {
-    Animator anim;
-    Rigidbody rb;
-
     Vector3 destination;
 
     float lastUpdate = 0;
 
     void Awake()
     {
-        anim = this.GetComponentInChildren<Animator>();
-        rb = this.gameObject.GetComponent<Rigidbody>();
-
-        attackFrequency = 1 / attackSpeed;
+        Initialize();
     }
 
     void Update()
@@ -131,7 +125,10 @@ class AppleMovement : Monster, MonsterMovement
 
             if (transform.position.ConvertToIPosition().Distance(pos) < 2)
             {
-                GameManager.instance.player.GetComponent<PlayerHealth>().TakeDamage(this, 5);
+                anim.SetTrigger("Attack");
+                
+                GameManager.instance.player.GetComponent<PlayerHealth>().TakeDamage(this, 10);
+
                 lastAttack = Time.time;
             }
         }

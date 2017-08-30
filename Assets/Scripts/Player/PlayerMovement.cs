@@ -7,9 +7,7 @@ public class PlayerMovement : Hero
 {
     private Vector3 movement;
     private Vector3 destination;
-
-    Animator anim;
-    Rigidbody playerRigidbody;
+    
     int floorMask;
     float camRayLength = 100f;
 
@@ -28,11 +26,10 @@ public class PlayerMovement : Hero
     {
         floorMask = LayerMask.GetMask("Floor");
         anim = GetComponent<Animator>();
-        playerRigidbody = GetComponent<Rigidbody>();
 
         indicatorCubePrefab = Resources.Load("IndicatorCubeGreen", typeof(GameObject)) as GameObject;
-
-        attackFrequency = 1 / attackSpeed;
+                
+        //attackFrequency = 1 / attackSpeed;
 
         /*
 #if UNITY_EDITOR
@@ -69,7 +66,10 @@ public class PlayerMovement : Hero
                     if(enemy.transform.position.ConvertToIPosition().To2D()
                         .Distance(transform.position.ConvertToIPosition().To2D()) < 2)
                     {
-                        enemy.transform.GetComponent<Rigidbody>().AddForce(1000 * transform.forward);
+                        var dir = enemy.transform.position - transform.position;
+                        dir.y = 0;
+
+                        enemy.transform.GetComponent<Rigidbody>().AddForce(1000 * dir);
                     }
                 }
 
@@ -163,7 +163,7 @@ public class PlayerMovement : Hero
                 isWalking = true;
 
                 Quaternion newRotation = Quaternion.LookRotation(dir);
-                playerRigidbody.MoveRotation(newRotation);                
+                rb.MoveRotation(newRotation);                
             }
             else
             {
@@ -179,7 +179,7 @@ public class PlayerMovement : Hero
         dir.y = 0;
 
         Quaternion newRotation = Quaternion.LookRotation(dir);
-        playerRigidbody.MoveRotation(newRotation);
+        rb.MoveRotation(newRotation);
 
         var rot = source.transform.rotation;
         //transform.rotation = Quaternion.Euler(new Vector3(rot.x, rot.y + 180, rot.z));

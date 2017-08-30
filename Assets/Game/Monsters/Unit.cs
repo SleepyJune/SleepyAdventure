@@ -13,4 +13,12 @@ public abstract class Unit : MonoBehaviour
     public int health;
 
     public int id;
+
+    public Animator anim;
+    public Rigidbody rb;
+
+    protected virtual void Initialize()
+    {
+
+    }
 }

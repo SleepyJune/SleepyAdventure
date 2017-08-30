@@ -273,6 +273,8 @@ public class LevelEditor : MonoBehaviour
         displayScript.pos = pos;
 
         DisableComponents(newObject);
+
+        var boxCollider = newObject.AddComponent<BoxCollider>();
     }
 
     void DisableComponents(GameObject obj)
@@ -342,7 +344,7 @@ public class LevelEditor : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-
+        
         if (Physics.Raycast(ray, out hit, 100, editorObjectMask))
         {
             var editorScript = hit.transform.gameObject.GetComponent<EditorDisplayObject>();
@@ -351,6 +353,7 @@ public class LevelEditor : MonoBehaviour
             {
                 stageSelectedScript = editorScript;
                 //EraseButton.SetActive(true);
+
 
                 if (Input.GetButtonDown("Fire2"))
                 {
