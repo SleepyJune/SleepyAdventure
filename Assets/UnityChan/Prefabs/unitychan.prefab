@@ -6454,7 +6454,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 6
   health: 0
-  attackSpeed: 1
+  id: 0
+  anim: {fileID: 9500000}
+  rb: {fileID: 54418825635489694}
+  attackFrequency: 1
 --- !u!114 &114976788301836918
 MonoBehaviour:
   m_ObjectHideFlags: 1
