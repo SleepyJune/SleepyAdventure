@@ -10,6 +10,8 @@ public struct IPosition : IEquatable<IPosition>
     public int y;
     public int z;
 
+    public static readonly IPosition zero = new IPosition(0, 0, 0);
+
     public IPosition(int x, int y, int z)
     {
         this.x = x;
@@ -85,5 +87,10 @@ public static class PositionExtensions
             (int)Mathf.Round(vPos.x), 
             (int)Mathf.Round(vPos.y), 
             (int)Mathf.Round(vPos.z));
+    }
+
+    public static Vector3 To2D(this Vector3 vPos)
+    {
+        return new Vector3(vPos.x, 0, vPos.z);
     }
 }

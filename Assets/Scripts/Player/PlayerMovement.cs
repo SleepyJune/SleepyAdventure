@@ -1,21 +1,12 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 using System.Linq;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : Hero
 {
-    public float speed = 6f;
-    public Image joystick;
-
-    public GameObject victoryParticle;
-
     private Vector3 movement;
-    private Vector3 destination;
-
-    Animator anim;
-    Rigidbody playerRigidbody;
+    
     int floorMask;
     float camRayLength = 100f;
 
@@ -28,101 +19,97 @@ public class PlayerMovement : MonoBehaviour
     GameObject indicatorCubePrefab;
     GameObject indicatorCube;
 
-    PathInfo path;
-
     GameObject pathHighlightHolder;
 
-    void Awake()
+    void Start()
     {
         floorMask = LayerMask.GetMask("Floor");
         anim = GetComponent<Animator>();
-        playerRigidbody = GetComponent<Rigidbody>();
 
         indicatorCubePrefab = Resources.Load("IndicatorCubeGreen", typeof(GameObject)) as GameObject;
+                
+        //attackFrequency = 1 / attackSpeed;
 
-        
+        /*
+#if UNITY_EDITOR
+        Debug.Log("Unity Editor");
+#elif UNITY_ANDROID
+        Debug.Log("Unity Editor");
+#elif UNITY_IOS
+    Debug.Log("Unity iPhone");
+#else
+    Debug.Log("Any other platform");
+#endif
+*/
+
     }
 
     void FixedUpdate()
     {        
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
-        var vec = new Vector3(h, 0, v);
-
-        //playerRigidbody.AddForce(vec * 1000);
-        //Turning ();
-        //Animating(h, v);
-
         GetMoveTo();
-        Move(h, v);
-
+        Move();
         HighlightSquare();
+        OnAnimation();
     }
 
-    void OnTriggerStay(Collider collision)
+    void OnAnimation()
     {
-        if (collision.gameObject.tag == "Key")
+        if (Time.time - lastAttack > attackFrequency)
         {
-            collision.gameObject.transform.GetComponent<Collider>().isTrigger = false;
-
-            GameObject.Destroy(collision.gameObject, 0.25f);
-            keys += 1;
-
-            /*if (keys >= 2 && gameObject.GetComponent<PlayerHealth>().currentHealth > 0)
+            if (Input.GetKey("space"))
             {
-                Instantiate(victoryParticle, collision.gameObject.transform);
-                gameObject.GetComponent<PlayerHealth>().currentHealth = 0;
-            }*/
-        }
-        else if (collision.gameObject.tag == "Door")
-        {
-            if (keys > 0)
-            {
-                GameObject.Destroy(collision.gameObject, 0.25f);
+                var enemies = GameManager.instance.units.Values.Where(u => u is Monster);
+
+                foreach(var enemy in enemies)
+                {
+                    if(enemy.transform.position.ConvertToIPosition().To2D()
+                        .Distance(transform.position.ConvertToIPosition().To2D()) < 2)
+                    {
+                        var dir = enemy.transform.position - transform.position;
+                        dir.y = 0;
+
+                        enemy.transform.GetComponent<Rigidbody>().AddForce(1000 * dir);
+                    }
+                }
+
+                anim.SetTrigger("Punch");
+                lastAttack = Time.time;
             }
         }
-        else if (collision.gameObject.tag == "Goal")
-        {
-            SceneManager.LoadScene("LevelComplete");
-        }
     }
 
-    Vector3 VectorTo2D(Vector3 vector)
+    void Move()
     {
-        return new Vector3(vector.x, 0, vector.z);
-    }
-
-    void Move(float h, float v)
-    {
-        if(path != null && path.points.Count > 0)
+        if (path != null && path.points.Count > 0)
         {
             var next = path.points.First();
 
-            if(next != null)
+            if (next != null)
             {
-                if(transform.position.ConvertToIPosition().To2D() == next)
+                if (transform.position.ConvertToIPosition().To2D() == next)
                 {
                     path.points.Remove(next);
                 }
                 else
                 {
-                    destination = next.ToVector();
+                    nextPos = next;
                 }
             }
 
-        }else
+        }
+        else
         {
             path = null;
             Destroy(pathHighlightHolder);
         }
 
-        if (destination != null)
+        if (nextPos != IPosition.zero)
         {
-            float distance = Vector3.Distance(VectorTo2D(transform.position), VectorTo2D(destination));
+            float distance = Vector3.Distance(transform.position.To2D(), nextPos.ToVector());
 
             if (distance > 0.05)
             {
-                Vector3 dir = (destination - transform.position).normalized;
+                Vector3 dir = (nextPos.ToVector() - transform.position.To2D()).normalized;
                 dir.y = 0;
 
                 if (distance >= .1)
@@ -133,14 +120,16 @@ public class PlayerMovement : MonoBehaviour
                 }
                 else
                 {
-                    transform.position = new Vector3(0,transform.position.y,0) 
+                    transform.position = new Vector3(0, transform.position.y, 0)
                             + transform.position.ConvertToIPosition().To2D().ToVector();
+
+                    //playerRigidbody.velocity = Vector3.zero;
+                    //playerRigidbody.angularVelocity = Vector3.zero;
                 }
                 isWalking = true;
-                
-                Quaternion newRotation = Quaternion.LookRotation(dir);
-                playerRigidbody.MoveRotation(newRotation);
 
+                Quaternion newRotation = Quaternion.LookRotation(dir);
+                rb.MoveRotation(newRotation);                
             }
             else
             {
@@ -148,6 +137,18 @@ public class PlayerMovement : MonoBehaviour
                 anim.SetFloat("Speed", 0);
             }
         }
+    }
+
+    public void LookAt(Unit source)
+    {
+        Vector3 dir = (source.transform.position - transform.position).normalized;
+        dir.y = 0;
+
+        Quaternion newRotation = Quaternion.LookRotation(dir);
+        rb.MoveRotation(newRotation);
+
+        var rot = source.transform.rotation;
+        //transform.rotation = Quaternion.Euler(new Vector3(rot.x, rot.y + 180, rot.z));
     }
 
     bool testTouch()
@@ -190,7 +191,7 @@ public class PlayerMovement : MonoBehaviour
 
     void GeneratePathHighlight()
     {
-        if(path != null)
+        if (path != null)
         {
             if (pathHighlightHolder != null)
             {
@@ -199,7 +200,7 @@ public class PlayerMovement : MonoBehaviour
 
             pathHighlightHolder = new GameObject();
 
-            foreach(var pos in path.points)
+            foreach (var pos in path.points)
             {
                 Instantiate(indicatorCubePrefab, new Vector3(pos.x, 0, pos.z), Quaternion.identity, pathHighlightHolder.transform);
             }
@@ -207,28 +208,40 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            if(pathHighlightHolder != null)
+            if (pathHighlightHolder != null)
             {
                 Destroy(pathHighlightHolder);
             }
         }
     }
 
+    public void OnPointerClick(BaseEventData data)
+    {        
+        PointerEventData pData = (PointerEventData)data;
+        var end = pData.pointerCurrentRaycast.worldPosition.ConvertToIPosition().To2D().ToVector();
+    }
+
     private void GetMoveTo()
     {
-        if (Input.GetButton("Fire2") || Input.GetButton("Fire1"))
+        if (canMove && Input.GetButton("Fire1"))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, camRayLength, floorMask))
-            {                                              
-
-                if (Input.GetButton("Fire2"))
+            {
+                var end = hit.point.ConvertToIPosition().To2D().ToVector();
+                                
+                //check if current path is the same
+                if(path != null && path.end == end.ConvertToIPosition())
                 {
-                    var end = hit.point.ConvertToIPosition().To2D().ToVector();
+                    return;
+                }
+                
 
-                    path = Pathfinding.GetShortestPath(transform.position, end);
+                path = GameManager.instance.UnitMoveTo(this, transform.position, end);
 
+                if (path != null)
+                {
                     GeneratePathHighlight();
                 }
 
@@ -240,10 +253,5 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-
-    void Animating(float h, float v)
-    {
-        bool walking = h != 0f || v != 0f;
-        anim.SetBool("IsWalking", walking);
-    }
+    
 }

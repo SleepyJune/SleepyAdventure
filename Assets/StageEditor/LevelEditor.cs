@@ -15,6 +15,8 @@ public class LevelEditor : MonoBehaviour
 
     public InputField levelNameInput;
 
+    public GameObject levelLoader;
+
     public int width = 20;
     public int height = 20;
 
@@ -45,6 +47,10 @@ public class LevelEditor : MonoBehaviour
 
     GameObject indicatorCube;
 
+    Vector3 currentRotation;
+
+    string savePath;
+
     // Use this for initialization
     void Start()
     {
@@ -68,6 +74,15 @@ public class LevelEditor : MonoBehaviour
 
         //prefabManager = GetComponent<PrefabManager>();
 
+
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            savePath = Application.persistentDataPath + "/Saves/";
+        }
+        else
+        {
+            savePath = Application.dataPath + "/Saves/";
+        }
 
 
         for (int collectionID = 0; collectionID < prefabManager.collections.Length; collectionID++)
@@ -124,7 +139,7 @@ public class LevelEditor : MonoBehaviour
             var newObject = Instantiate(menuObjectTemplate, menuObjectHolder.transform);
 
             newObject.transform.SetParent(menuObjectHolder.transform, false);
-            newObject.GetComponent<Image>().sprite = original.GetComponent<EditorGameObject>().sprite;
+            newObject.GetComponent<Image>().sprite = collection.images[objectID];
 
             //newObject.transform.localPosition += new Vector3(-menuItems * 2, 0, 0);
 
@@ -163,6 +178,7 @@ public class LevelEditor : MonoBehaviour
     void OnPrefabSelect(EditorDisplayObject info)
     {
         selectedInfo = info;
+        currentRotation = Vector3.zero;
     }
 
     Vector3 GetRoundedPosition(Vector3 point)
@@ -188,15 +204,21 @@ public class LevelEditor : MonoBehaviour
         level = new Level();
     }
 
-    public void Load()
+    public void OnLoadButtonPressed()
     {
-        string path = Application.dataPath + "/Saves/";
+        levelLoader.SetActive(true);
+    }
 
-        if (File.Exists(path + level.name + ".json"))
+    public void LoadLevel(string path)
+    {
+        //string path = Application.persistentDataPath + "/Saves/";
+
+        //if (File.Exists(path + level.name + ".json"))
+        if (File.Exists(path))
         {
             Clear();
 
-            string str = File.ReadAllText(path + level.name + ".json");
+            string str = File.ReadAllText(path);
 
             var sqrObjects = JsonHelper.FromJson<SquareObject>(str);
 
@@ -209,9 +231,9 @@ public class LevelEditor : MonoBehaviour
                 //Instantiate(newObject, new Vector3(obj.pos.x, obj.pos.y, obj.pos.z), new Quaternion(), levelHolder.transform);
 
                 var selectedOriginal = prefabManager.collections[obj.cid].objects[obj.id];
-                if (level.AddSquareObject(obj.pos, obj.cid, obj.id, selectedOriginal) != null)
+                if (level.AddSquareObject(obj.pos, obj.rotation, obj.cid, obj.id, selectedOriginal) != null)
                 {
-                    CreateNewObject(obj.cid, obj.id, obj.pos);
+                    CreateNewObject(obj.cid, obj.id, obj.pos, obj.rotation);
                 }
 
                 //level.map.Add(square.position, square);
@@ -228,22 +250,20 @@ public class LevelEditor : MonoBehaviour
 
         string str = level.SaveLevel();
 
-        string path = Application.dataPath + "/Saves/";
-
-        if (!Directory.Exists(path))
+        if (!Directory.Exists(savePath))
         {
-            Directory.CreateDirectory(path);
+            Directory.CreateDirectory(savePath);
         }
 
-        File.WriteAllText(path + level.name + ".json", str);
+        File.WriteAllText(savePath + level.name + ".json", str);
 
         saveScreen.SetActive(false);
     }
 
-    void CreateNewObject(int cid, int id, IPosition pos)
+    void CreateNewObject(int cid, int id, IPosition pos, Vector3 rotation)
     {
         var selectedOriginal = prefabManager.collections[cid].objects[id];
-        var newObject = Instantiate(selectedOriginal, new Vector3(pos.x, pos.y / 2.0f, pos.z), new Quaternion(), levelHolder.transform);
+        var newObject = Instantiate(selectedOriginal, new Vector3(pos.x, pos.y / 2.0f, pos.z), Quaternion.Euler(rotation), levelHolder.transform);
 
         newObject.layer = 10;
 
@@ -251,6 +271,41 @@ public class LevelEditor : MonoBehaviour
         displayScript.cid = cid;
         displayScript.id = id;
         displayScript.pos = pos;
+
+        DisableComponents(newObject);
+
+        var boxCollider = newObject.AddComponent<BoxCollider>();
+    }
+
+    void DisableComponents(GameObject obj)
+    {
+        MonoBehaviour[] components = obj.GetComponents<MonoBehaviour>();
+
+        foreach (var component in components)
+        {
+            //Debug.Log(component.GetType().FullName);
+
+            string name = component.GetType().FullName;
+
+            if (name != "EditorGameObject" && name != "EditorDisplayObject")
+            {
+                component.enabled = false;
+            }
+
+        }
+
+        var collider = obj.GetComponent<Collider>();
+        if (collider != null)
+        {
+            collider.enabled = false;
+        }
+
+        var rigidbody = obj.GetComponent<Rigidbody>();
+        if (rigidbody != null)
+        {
+            rigidbody.isKinematic = true;
+        }
+
     }
 
     void PlaceNewObject()
@@ -267,16 +322,15 @@ public class LevelEditor : MonoBehaviour
 
                 var selectedOriginal = prefabManager.collections[selectedInfo.cid].objects[selectedInfo.id];
 
-                var spawnPos = (hitPoint + prefabManager.collections[selectedInfo.cid].GetComponent<PrefabCollection>().spawnOffset)
+                var spawnPos = (hitPoint + new Vector3(0, prefabManager.collections[selectedInfo.cid].height,0))
                         .ConvertToIPosition();
 
-                Debug.Log(spawnPos.y);
-
-                if (level.AddSquareObject(spawnPos, selectedInfo.cid, selectedInfo.id, selectedOriginal) != null)
+                if (level.AddSquareObject(spawnPos, currentRotation, selectedInfo.cid, selectedInfo.id, selectedOriginal) != null)
                 {
                     CreateNewObject(selectedInfo.cid,
                                     selectedInfo.id,
-                                    spawnPos);
+                                    spawnPos,
+                                    currentRotation);
                 }
                 else
                 {
@@ -290,7 +344,7 @@ public class LevelEditor : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-
+        
         if (Physics.Raycast(ray, out hit, 100, editorObjectMask))
         {
             var editorScript = hit.transform.gameObject.GetComponent<EditorDisplayObject>();
@@ -299,6 +353,7 @@ public class LevelEditor : MonoBehaviour
             {
                 stageSelectedScript = editorScript;
                 //EraseButton.SetActive(true);
+
 
                 if (Input.GetButtonDown("Fire2"))
                 {
@@ -316,7 +371,6 @@ public class LevelEditor : MonoBehaviour
         {
             level.RemoveSquareObject(stageSelectedScript.pos);
             stageSelectedScript.RemoveObject();
-            EraseButton.SetActive(false);
         }
     }
 
@@ -376,17 +430,17 @@ public class LevelEditor : MonoBehaviour
             var hitPoint = hit.point;
             hitPoint.y = 0;
 
-            var spawnPos = (hitPoint + prefabManager.collections[selectedInfo.cid].GetComponent<PrefabCollection>().spawnOffset)
+            var spawnPos = (hitPoint + new Vector3(0, prefabManager.collections[selectedInfo.cid].height, 0))
                         .ConvertToIPosition();
 
             if (indicatorCube == null)
             {
-                indicatorCube = Instantiate(selectedOriginal, new Vector3(spawnPos.x, spawnPos.y / 2.0f, spawnPos.z), Quaternion.identity);
+                indicatorCube = Instantiate(selectedOriginal, new Vector3(spawnPos.x, spawnPos.y / 2.0f, spawnPos.z), Quaternion.Euler(currentRotation));
+                DisableComponents(indicatorCube);
             }
             else if (indicatorCube.transform.position.ConvertToIPosition().To2D() != pos)
             {
-                Destroy(indicatorCube);
-                indicatorCube = Instantiate(selectedOriginal, new Vector3(spawnPos.x, spawnPos.y / 2.0f, spawnPos.z), Quaternion.identity);
+                indicatorCube.transform.position = new Vector3(spawnPos.x, spawnPos.y / 2.0f, spawnPos.z);
             }
         }
         else
@@ -398,9 +452,23 @@ public class LevelEditor : MonoBehaviour
         }
     }
 
+    public void OnRotateButtonPress()
+    {
+        currentRotation += new Vector3(0, 90, 0);
+    }
+
+    void BackButton()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GetComponent<SceneChanger>().OnLoadButtonPressed("IntroScreen");
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
+        BackButton();
         ZoomFunction();
 
         if (Input.GetButtonDown("Fire2"))

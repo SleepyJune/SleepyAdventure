@@ -35,12 +35,12 @@ public class CameraController : MonoBehaviour {
 
     void PanFunction()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire2"))
         {
             lastPanMousePosition = Input.mousePosition;
         }
 
-        if (Input.GetButton("Fire1"))
+        if (Input.GetButton("Fire2"))
         {
             Vector3 delta = -Input.mousePosition + lastPanMousePosition;
             Camera.main.transform.Translate(delta.x * panSensitivity, delta.y * panSensitivity, 0);
