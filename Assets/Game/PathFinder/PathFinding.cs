@@ -64,7 +64,7 @@ public class Pathfinding
                 PathSquare square;
                 if (pathSquares.TryGetValue(pos, out square))
                 {
-                    pathSqr.neighbours.Add(square, new PathSquareNeighbourInfo(square, square.Distance(pathSqr)));
+                    pathSqr.neighbours.Add(square.pos, new PathSquareNeighbourInfo(square, square.Distance(pathSqr)));
                 }
             }
 
@@ -84,7 +84,7 @@ public class Pathfinding
                     if(pathSquares.TryGetValue(diagPos1, out sqr1) 
                         && pathSquares.TryGetValue(diagPos2, out sqr2))
                     {
-                        pathSqr.neighbours.Add(square, 
+                        pathSqr.neighbours.Add(square.pos, 
                             new PathSquareNeighbourInfo(square, square.Distance(pathSqr), 
                             new PathSquare[] { sqr1, sqr2}));
                     }
@@ -133,21 +133,21 @@ public class Pathfinding
         return null;
     }
 
-    public static bool CanWalkToSquare(Unit unit, PathSquareNeighbourInfo neighbourInfo)
+    public static bool CanWalkToSquare(Unit unit, PathSquareNeighbourInfo neighbourInfo, bool checkUnitCollision = true)
     {
         if(neighbourInfo.isDiagonal == false)
         {
-            return CanWalkToSquare(unit, neighbourInfo.neighbour);
+            return CanWalkToSquare(unit, neighbourInfo.neighbour, checkUnitCollision);
         }
         else
         {
-            return CanWalkToSquare(unit, neighbourInfo.neighbour)
-                && CanWalkToSquare(unit, neighbourInfo.diagonalCheck[0])
-                && CanWalkToSquare(unit, neighbourInfo.diagonalCheck[1]);
+            return CanWalkToSquare(unit, neighbourInfo.neighbour, checkUnitCollision)
+                && CanWalkToSquare(unit, neighbourInfo.diagonalCheck[0], checkUnitCollision)
+                && CanWalkToSquare(unit, neighbourInfo.diagonalCheck[1], checkUnitCollision);
         }
     }
 
-    public static bool CanWalkToSquare(Unit unit, PathSquare pathSquare)
+    public static bool CanWalkToSquare(Unit unit, PathSquare pathSquare, bool checkUnitCollision = false)
     {
         var sqr = pathSquare.square;
                
@@ -157,11 +157,14 @@ public class Pathfinding
         }
         else
         {
-            foreach(var obj in sqr.obstacles.Values)
+            if (checkUnitCollision)
             {
-                if(obj.id != unit.id)
+                foreach (var obj in sqr.obstacles.Values)
                 {
-                    return false;
+                    if (obj != unit)
+                    {
+                        return false;
+                    }
                 }
             }
         }
@@ -198,8 +201,8 @@ public class Pathfinding
 
             foreach (var pair in current.neighbours)
             {
-                var neighbour = pair.Key;
                 var neighbourInfo = pair.Value;
+                var neighbour = neighbourInfo.neighbour;
                 var distance = neighbourInfo.distance;
 
                 if (closedSet.Contains(neighbour))
@@ -242,10 +245,33 @@ public class Pathfinding
             return null;
         }
 
-        var path = PathInfo.GenerateWaypoints(start, closestSquare);
-        path.reachable = false;
+        if (closestSquare.Distance(end) < start.Distance(end))
+        {
+            var path = PathInfo.GenerateWaypoints(start, closestSquare);
+            path.reachable = false;
 
-        return path;
+            return path;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public static bool CanWalkToSquare(Unit unit, IPosition to)
+    {
+        PathSquare fromSqr;
+        PathSquareNeighbourInfo toSqrInfo;
+                
+        if(pathSquares.TryGetValue(unit.pos2d, out fromSqr))
+        {
+            if(fromSqr.neighbours.TryGetValue(to, out toSqrInfo))
+            {                
+                return CanWalkToSquare(unit, toSqrInfo, true);
+            }
+        }
+
+        return false;
     }
 
 }

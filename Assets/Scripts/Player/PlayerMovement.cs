@@ -6,7 +6,6 @@ using System.Linq;
 public class PlayerMovement : Hero
 {
     private Vector3 movement;
-    private Vector3 destination;
     
     int floorMask;
     float camRayLength = 100f;
@@ -79,11 +78,6 @@ public class PlayerMovement : Hero
         }
     }
 
-    Vector3 VectorTo2D(Vector3 vector)
-    {
-        return new Vector3(vector.x, 0, vector.z);
-    }
-
     void Move()
     {
         if (path != null && path.points.Count > 0)
@@ -98,7 +92,7 @@ public class PlayerMovement : Hero
                 }
                 else
                 {
-                    destination = next.ToVector();
+                    nextPos = next;
                 }
             }
 
@@ -109,13 +103,13 @@ public class PlayerMovement : Hero
             Destroy(pathHighlightHolder);
         }
 
-        if (destination != Vector3.zero)
+        if (nextPos != IPosition.zero)
         {
-            float distance = Vector3.Distance(VectorTo2D(transform.position), VectorTo2D(destination));
+            float distance = Vector3.Distance(transform.position.To2D(), nextPos.ToVector());
 
             if (distance > 0.05)
             {
-                Vector3 dir = (destination - transform.position).normalized;
+                Vector3 dir = (nextPos.ToVector() - transform.position.To2D()).normalized;
                 dir.y = 0;
 
                 if (distance >= .1)
@@ -229,7 +223,7 @@ public class PlayerMovement : Hero
 
     private void GetMoveTo()
     {
-        if (Input.GetButton("Fire1"))
+        if (canMove && Input.GetButton("Fire1"))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;

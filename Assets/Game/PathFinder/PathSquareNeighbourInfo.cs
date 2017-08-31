@@ -1,7 +1,7 @@
 ﻿
 public class PathSquareNeighbourInfo
 {
-    public bool isDiagonal = false;
+    public readonly bool isDiagonal;
     public PathSquare[] diagonalCheck;
 
     public PathSquare neighbour;

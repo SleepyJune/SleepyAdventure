@@ -117,6 +117,11 @@ public class Level
         return null;
     }
 
+    public Square GetSquareAtPoint(Vector3 pos)
+    {
+        return GetSquareAtPoint(pos.ConvertToIPosition());
+    }
+
     public Square GetSquareAtPoint(IPosition pos)
     {
         Square square;

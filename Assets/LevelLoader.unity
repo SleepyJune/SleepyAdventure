@@ -43,7 +43,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -86,7 +86,8 @@ LightmapSettings:
     m_PVRFilteringAtrousColorSigma: 1
     m_PVRFilteringAtrousNormalSigma: 1
     m_PVRFilteringAtrousPositionSigma: 1
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000002, guid: 4bfe54babb554b347925ea4408a5f883,
+    type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
@@ -232,6 +233,7 @@ MonoBehaviour:
     type: 2}
   playerPrefab: {fileID: 100096, guid: 412b92d4feeb9c548bfa98f62c4d1022, type: 2}
   player: {fileID: 0}
+  gameCounter: 0
 --- !u!114 &180530471
 MonoBehaviour:
   m_ObjectHideFlags: 0

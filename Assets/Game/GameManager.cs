@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public PrefabManager prefabManager;
     public GameObject playerPrefab;
 
-    public Unit player;
+    public Hero player;
 
     public Dictionary<int, Unit> units = new Dictionary<int, Unit>();
     public Dictionary<int, Obstacle> obstacles = new Dictionary<int, Obstacle>();
@@ -76,10 +76,25 @@ public class GameManager : MonoBehaviour
 
                     unit.sqr = square;
                     unit.sqr.obstacles.Add(unit.id, unit);
+
+                    unit.pos2d = square.position;
                 }
 
             }
         }
+    }
+
+    public bool SameDestination(Unit current, IPosition pos)
+    {
+        foreach(var unit in units.Values)
+        {
+            if(current != unit && unit.nextPos == pos)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void LoadLevel(string path)
@@ -116,7 +131,9 @@ public class GameManager : MonoBehaviour
                 {
                     entityScript.id = unitIDCounter;
                     entityScript.sqr = square;
-                    entityScript.sqr.obstacles.Add(entityScript.id, entityScript);                    
+                    entityScript.sqr.obstacles.Add(entityScript.id, entityScript);
+
+                    entityScript.pos2d = square.position;                    
                 }
 
                 var unitScript = newObject.GetComponent<Unit>();
@@ -130,7 +147,6 @@ public class GameManager : MonoBehaviour
                 {
                     CreateObstacle(obstacleScript);
                 }
-
             }
         }
 
@@ -198,6 +214,7 @@ public class GameManager : MonoBehaviour
             {
                 if (interactable.Use(unit))
                 {
+                    unit.DisableUnitMovement(.5f);
                     return null;
                 }
             }
