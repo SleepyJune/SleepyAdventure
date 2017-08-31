@@ -16,8 +16,11 @@ public class GameManager : MonoBehaviour
     public Unit player;
 
     public Dictionary<int, Unit> units = new Dictionary<int, Unit>();
+    public Dictionary<int, Obstacle> obstacles = new Dictionary<int, Obstacle>();
 
     private int unitIDCounter = 0;
+
+    public int gameCounter = 0;
 
     GameObject levelHolder;
     Level level;
@@ -43,6 +46,8 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         BackButton();
+        UpdateWalkableSquares();
+        gameCounter += 1;
     }
 
     void BackButton()
@@ -50,6 +55,30 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             GetComponent<SceneChanger>().OnLoadButtonPressed("IntroScreen");
+        }
+    }
+
+    void UpdateWalkableSquares()
+    {
+        /*foreach(var square in level.map.Values)
+        {
+            square.obstacles = new Dictionary<int, Entity>();
+        }*/
+
+        foreach(var unit in units.Values)
+        {
+            var square = level.GetSquareAtPoint(unit.transform.position.ConvertToIPosition().To2D());
+            if (square != null)
+            {                
+                if(unit.sqr != square)
+                {
+                    unit.sqr.obstacles.Remove(unit.id);
+
+                    unit.sqr = square;
+                    unit.sqr.obstacles.Add(unit.id, unit);
+                }
+
+            }
         }
     }
 
@@ -63,21 +92,43 @@ public class GameManager : MonoBehaviour
 
         foreach (var obj in sqrObjects)
         {
-            Square square = new Square(obj.pos);
+            IPosition pos2d = obj.pos.To2D();
+
+            Square square = level.GetSquareAtPoint(pos2d);
+            
+            if(square == null)
+            {
+                square = new Square(pos2d);
+                level.map.Add(square.position, square);
+            }
             square.objects.Add(obj);
 
             var selectedOriginal = prefabManager.collections[obj.cid].objects[obj.id];
 
-            var sqrObject = level.AddSquareObject(obj.pos, obj.rotation, obj.cid, obj.id, selectedOriginal);
-            if (sqrObject != null)
+            //var sqrObject = level.AddSquareObject(obj.pos, obj.rotation, obj.cid, obj.id, selectedOriginal);
+            if (obj != null)
             {
                 var newObject = CreateNewObject(obj.cid, obj.id, obj.pos, obj.rotation);
-                sqrObject.SetGameObject(newObject);
+                obj.SetGameObject(newObject);
+                                
+                var entityScript = newObject.GetComponent<Entity>();
+                if (entityScript != null)
+                {
+                    entityScript.id = unitIDCounter;
+                    entityScript.sqr = square;
+                    entityScript.sqr.obstacles.Add(entityScript.id, entityScript);                    
+                }
 
                 var unitScript = newObject.GetComponent<Unit>();
                 if (unitScript != null)
                 {
                     CreateUnit(unitScript);
+                }
+
+                var obstacleScript = newObject.GetComponent<Obstacle>();
+                if(obstacleScript != null)
+                {
+                    CreateObstacle(obstacleScript);
                 }
 
             }
@@ -97,6 +148,12 @@ public class GameManager : MonoBehaviour
     {
         units.Remove(unitIDCounter);
         Destroy(unit.gameObject);
+    }
+
+    public void CreateObstacle(Obstacle obj)
+    {
+        obstacles.Add(unitIDCounter, obj);
+        unitIDCounter += 1;
     }
 
     void InitLevel()
@@ -146,7 +203,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        return Pathfinding.GetShortestPath(from, to);
+        return Pathfinding.GetShortestPath(unit, from, to);
     }
 
     public void SetSceneWithWait(string str, float waitTime)

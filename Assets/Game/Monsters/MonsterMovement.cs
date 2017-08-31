@@ -5,6 +5,6 @@ using System.Text;
 
 public interface MonsterMovement
 {
-    void Move();
+    void GetDestination();
     void Idle();
 }
