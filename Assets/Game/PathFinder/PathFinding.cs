@@ -15,22 +15,42 @@ public class Pathfinding
 
         List<IPosition> neighbourPositions = new List<IPosition>()
         {
-            new IPosition(-1, 0, 0), //left            
-            new IPosition(1, 0, 0), //right
-            new IPosition(0, 0, -1), //up
-            new IPosition(0, 0, 1), //down
-
-            new IPosition(-1, 0, 1), //1
-            new IPosition(-1, 0, -1), //7
-            new IPosition(1, 0, -1), //9
-            new IPosition(1, 0, 1), //3
+            new IPosition(-1, 0, 0), //4, left            
+            new IPosition(1, 0, 0), //6, right
+            new IPosition(0, 0, -1), //8, up
+            new IPosition(0, 0, 1), //2, down            
         };
+
+        Dictionary<IPosition, IPosition[]> neighbourDiagonalPositions = new Dictionary<IPosition, IPosition[]>()
+        {
+            { new IPosition(-1, 0, 1),
+                new IPosition[2]{
+                    new IPosition(-1, 0, 0), //4, left
+                    new IPosition(0, 0, 1), //2, down
+                } },//1
+            { new IPosition(-1, 0, -1), new IPosition[2]{
+                    new IPosition(-1, 0, 0), //4, left
+                    new IPosition(0, 0, -1), //8, up
+                } },//7
+            { new IPosition(1, 0, -1), new IPosition[2]{
+                    new IPosition(0, 0, -1), //8, up
+                    new IPosition(1, 0, 0), //6, right
+                } },//9
+            { new IPosition(1, 0, 1), new IPosition[2]{
+                    new IPosition(1, 0, 0), //6, right
+                    new IPosition(0, 0, 1), //2, down
+                } },//3     
+        };
+
+        
 
         foreach (var sqr in level.map.Values)
         {
             var newPathSqr = new PathSquare(sqr);
 
             pathSquares.Add(sqr.position, newPathSqr);
+
+            sqr.CheckWalkable();
         }
 
         foreach (var pathSqr in pathSquares.Values)
@@ -44,7 +64,30 @@ public class Pathfinding
                 PathSquare square;
                 if (pathSquares.TryGetValue(pos, out square))
                 {
-                    pathSqr.neighbours.Add(square, square.Distance(pathSqr));
+                    pathSqr.neighbours.Add(square, new PathSquareNeighbourInfo(square, square.Distance(pathSqr)));
+                }
+            }
+
+            foreach (var diagonal in neighbourDiagonalPositions)
+            {
+                var pos = sqrPosition + diagonal.Key;
+
+                PathSquare square;
+                if (pathSquares.TryGetValue(pos, out square))
+                {
+                    var diagPos1 = sqrPosition + diagonal.Value[0];
+                    var diagPos2 = sqrPosition + diagonal.Value[1];
+
+                    PathSquare sqr1;
+                    PathSquare sqr2;
+
+                    if(pathSquares.TryGetValue(diagPos1, out sqr1) 
+                        && pathSquares.TryGetValue(diagPos2, out sqr2))
+                    {
+                        pathSqr.neighbours.Add(square, 
+                            new PathSquareNeighbourInfo(square, square.Distance(pathSqr), 
+                            new PathSquare[] { sqr1, sqr2}));
+                    }
                 }
             }
         }
@@ -75,7 +118,7 @@ public class Pathfinding
         }
     }
 
-    public static PathInfo GetShortestPath(Vector3 start, Vector3 end)
+    public static PathInfo GetShortestPath(Unit unit, Vector3 start, Vector3 end)
     {
         PathSquare startSqr = GetPathSquare(start);
         PathSquare endSqr = GetPathSquare(end);
@@ -84,31 +127,55 @@ public class Pathfinding
 
         if (start != null && end != null)
         {
-            return GetShortestPath(startSqr, endSqr);
+            return GetShortestPath(unit, startSqr, endSqr);
         }
 
         return null;
     }
 
-    public static bool CanPlayerWalkToSquare(PathSquare pathSquare)
+    public static bool CanWalkToSquare(Unit unit, PathSquareNeighbourInfo neighbourInfo)
+    {
+        if(neighbourInfo.isDiagonal == false)
+        {
+            return CanWalkToSquare(unit, neighbourInfo.neighbour);
+        }
+        else
+        {
+            return CanWalkToSquare(unit, neighbourInfo.neighbour)
+                && CanWalkToSquare(unit, neighbourInfo.diagonalCheck[0])
+                && CanWalkToSquare(unit, neighbourInfo.diagonalCheck[1]);
+        }
+    }
+
+    public static bool CanWalkToSquare(Unit unit, PathSquare pathSquare)
     {
         var sqr = pathSquare.square;
-
-        foreach (var obj in sqr.objects)
+               
+        if(sqr.obstacles.Count == 0)
         {
-            if (!obj.isWalkable)
+            return sqr.isWalkable;
+        }
+        else
+        {
+            foreach(var obj in sqr.obstacles.Values)
             {
-                return false;
+                if(obj.id != unit.id)
+                {
+                    return false;
+                }
             }
         }
 
         return true;
     }
 
-    public static PathInfo GetShortestPath(PathSquare start, PathSquare end)
+    public static PathInfo GetShortestPath(Unit unit, PathSquare start, PathSquare end)
     {
         HashSet<PathSquare> closedSet = new HashSet<PathSquare>();
         HashSet<PathSquare> openSet = new HashSet<PathSquare>();
+
+        PathSquare closestSquare = null;
+        double closestDistance = 9999;
 
         openSet.Add(start);
 
@@ -120,7 +187,7 @@ public class Pathfinding
         while (openSet.Count > 0)
         {
             var current = openSet.OrderBy(n => n.fScore).FirstOrDefault();
-
+                                                
             if (current == end)
             {
                 return PathInfo.GenerateWaypoints(start, current);
@@ -132,14 +199,15 @@ public class Pathfinding
             foreach (var pair in current.neighbours)
             {
                 var neighbour = pair.Key;
-                var distance = pair.Value;
+                var neighbourInfo = pair.Value;
+                var distance = neighbourInfo.distance;
 
                 if (closedSet.Contains(neighbour))
                 {
                     continue;
                 }
 
-                if (!CanPlayerWalkToSquare(neighbour))
+                if (!CanWalkToSquare(unit, neighbourInfo))
                 {
                     continue;
                 }
@@ -154,14 +222,30 @@ public class Pathfinding
                     continue;
                 }
 
+                var estimatedDistance = neighbour.Distance(end);
+
                 neighbour.parent = current;
                 neighbour.gScore = alternativeDistance;
-                neighbour.fScore = alternativeDistance + neighbour.Distance(end);
+                neighbour.fScore = alternativeDistance + estimatedDistance;
+
+                if(closestDistance > estimatedDistance)
+                {
+                    closestSquare = neighbour;
+                    closestDistance = estimatedDistance;
+                }
 
             }
         }
 
-        return null;
+        if(closestSquare == null)
+        {
+            return null;
+        }
+
+        var path = PathInfo.GenerateWaypoints(start, closestSquare);
+        path.reachable = false;
+
+        return path;
     }
 
 }

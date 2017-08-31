@@ -13,6 +13,8 @@ public class PathInfo
     public IPosition start;
     public IPosition end;
 
+    public bool reachable = true;
+
     public PathInfo(IPosition start, IPosition end)
     {
         this.start = start;

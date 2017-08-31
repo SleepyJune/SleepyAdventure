@@ -46,20 +46,6 @@ public class Level
         }
     }
 
-    public void SetWalkableSquare(SquareObject square)
-    {
-        var gameObj = square.GetGameObject();
-
-        if (gameObj.tag == "Hazard")
-        {
-            square.isWalkable = false;
-        }
-        else if (gameObj.tag == "Wall")
-        {
-            square.isWalkable = false;
-        }
-    }
-
     public SquareObject AddSquareObject(IPosition pos, int cid, int id, GameObject obj)
     {
         return AddSquareObject(pos, Vector3.zero, cid, id, obj);
@@ -86,9 +72,7 @@ public class Level
             SquareObject newObj = new SquareObject(pos, rotation, cid, id, obj);
             square = new Square(pos.To2D());
             square.objects.Add(newObj);
-
-            SetWalkableSquare(newObj);
-
+                        
             map.Add(square.position, square);
 
             return newObj;
@@ -103,9 +87,7 @@ public class Level
             {
                 SquareObject newObj = new SquareObject(pos, rotation, cid, id, obj);
                 square.objects.Add(newObj);
-
-                SetWalkableSquare(newObj);
-
+                
                 return newObj;
             }
         }
@@ -138,7 +120,7 @@ public class Level
     public Square GetSquareAtPoint(IPosition pos)
     {
         Square square;
-        if (map.TryGetValue(pos, out square))
+        if (map.TryGetValue(pos.To2D(), out square))
         {
             return square;
         }

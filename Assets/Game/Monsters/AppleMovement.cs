@@ -7,7 +7,7 @@ using UnityEngine;
 
 class AppleMovement : Monster, MonsterMovement
 {
-    Vector3 destination;
+    Vector3 destination = Vector3.zero;
 
     float lastUpdate = 0;
 
@@ -18,11 +18,11 @@ class AppleMovement : Monster, MonsterMovement
 
     void Update()
     {
-        GetDestination();
+        Move();
 
         if (Time.time - lastUpdate > updateFrequency)
         {
-            Move();
+            GetDestination();
             Idle();
             Attack();
             lastUpdate = Time.time;
@@ -30,7 +30,7 @@ class AppleMovement : Monster, MonsterMovement
         
     }
 
-    void GetDestination()
+    void Move()
     {
         if (path != null && path.points.Count > 0)
         {            
@@ -68,7 +68,7 @@ class AppleMovement : Monster, MonsterMovement
                 {
                     transform.position += dir * speed * Time.deltaTime;
 
-                    anim.SetFloat("Speed", speed * Time.deltaTime);
+                    anim.SetFloat("Speed", speed);
                 }
                 else
                 {
@@ -86,7 +86,7 @@ class AppleMovement : Monster, MonsterMovement
         }
     }
 
-    public void Move()
+    public void GetDestination()
     {        
         if(GameManager.instance.player != null)
         {
