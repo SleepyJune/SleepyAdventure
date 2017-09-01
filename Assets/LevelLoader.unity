@@ -198,6 +198,7 @@ GameObject:
   - component: {fileID: 180530469}
   - component: {fileID: 180530470}
   - component: {fileID: 180530471}
+  - component: {fileID: 180530472}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -245,6 +246,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01c0b0b260daa3643bcf8b5da0e59bc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &180530472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 180530468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22652142e443de04f93bc35ba396a3ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageTextPrefab: {fileID: 1881620368985098, guid: 13e899ecc157c914d841a6676e7a8e1e,
+    type: 2}
 --- !u!224 &183587043 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224571782987437610, guid: 70ea5a7391c20bb428743f50c875d26b,
@@ -323,7 +337,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &192520017
 RectTransform:
@@ -335,8 +349,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
-  - {fileID: 183587043}
   - {fileID: 642953332}
+  - {fileID: 183587043}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -474,7 +488,7 @@ RectTransform:
   m_Children:
   - {fileID: 1915102814}
   m_Father: {fileID: 192520017}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -526,7 +540,7 @@ Prefab:
     - target: {fileID: 224571782987437610, guid: 70ea5a7391c20bb428743f50c875d26b,
         type: 2}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224571782987437610, guid: 70ea5a7391c20bb428743f50c875d26b,
         type: 2}

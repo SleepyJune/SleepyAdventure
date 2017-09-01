@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
     GameObject levelHolder;
     Level level;
 
+    DamageTextController damageText;
+
     // Use this for initialization
     void Start()
     {
@@ -40,6 +42,8 @@ public class GameManager : MonoBehaviour
 
         level = new Level();
         levelHolder = new GameObject("LevelHolder");
+
+        damageText = GetComponent<DamageTextController>();
     }
 
     // Update is called once per frame
@@ -237,6 +241,11 @@ public class GameManager : MonoBehaviour
     public void SetScene(string str)
     {
         SceneManager.LoadScene(str);
+    }
+
+    public void CreateDamageText(int damage, Vector3 worldPos)
+    {
+        damageText.CreateDamageText(damage, worldPos);
     }
 }
 
