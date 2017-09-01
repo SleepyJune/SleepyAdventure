@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public GameObject playerPrefab;
 
     public Hero player;
+    public Transform hud;
 
     public Dictionary<int, Unit> units = new Dictionary<int, Unit>();
     public Dictionary<int, Obstacle> obstacles = new Dictionary<int, Obstacle>();
@@ -179,6 +180,7 @@ public class GameManager : MonoBehaviour
     void InitLevel()
     {
         Pathfinding.InitPathSquares(level);
+        hud.gameObject.SetActive(true);
     }
 
     GameObject CreateNewObject(int cid, int id, IPosition pos, Vector3 rotation)

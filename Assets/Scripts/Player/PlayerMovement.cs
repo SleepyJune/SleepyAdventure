@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
+using UnityEngine.UI;
+
 using System.Linq;
 
 public class PlayerMovement : Hero
 {
     private Vector3 movement;
-    
+
     int floorMask;
     float camRayLength = 100f;
 
@@ -21,13 +23,15 @@ public class PlayerMovement : Hero
 
     GameObject pathHighlightHolder;
 
+    Button attackButton;
+
     void Start()
     {
         floorMask = LayerMask.GetMask("Floor");
         anim = GetComponent<Animator>();
 
         indicatorCubePrefab = Resources.Load("IndicatorCubeGreen", typeof(GameObject)) as GameObject;
-                
+
         //attackFrequency = 1 / attackSpeed;
 
         /*
@@ -41,11 +45,12 @@ public class PlayerMovement : Hero
     Debug.Log("Any other platform");
 #endif
 */
-
+        attackButton = GameManager.instance.hud.Find("CombatUI").Find("AttackButton").GetComponent<Button>();
+        attackButton.onClick.AddListener(Attack);
     }
 
     void FixedUpdate()
-    {        
+    {
         GetMoveTo();
         Move();
         HighlightSquare();
@@ -54,27 +59,32 @@ public class PlayerMovement : Hero
 
     void OnAnimation()
     {
+        if (Input.GetKey("space"))
+        {
+            Attack();
+        }
+    }
+
+    public void Attack()
+    {
         if (Time.time - lastAttack > attackFrequency)
         {
-            if (Input.GetKey("space"))
+            var enemies = GameManager.instance.units.Values.Where(u => u is Monster);
+
+            foreach (var enemy in enemies)
             {
-                var enemies = GameManager.instance.units.Values.Where(u => u is Monster);
-
-                foreach(var enemy in enemies)
+                if (enemy.transform.position.ConvertToIPosition().To2D()
+                    .Distance(transform.position.ConvertToIPosition().To2D()) < 2)
                 {
-                    if(enemy.transform.position.ConvertToIPosition().To2D()
-                        .Distance(transform.position.ConvertToIPosition().To2D()) < 2)
-                    {
-                        var dir = enemy.transform.position - transform.position;
-                        dir.y = 0;
+                    var dir = enemy.transform.position - transform.position;
+                    dir.y = 0;
 
-                        enemy.transform.GetComponent<Rigidbody>().AddForce(1000 * dir);
-                    }
+                    enemy.transform.GetComponent<Rigidbody>().AddForce(1000 * dir);
                 }
-
-                anim.SetTrigger("Punch");
-                lastAttack = Time.time;
             }
+
+            anim.SetTrigger("Punch");
+            lastAttack = Time.time;
         }
     }
 
@@ -129,7 +139,7 @@ public class PlayerMovement : Hero
                 isWalking = true;
 
                 Quaternion newRotation = Quaternion.LookRotation(dir);
-                rb.MoveRotation(newRotation);                
+                rb.MoveRotation(newRotation);
             }
             else
             {
@@ -216,7 +226,7 @@ public class PlayerMovement : Hero
     }
 
     public void OnPointerClick(BaseEventData data)
-    {        
+    {
         PointerEventData pData = (PointerEventData)data;
         var end = pData.pointerCurrentRaycast.worldPosition.ConvertToIPosition().To2D().ToVector();
     }
@@ -230,13 +240,13 @@ public class PlayerMovement : Hero
             if (Physics.Raycast(ray, out hit, camRayLength, floorMask))
             {
                 var end = hit.point.ConvertToIPosition().To2D().ToVector();
-                                
+
                 //check if current path is the same
-                if(path != null && path.end == end.ConvertToIPosition())
+                if (path != null && path.end == end.ConvertToIPosition())
                 {
                     return;
                 }
-                
+
 
                 path = GameManager.instance.UnitMoveTo(this, transform.position, end);
 
@@ -253,5 +263,5 @@ public class PlayerMovement : Hero
             }
         }
     }
-    
+
 }

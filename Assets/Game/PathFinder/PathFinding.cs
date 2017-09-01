@@ -187,6 +187,8 @@ public class Pathfinding
         start.gScore = 0;
         start.fScore = start.Distance(end);
 
+        double bestRouteDist = start.Distance(end);
+
         while (openSet.Count > 0)
         {
             var current = openSet.OrderBy(n => n.fScore).FirstOrDefault();
@@ -205,6 +207,7 @@ public class Pathfinding
                 var neighbour = neighbourInfo.neighbour;
                 var distance = neighbourInfo.distance;
 
+
                 if (closedSet.Contains(neighbour))
                 {
                     continue;
@@ -216,6 +219,12 @@ public class Pathfinding
                 }
 
                 var alternativeDistance = current.gScore + distance;
+
+                /*if(alternativeDistance > bestRouteDist * 2)
+                {
+                    continue; //stop searching for route that's longer than 2x the optimal path
+                }*/
+
                 if (!openSet.Contains(neighbour))
                 {
                     openSet.Add(neighbour);

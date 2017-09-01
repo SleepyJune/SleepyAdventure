@@ -26,11 +26,9 @@ public class PlayerHealth : MonoBehaviour
         playerMovement = GetComponent <PlayerMovement> ();
         currentHealth = startingHealth;
 
-        var healthBar = GameObject.Find("Canvas").transform.Find("PlayerHealthBar").gameObject;
+        var healthBar = GameManager.instance.hud.Find("PlayerHealthBar").gameObject;
 
         healthSlider = healthBar.GetComponentInChildren<Slider>();
-
-        healthBar.SetActive(true);
     }
 
 
