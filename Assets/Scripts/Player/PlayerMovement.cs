@@ -27,9 +27,9 @@ public class PlayerMovement : Hero
 
     void Start()
     {
-        floorMask = LayerMask.GetMask("Floor");
-        anim = GetComponent<Animator>();
+        Initialize();
 
+        floorMask = LayerMask.GetMask("Floor");
         indicatorCubePrefab = Resources.Load("IndicatorCubeGreen", typeof(GameObject)) as GameObject;
 
         //attackFrequency = 1 / attackSpeed;
@@ -71,7 +71,7 @@ public class PlayerMovement : Hero
         {
             var enemies = GameManager.instance.units.Values.Where(u => u is Monster);
 
-            foreach (var enemy in enemies)
+            foreach (Monster enemy in enemies)
             {
                 if (enemy.transform.position.ConvertToIPosition().To2D()
                     .Distance(transform.position.ConvertToIPosition().To2D()) < 2)
@@ -80,6 +80,8 @@ public class PlayerMovement : Hero
                     dir.y = 0;
 
                     enemy.transform.GetComponent<Rigidbody>().AddForce(1000 * dir);
+
+                    enemy.TakeDamage(this, 100);                    
                 }
             }
 

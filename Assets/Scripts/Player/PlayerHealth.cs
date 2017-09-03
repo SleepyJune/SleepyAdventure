@@ -67,7 +67,7 @@ public class PlayerHealth : MonoBehaviour
         }
         else if(currentHealth > 0)
         {
-            GameManager.instance.CreateDamageText(-amount, this.transform.position);
+            GameManager.instance.CreateDamageText(playerMovement, -amount);
             //GetComponent<PlayerMovement>().LookAt(source);
             //anim.SetTrigger("Hurt");
         }

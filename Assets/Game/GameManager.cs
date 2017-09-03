@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
@@ -51,6 +53,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         BackButton();
+        DeleteDeadMonsters();
         UpdateWalkableSquares();
         gameCounter += 1;
     }
@@ -60,6 +63,24 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             GetComponent<SceneChanger>().OnLoadButtonPressed("IntroScreen");
+        }
+    }
+
+    void DeleteDeadMonsters()
+    {        
+        foreach (var key in units.Keys.ToList())
+        {
+            var unit = units[key];
+
+            if(unit != null && unit is Monster)
+            {
+                var monster = unit as Monster;
+
+                if(monster.health <= 0)
+                {
+                    monster.Death();
+                }
+            }
         }
     }
 
@@ -165,10 +186,21 @@ public class GameManager : MonoBehaviour
         unitIDCounter+= 1;
     }
 
-    public void DeleteUnit(Unit unit)
+    public void DeleteUnit(Unit unit, float time)
     {
-        units.Remove(unitIDCounter);
-        Destroy(unit.gameObject);
+        unit.sqr.obstacles.Remove(unit.id);
+        //unit.collider.isTrigger = true;
+
+        units.Remove(unit.id);
+
+        if (time != 0)
+        {
+            Destroy(unit.gameObject, time);
+        }
+        else
+        {
+            Destroy(unit.gameObject);
+        }
     }
 
     public void CreateObstacle(Obstacle obj)
@@ -245,16 +277,8 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(str);
     }
 
-    public void CreateDamageText(int damage, Vector3 worldPos)
+    public void CreateDamageText(Unit unit, int damage)
     {
-        damageText.CreateDamageText(damage, worldPos);
-    }
-}
-
-public static class UnitExtensions
-{
-    public static PathInfo UnitMoveTo(this Unit unit, Vector3 to)
-    {
-        return GameManager.instance.UnitMoveTo(unit, to);
+        damageText.CreateDamageText(unit, damage);
     }
 }
