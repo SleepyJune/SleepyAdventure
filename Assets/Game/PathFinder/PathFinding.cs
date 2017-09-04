@@ -125,7 +125,7 @@ public class Pathfinding
 
         //Debug.Log(end.x);
 
-        if (start != null && end != null)
+        if (startSqr != null && endSqr != null)
         {
             return GetShortestPath(unit, startSqr, endSqr);
         }

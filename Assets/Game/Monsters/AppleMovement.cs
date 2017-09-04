@@ -41,6 +41,15 @@ class AppleMovement : Monster, MonsterMovement
                 if (pos2d == next)
                 {
                     path.points.Remove(next);
+
+                    if (path.points.Count > 0)
+                    {
+                        next = path.points.First();
+                        if (next != null)
+                        {
+                            nextPos = next;
+                        }
+                    }
                 }
                 else
                 {
@@ -60,7 +69,7 @@ class AppleMovement : Monster, MonsterMovement
             nextPos = IPosition.zero;
             path = null;
         }
-
+        
         if(nextPos != IPosition.zero &&
             Pathfinding.CanWalkToSquare(this, nextPos) == false)
         {            
@@ -90,7 +99,7 @@ class AppleMovement : Monster, MonsterMovement
                 }
 
                 Quaternion newRotation = Quaternion.LookRotation(dir);
-                rb.MoveRotation(newRotation);                
+                rigidbody.MoveRotation(newRotation);                
             }
             else
             {
@@ -125,7 +134,7 @@ class AppleMovement : Monster, MonsterMovement
             dir.y = 0;
 
             Quaternion newRotation = Quaternion.LookRotation(dir);
-            rb.MoveRotation(newRotation);
+            rigidbody.MoveRotation(newRotation);
 
         }
     }

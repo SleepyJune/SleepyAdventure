@@ -25,6 +25,8 @@ public class PlayerMovement : Hero
 
     Button attackButton;
 
+    public Projectile currentWeapon;
+
     void Start()
     {
         Initialize();
@@ -69,6 +71,21 @@ public class PlayerMovement : Hero
     {
         if (Time.time - lastAttack > attackFrequency)
         {
+            if (currentWeapon != null)
+            {
+                var pos = this.transform.position + this.transform.forward * 10;
+                GameManager.instance.CreateProjectile(this, currentWeapon, this.transform.position, pos);
+            }
+
+            anim.SetTrigger("Punch");
+            lastAttack = Time.time;
+        }
+    }
+
+    public void Attack2()
+    {
+        if (Time.time - lastAttack > attackFrequency)
+        {
             var enemies = GameManager.instance.units.Values.Where(u => u is Monster);
 
             foreach (Monster enemy in enemies)
@@ -81,7 +98,8 @@ public class PlayerMovement : Hero
 
                     enemy.transform.GetComponent<Rigidbody>().AddForce(1000 * dir);
 
-                    enemy.TakeDamage(this, 100);                    
+                    enemy.TakeDamage(this, 100);
+
                 }
             }
 
@@ -101,6 +119,15 @@ public class PlayerMovement : Hero
                 if (transform.position.ConvertToIPosition().To2D() == next)
                 {
                     path.points.Remove(next);
+
+                    if (path.points.Count > 0)
+                    {
+                        next = path.points.First();
+                        if (next != null)
+                        {
+                            nextPos = next;
+                        }
+                    }
                 }
                 else
                 {
@@ -128,7 +155,7 @@ public class PlayerMovement : Hero
                 {
                     transform.position += dir * speed * Time.deltaTime;
 
-                    anim.SetFloat("Speed", speed * Time.deltaTime);
+                    anim.SetFloat("Speed", speed * Time.deltaTime);                    
                 }
                 else
                 {
@@ -140,8 +167,11 @@ public class PlayerMovement : Hero
                 }
                 isWalking = true;
 
-                Quaternion newRotation = Quaternion.LookRotation(dir);
-                rb.MoveRotation(newRotation);
+                if(path != null)
+                {
+                    LookAt(nextPos.ToVector());
+                }
+
             }
             else
             {
@@ -149,18 +179,6 @@ public class PlayerMovement : Hero
                 anim.SetFloat("Speed", 0);
             }
         }
-    }
-
-    public void LookAt(Unit source)
-    {
-        Vector3 dir = (source.transform.position - transform.position).normalized;
-        dir.y = 0;
-
-        Quaternion newRotation = Quaternion.LookRotation(dir);
-        rb.MoveRotation(newRotation);
-
-        var rot = source.transform.rotation;
-        //transform.rotation = Quaternion.Euler(new Vector3(rot.x, rot.y + 180, rot.z));
     }
 
     bool testTouch()
@@ -182,6 +200,12 @@ public class PlayerMovement : Hero
         if (Physics.Raycast(ray, out hit, camRayLength, floorMask))
         {
             var pos = hit.point.ConvertToIPosition();
+
+            if(Pathfinding.GetPathSquare(hit.point) == null)
+            {
+                return;
+            }
+
             if (indicatorCube == null)
             {
                 indicatorCube = Instantiate(indicatorCubePrefab, new Vector3(pos.x, 0, pos.z), Quaternion.identity);
@@ -255,6 +279,13 @@ public class PlayerMovement : Hero
                 if (path != null)
                 {
                     GeneratePathHighlight();
+                }
+                else
+                {
+                    if(hit.point.ConvertToIPosition().To2D() != transform.position.ConvertToIPosition().To2D())
+                    {
+                        LookAt(hit.point);
+                    }
                 }
 
                 //transform.position = hit.point;

@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public Transform hud;
 
     public Dictionary<int, Unit> units = new Dictionary<int, Unit>();
+    public Dictionary<int, Projectile> projectiles = new Dictionary<int, Projectile>();
     public Dictionary<int, Obstacle> obstacles = new Dictionary<int, Obstacle>();
 
     private int unitIDCounter = 0;
@@ -189,7 +190,7 @@ public class GameManager : MonoBehaviour
     public void DeleteUnit(Unit unit, float time)
     {
         unit.sqr.obstacles.Remove(unit.id);
-        //unit.collider.isTrigger = true;
+        unit.collider.isTrigger = true;
 
         units.Remove(unit.id);
 
@@ -280,5 +281,17 @@ public class GameManager : MonoBehaviour
     public void CreateDamageText(Unit unit, int damage)
     {
         damageText.CreateDamageText(unit, damage);
+    }
+
+    public void CreateProjectile(Unit source, Projectile projectile, Vector3 from, Vector3 to)
+    {        
+        var proj = Instantiate(projectile, from, Quaternion.identity);
+
+        proj.source = source;
+        proj.start = from;
+        proj.end = to;
+
+        proj.SetVelocity();       
+        
     }
 }

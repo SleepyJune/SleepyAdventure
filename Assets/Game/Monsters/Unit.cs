@@ -10,7 +10,9 @@ public abstract class Unit : Entity
     public int health;
     
     public Animator anim;
-    public Rigidbody rb;
+
+    [System.NonSerialized]
+    public new Rigidbody rigidbody;
 
     //public new Renderer renderer;
 
@@ -26,6 +28,7 @@ public abstract class Unit : Entity
     {
         //renderer = GetComponent<Renderer>();
         collider = GetComponent<Collider>();
+        rigidbody = GetComponent<Rigidbody>();
     }
 
     public IEnumerator DisableUnitMovementHelper(float time)
@@ -56,5 +59,23 @@ public abstract class Unit : Entity
         float pixelSize = (collider.bounds.extents.magnitude * Mathf.Rad2Deg * Screen.height) 
                             / (distance * Camera.main.fieldOfView);
         return pixelSize;
+    }
+
+    public void LookAt(Unit target)
+    {
+        LookAt(target.transform.position);
+    }
+
+    public void LookAt(Vector3 lookPos)
+    {
+        Vector3 dir = (lookPos.ConvertToIPosition().ToVector() 
+            - transform.position.ConvertToIPosition().ToVector()).normalized;
+        dir.y = 0;
+
+        if(dir != Vector3.zero)
+        {
+            Quaternion newRotation = Quaternion.LookRotation(dir);
+            rigidbody.MoveRotation(newRotation);
+        }        
     }
 }

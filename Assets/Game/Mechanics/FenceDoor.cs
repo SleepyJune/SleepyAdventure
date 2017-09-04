@@ -21,7 +21,7 @@ public class FenceDoor : Obstacle, Interactable
 
     public bool Use(Unit source)
     {
-        if (source.tag != "Player")
+        if (!(source is Hero))
         {
             return false;
         }

@@ -6452,15 +6452,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ec45203ae7a1a54c9d02c355f983833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pos2d:
-    x: 0
-    y: 0
-    z: 0
   speed: 6
   health: 100
   anim: {fileID: 9500000}
-  rb: {fileID: 54418825635489694}
   attackFrequency: 1
+  currentWeapon: {fileID: 114600822815356316, guid: bffefb6581f523b40bcb3740940be086,
+    type: 2}
 --- !u!114 &114976788301836918
 MonoBehaviour:
   m_ObjectHideFlags: 1

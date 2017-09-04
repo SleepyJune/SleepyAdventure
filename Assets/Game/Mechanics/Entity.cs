@@ -6,7 +6,9 @@ public abstract class Entity : MonoBehaviour
 {
     [System.NonSerialized]
     public int id;
+    [System.NonSerialized]
     public Square sqr;
+    [System.NonSerialized]
     public IPosition pos2d;
 
     public bool Equals(Entity obj)
