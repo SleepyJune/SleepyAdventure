@@ -736,9 +736,10 @@ GameObject:
   m_Component:
   - component: {fileID: 400096}
   - component: {fileID: 9500000}
-  - component: {fileID: 114862219722712574}
   - component: {fileID: 54418825635489694}
   - component: {fileID: 136991594660186528}
+  - component: {fileID: 114862219722712574}
+  - component: {fileID: 114976788301836918}
   m_Layer: 0
   m_Name: unitychan
   m_TagString: Player
@@ -6438,7 +6439,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 84
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!114 &114862219722712574
 MonoBehaviour:
@@ -6452,7 +6453,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 6
-  health: 0
+  health: 100
+  anim: {fileID: 9500000}
+  attackFrequency: 1
+  currentWeapon: {fileID: 114286047065239376, guid: bffefb6581f523b40bcb3740940be086,
+    type: 2}
+--- !u!114 &114976788301836918
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 544f2064df03e95419b4a5147c506b08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingHealth: 100
+  currentHealth: 100
+  healthSlider: {fileID: 0}
+  damageImage: {fileID: 0}
+  deathClip: {fileID: 0}
+  flashSpeed: 5
+  flashColour: {r: 1, g: 0, b: 0, a: 0.1}
 --- !u!136 &136991594660186528
 CapsuleCollider:
   m_ObjectHideFlags: 1

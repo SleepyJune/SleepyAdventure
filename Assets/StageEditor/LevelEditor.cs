@@ -17,16 +17,17 @@ public class LevelEditor : MonoBehaviour
 
     public GameObject levelLoader;
 
-    public int width = 20;
-    public int height = 20;
+    int width = 100;
+    int height = 100;
 
     EditorDisplayObject selectedInfo;
 
     Level level;
-
-    GameObject templateLevelHolder;
+    
     GameObject levelHolder;
     GameObject menuObjectHolder;
+
+    public GameObject floorPlane;
 
     public GameObject menuObjectSpawnPoint;
     public GameObject menuObjectTemplate;
@@ -57,20 +58,12 @@ public class LevelEditor : MonoBehaviour
 
         level = new Level();
         levelHolder = new GameObject("LevelHolder");
-        templateLevelHolder = new GameObject("TemplateLevelHolder");
-
+        
         shootableMask = LayerMask.GetMask("Floor");
         editorObjectMask = LayerMask.GetMask("EditorObject");
         editorMenuObjectMask = LayerMask.GetMask("EditorMenuObject");
 
-        for (int y = 0; y < width; y++)
-        {
-            for (int x = 0; x < height; x++)
-            {
-                var add = new Vector3(x, 0, y);
-                Instantiate(defaultSquare, transform.position + add, transform.rotation, templateLevelHolder.transform);
-            }
-        }
+        floorPlane.transform.localScale = new Vector3(width, 1, height);
 
         //prefabManager = GetComponent<PrefabManager>();
 
@@ -273,6 +266,8 @@ public class LevelEditor : MonoBehaviour
         displayScript.pos = pos;
 
         DisableComponents(newObject);
+
+        var boxCollider = newObject.AddComponent<BoxCollider>();
     }
 
     void DisableComponents(GameObject obj)
@@ -342,7 +337,7 @@ public class LevelEditor : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-
+        
         if (Physics.Raycast(ray, out hit, 100, editorObjectMask))
         {
             var editorScript = hit.transform.gameObject.GetComponent<EditorDisplayObject>();
@@ -363,7 +358,6 @@ public class LevelEditor : MonoBehaviour
     public void RemoveObject()
     {
         //UnselectObject();
-        Debug.Log("erase");
         if (stageSelectedScript != null)
         {
             level.RemoveSquareObject(stageSelectedScript.pos);
@@ -486,7 +480,10 @@ public class LevelEditor : MonoBehaviour
 
                 if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2"))
                 {
-                    EditorScriptActions();
+                    if(indicatorCube == null)
+                    {
+                        EditorScriptActions();
+                    }
 
                 }
 

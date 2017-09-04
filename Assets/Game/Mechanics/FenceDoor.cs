@@ -5,7 +5,7 @@ using System.Text;
 
 using UnityEngine;
 
-public class FenceDoor : MonoBehaviour, InteractiveGameObject
+public class FenceDoor : Obstacle, Interactable
 {
     Animator anim;
     BoxCollider boxCollider;
@@ -19,16 +19,40 @@ public class FenceDoor : MonoBehaviour, InteractiveGameObject
         boxCollider = transform.GetComponent<BoxCollider>();
     }
 
-    public void Use()
+    public bool Use(Unit source)
     {
+        if (!(source is Hero))
+        {
+            return false;
+        }
+
         if (Time.time - lastUseTime > reUseableTime)
         {
             var isDoorOpen = anim.GetBool("isOpen");
 
-            anim.SetBool("isOpen", !isDoorOpen);
-            boxCollider.isTrigger = !isDoorOpen;
+            isDoorOpen = !isDoorOpen; //switch the door state
+
+            anim.SetBool("isOpen", isDoorOpen);
+            boxCollider.isTrigger = isDoorOpen;
+
+            isWalkable = isDoorOpen;
+
+            if (!isDoorOpen)
+            {
+                if (!sqr.obstacles.ContainsKey(id))
+                {
+                    sqr.obstacles.Add(id, this);
+                }
+            }
+            else
+            {
+                sqr.obstacles.Remove(id);
+            }
 
             lastUseTime = Time.time;
+            return true;
         }
+
+        return false;
     }
 }

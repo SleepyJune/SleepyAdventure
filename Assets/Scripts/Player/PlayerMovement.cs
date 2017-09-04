@@ -1,16 +1,14 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
+
 using UnityEngine.UI;
 
 using System.Linq;
 
-public class PlayerMovement : Unit
+public class PlayerMovement : Hero
 {
     private Vector3 movement;
-    private Vector3 destination;
 
-    Animator anim;
-    Rigidbody playerRigidbody;
     int floorMask;
     float camRayLength = 100f;
 
@@ -25,14 +23,23 @@ public class PlayerMovement : Unit
 
     GameObject pathHighlightHolder;
 
+    Button attackButton;
+
+    public Projectile currentWeapon;
+
+
+    bool cleaverEquiped = false;
+
     void Start()
     {
-        floorMask = LayerMask.GetMask("Floor");
-        anim = GetComponent<Animator>();
-        playerRigidbody = GetComponent<Rigidbody>();
+        Initialize();
 
+        floorMask = LayerMask.GetMask("Floor");
         indicatorCubePrefab = Resources.Load("IndicatorCubeGreen", typeof(GameObject)) as GameObject;
 
+        //attackFrequency = 1 / attackSpeed;
+
+        /*
 #if UNITY_EDITOR
         Debug.Log("Unity Editor");
 #elif UNITY_ANDROID
@@ -42,48 +49,83 @@ public class PlayerMovement : Unit
 #else
     Debug.Log("Any other platform");
 #endif
-
+*/
+        attackButton = GameManager.instance.hud.Find("CombatUI").Find("Panel").Find("AttackButton").GetComponent<Button>();
+        attackButton.onClick.AddListener(Attack);
     }
 
     void FixedUpdate()
-    {        
+    {
         GetMoveTo();
         Move();
-
         HighlightSquare();
+        OnAnimation();
     }
 
-    void OnTriggerStay(Collider collision)
+    void OnAnimation()
     {
-        if (collision.gameObject.tag == "Key")
+        if (Input.GetKey("space"))
         {
-            collision.gameObject.transform.GetComponent<Collider>().isTrigger = false;
-
-            GameObject.Destroy(collision.gameObject, 0.25f);
-            keys += 1;
-
-            /*if (keys >= 2 && gameObject.GetComponent<PlayerHealth>().currentHealth > 0)
-            {
-                Instantiate(victoryParticle, collision.gameObject.transform);
-                gameObject.GetComponent<PlayerHealth>().currentHealth = 0;
-            }*/
+            Attack();            
         }
-        else if (collision.gameObject.tag == "Door")
+    }
+
+    public void OnChangeWeapon()
+    {
+        cleaverEquiped = !cleaverEquiped;
+    }
+
+    public void Attack()
+    {
+        if (cleaverEquiped)
         {
-            if (keys > 0)
+            AttackPattern2();
+        }
+        else
+        {
+            AttackPattern1();
+        }
+    }
+
+    public void AttackPattern2()
+    {
+        if (Time.time - lastAttack > attackFrequency)
+        {
+            if (currentWeapon != null)
             {
-                GameObject.Destroy(collision.gameObject, 0.25f);
+                var pos = this.transform.position + this.transform.forward * 10;
+                GameManager.instance.CreateProjectile(this, currentWeapon, this.transform.position, pos);
             }
-        }
-        else if (collision.gameObject.tag == "Goal")
-        {
-            SceneManager.LoadScene("LevelComplete");
+
+            anim.SetTrigger("Punch");
+            lastAttack = Time.time;
         }
     }
 
-    Vector3 VectorTo2D(Vector3 vector)
+    public void AttackPattern1()
     {
-        return new Vector3(vector.x, 0, vector.z);
+        if (Time.time - lastAttack > attackFrequency)
+        {
+            var enemies = GameManager.instance.units.Values.Where(u => u is Monster);
+
+            foreach (Monster enemy in enemies)
+            {
+                if (enemy.transform.position.ConvertToIPosition().To2D()
+                    .Distance(transform.position.ConvertToIPosition().To2D()) < 2)
+                {
+                    var dir = enemy.transform.position - transform.position;
+                    dir.y = 0;
+
+                    enemy.transform.GetComponent<Rigidbody>().AddForce(1000 * dir);
+
+                    enemy.TakeDamage(this, 100);
+
+                }
+            }
+
+            anim.SetTrigger("Punch");
+            lastAttack = Time.time;
+        }
     }
 
     void Move()
@@ -97,10 +139,19 @@ public class PlayerMovement : Unit
                 if (transform.position.ConvertToIPosition().To2D() == next)
                 {
                     path.points.Remove(next);
+
+                    if (path.points.Count > 0)
+                    {
+                        next = path.points.First();
+                        if (next != null)
+                        {
+                            nextPos = next;
+                        }
+                    }
                 }
                 else
                 {
-                    destination = next.ToVector();
+                    nextPos = next;
                 }
             }
 
@@ -111,30 +162,35 @@ public class PlayerMovement : Unit
             Destroy(pathHighlightHolder);
         }
 
-        if (destination != Vector3.zero)
+        if (nextPos != IPosition.zero)
         {
-            float distance = Vector3.Distance(VectorTo2D(transform.position), VectorTo2D(destination));
+            float distance = Vector3.Distance(transform.position.To2D(), nextPos.ToVector());
 
             if (distance > 0.05)
             {
-                Vector3 dir = (destination - transform.position).normalized;
+                Vector3 dir = (nextPos.ToVector() - transform.position.To2D()).normalized;
                 dir.y = 0;
 
                 if (distance >= .1)
                 {
                     transform.position += dir * speed * Time.deltaTime;
 
-                    anim.SetFloat("Speed", speed * Time.deltaTime);
+                    anim.SetFloat("Speed", speed * Time.deltaTime);                    
                 }
                 else
                 {
                     transform.position = new Vector3(0, transform.position.y, 0)
                             + transform.position.ConvertToIPosition().To2D().ToVector();
+
+                    //playerRigidbody.velocity = Vector3.zero;
+                    //playerRigidbody.angularVelocity = Vector3.zero;
                 }
                 isWalking = true;
 
-                Quaternion newRotation = Quaternion.LookRotation(dir);
-                playerRigidbody.MoveRotation(newRotation);
+                if(path != null)
+                {
+                    LookAt(nextPos.ToVector());
+                }
 
             }
             else
@@ -164,6 +220,12 @@ public class PlayerMovement : Unit
         if (Physics.Raycast(ray, out hit, camRayLength, floorMask))
         {
             var pos = hit.point.ConvertToIPosition();
+
+            if(Pathfinding.GetPathSquare(hit.point) == null)
+            {
+                return;
+            }
+
             if (indicatorCube == null)
             {
                 indicatorCube = Instantiate(indicatorCubePrefab, new Vector3(pos.x, 0, pos.z), Quaternion.identity);
@@ -209,9 +271,15 @@ public class PlayerMovement : Unit
         }
     }
 
+    public void OnPointerClick(BaseEventData data)
+    {
+        PointerEventData pData = (PointerEventData)data;
+        var end = pData.pointerCurrentRaycast.worldPosition.ConvertToIPosition().To2D().ToVector();
+    }
+
     private void GetMoveTo()
     {
-        if (Input.GetButton("Fire1"))
+        if (canMove && EventSystem.current.IsPointerOverGameObject() == false && Input.GetButton("Fire1"))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -219,13 +287,25 @@ public class PlayerMovement : Unit
             {
                 var end = hit.point.ConvertToIPosition().To2D().ToVector();
 
-                //path = Pathfinding.GetShortestPath(transform.position, end);
+                //check if current path is the same
+                if (path != null && path.end == end.ConvertToIPosition())
+                {
+                    return;
+                }
 
-                path = GameManager.instance.UnitMoveTo(transform.position, end);
+
+                path = GameManager.instance.UnitMoveTo(this, transform.position, end);
 
                 if (path != null)
                 {
                     GeneratePathHighlight();
+                }
+                else
+                {
+                    if(hit.point.ConvertToIPosition().To2D() != transform.position.ConvertToIPosition().To2D())
+                    {
+                        LookAt(hit.point);
+                    }
                 }
 
                 //transform.position = hit.point;
@@ -237,9 +317,4 @@ public class PlayerMovement : Unit
         }
     }
 
-    void Animating(float h, float v)
-    {
-        bool walking = h != 0f || v != 0f;
-        anim.SetBool("IsWalking", walking);
-    }
 }

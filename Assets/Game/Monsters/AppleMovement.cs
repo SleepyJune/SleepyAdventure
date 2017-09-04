@@ -7,47 +7,53 @@ using UnityEngine;
 
 class AppleMovement : Monster, MonsterMovement
 {
-    Animator anim;
-    Rigidbody rb;
-
-    Vector3 destination;
+    //IPosition nextPos = IPosition.zero;
 
     float lastUpdate = 0;
 
     void Awake()
     {
-        anim = this.GetComponentInChildren<Animator>();
-        rb = this.gameObject.GetComponent<Rigidbody>();
+        Initialize();
     }
 
     void Update()
     {
-        MoveTo();
+        Move();
 
         if (Time.time - lastUpdate > updateFrequency)
         {
-            Move();
+            GetDestination();
             Idle();
+            Attack();
             lastUpdate = Time.time;
         }
         
     }
 
-    void MoveTo()
+    void Move()
     {
         if (path != null && path.points.Count > 0)
-        {            
+        {
             var next = path.points.First();
             
             if (next != null)
             {
-                if (transform.position.ConvertToIPosition().To2D() == next)
+                if (pos2d == next)
                 {
                     path.points.Remove(next);
+
+                    if (path.points.Count > 0)
+                    {
+                        next = path.points.First();
+                        if (next != null)
+                        {
+                            nextPos = next;
+                        }
+                    }
                 }
                 else
                 {
-                    destination = next.ToVector();
+                    nextPos = next;
                 }
             }
 
@@ -56,43 +62,54 @@ class AppleMovement : Monster, MonsterMovement
         {
             path = null;
         }
-
-        if (destination != Vector3.zero)
+        
+        if(nextPos != IPosition.zero &&
+            GameManager.instance.SameDestination(this, nextPos))
         {
-            double distance = transform.position.ConvertToIPosition().To2D()
-                                .Distance(destination.ConvertToIPosition().To2D());
-            
+            nextPos = IPosition.zero;
+            path = null;
+        }
+        
+        if(nextPos != IPosition.zero &&
+            Pathfinding.CanWalkToSquare(this, nextPos) == false)
+        {            
+            nextPos = IPosition.zero;
+            path = null;
+        }
+
+        if (nextPos != IPosition.zero)
+        {
+            double distance = Vector3.Distance(transform.position.To2D(), nextPos.ToVector());
+
             if (distance > 0.05)
             {
-                Vector3 dir = (destination - transform.position).normalized;
+                Vector3 dir = (nextPos.ToVector() - transform.position).normalized;
                 dir.y = 0;
 
                 if (distance >= .1)
                 {
                     transform.position += dir * speed * Time.deltaTime;
 
-                    //anim.SetFloat("Speed", speed * Time.deltaTime);
+                    anim.SetFloat("Speed", speed);
                 }
                 else
                 {
                     transform.position = new Vector3(0, transform.position.y, 0)
-                            + transform.position.ConvertToIPosition().To2D().ToVector();
+                            + pos2d.ToVector();
                 }
 
                 Quaternion newRotation = Quaternion.LookRotation(dir);
-                rb.MoveRotation(newRotation);
-
-                anim.SetBool("isMoving", true);
+                rigidbody.MoveRotation(newRotation);                
             }
             else
             {
-                anim.SetBool("isMoving", false);
-                //anim.SetFloat("Speed", 0);
+                anim.SetFloat("Speed", 0);
             }
+
         }
     }
 
-    public void Move()
+    public void GetDestination()
     {        
         if(GameManager.instance.player != null)
         {
@@ -117,8 +134,26 @@ class AppleMovement : Monster, MonsterMovement
             dir.y = 0;
 
             Quaternion newRotation = Quaternion.LookRotation(dir);
-            rb.MoveRotation(newRotation);
+            rigidbody.MoveRotation(newRotation);
 
+        }
+    }
+
+    public void Attack()
+    {
+        if (Time.time - lastAttack > attackFrequency)
+        {
+
+            var pos = GameManager.instance.player.pos2d;
+
+            if (pos2d.Distance(pos) < 2)
+            {
+                anim.SetTrigger("Attack");
+                
+                GameManager.instance.player.GetComponent<PlayerHealth>().TakeDamage(this, 5);
+
+                lastAttack = Time.time;
+            }
         }
     }
 }
