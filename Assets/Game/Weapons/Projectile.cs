@@ -24,7 +24,9 @@ public abstract class Projectile : Entity
     protected virtual void Initialize()
     {
         collider = GetComponent<Collider>();
-        rigidbody = GetComponent<Rigidbody>();        
+        rigidbody = GetComponent<Rigidbody>();
+        
+        //var timeFlying = maxDistance/speed;        
     }
 
     public void SetVelocity()

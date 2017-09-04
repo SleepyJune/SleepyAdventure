@@ -294,4 +294,9 @@ public class GameManager : MonoBehaviour
         proj.SetVelocity();       
         
     }
+
+    public void OnPlayerChangeWeapon()
+    {
+        ((PlayerMovement)player).OnChangeWeapon();
+    }
 }

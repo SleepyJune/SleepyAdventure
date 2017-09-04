@@ -27,6 +27,9 @@ public class PlayerMovement : Hero
 
     public Projectile currentWeapon;
 
+
+    bool cleaverEquiped = false;
+
     void Start()
     {
         Initialize();
@@ -47,7 +50,7 @@ public class PlayerMovement : Hero
     Debug.Log("Any other platform");
 #endif
 */
-        attackButton = GameManager.instance.hud.Find("CombatUI").Find("AttackButton").GetComponent<Button>();
+        attackButton = GameManager.instance.hud.Find("CombatUI").Find("Panel").Find("AttackButton").GetComponent<Button>();
         attackButton.onClick.AddListener(Attack);
     }
 
@@ -63,11 +66,28 @@ public class PlayerMovement : Hero
     {
         if (Input.GetKey("space"))
         {
-            Attack();
+            Attack();            
         }
     }
 
+    public void OnChangeWeapon()
+    {
+        cleaverEquiped = !cleaverEquiped;
+    }
+
     public void Attack()
+    {
+        if (cleaverEquiped)
+        {
+            AttackPattern2();
+        }
+        else
+        {
+            AttackPattern1();
+        }
+    }
+
+    public void AttackPattern2()
     {
         if (Time.time - lastAttack > attackFrequency)
         {
@@ -82,7 +102,7 @@ public class PlayerMovement : Hero
         }
     }
 
-    public void Attack2()
+    public void AttackPattern1()
     {
         if (Time.time - lastAttack > attackFrequency)
         {
@@ -259,7 +279,7 @@ public class PlayerMovement : Hero
 
     private void GetMoveTo()
     {
-        if (canMove && Input.GetButton("Fire1"))
+        if (canMove && EventSystem.current.IsPointerOverGameObject() == false && Input.GetButton("Fire1"))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;

@@ -13,5 +13,15 @@ public abstract class AttackUnit : Unit
         base.Initialize();
         //attackFrequency = 1 / attackSpeed;
         attackSpeed = 1 / attackFrequency;
-    }    
+    }
+    
+    public float GetLastAttackTime()
+    {
+        return lastAttack;
+    }  
+    
+    public void SetLastAttackTime(float time)
+    {
+        lastAttack = time;
+    }  
 }

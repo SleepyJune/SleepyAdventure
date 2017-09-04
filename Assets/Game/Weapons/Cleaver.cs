@@ -1,19 +1,27 @@
 ﻿using UnityEngine;
 
-public class Cleaver : Projectile
+public class Cleaver : Weapon
 {
+    Projectile proj;
+
     void Awake()
     {
-        Initialize();
+        proj = GetComponent<LinearProjectile>();
     }
 
-    void Update()
+    public override bool Attack(AttackUnit source)
     {
-        if(Vector3.Distance(start, transform.position) > maxDistance)
+        if (Time.time - source.GetLastAttackTime() > source.attackFrequency)
         {
-            Destroy(transform.gameObject);
+            var pos = source.transform.position + source.transform.forward * 10;
+            GameManager.instance.CreateProjectile(source, proj, source.transform.position, pos);
+
+            source.anim.SetTrigger("Punch");
+            source.SetLastAttackTime(Time.time);
+
+            return true;
         }
+
+        return false;
     }
-
-
 }
