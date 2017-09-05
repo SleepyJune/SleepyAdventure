@@ -21,6 +21,11 @@ public class TrapFloor : Trap
             unit.Stop();
             unit.collider.isTrigger = true;
             unit.rigidbody.constraints = RigidbodyConstraints.None;
+            unit.anim.SetTrigger("Fall");
+
+            GameManager.instance.GameOver();
+            GameManager.instance.SetSceneWithWait("LevelFailed", 2.5f);
+
             Destroy(gameObject,2);
         }
     }

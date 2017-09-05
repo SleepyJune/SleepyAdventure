@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour
 
     DamageTextController damageText;
 
+    private bool gameOver = false;
+
     // Use this for initialization
     void Start()
     {
@@ -302,5 +304,11 @@ public class GameManager : MonoBehaviour
     public void OnPlayerChangeWeapon()
     {
         ((PlayerMovement)player).OnChangeWeapon();
+    }
+
+    public void GameOver()
+    {
+        gameOver = true;
+        Camera.main.GetComponent<CameraFollow>().isFollowing = true;
     }
 }

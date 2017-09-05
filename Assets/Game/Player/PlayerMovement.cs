@@ -67,7 +67,7 @@ public class PlayerMovement : Hero
         if (Input.GetKey("space"))
         {
             Attack();            
-        }
+        }                    
     }
 
     public void OnChangeWeapon()
