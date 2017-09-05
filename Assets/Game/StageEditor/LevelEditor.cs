@@ -25,7 +25,6 @@ public class LevelEditor : MonoBehaviour
     Level level;
     
     GameObject levelHolder;
-    GameObject menuObjectHolder;
 
     public GameObject floorPlane;
 
@@ -112,14 +111,8 @@ public class LevelEditor : MonoBehaviour
 
         selectedCollection = collectionID;
 
-        if (menuObjectHolder != null)
-        {
-            Destroy(menuObjectHolder);
-        }
-
-        menuObjectHolder = new GameObject("MenuObjectHolder");
-        menuObjectHolder.transform.SetParent(menuObjectSpawnPoint.transform, false);
-
+        menuObjectSpawnPoint.transform.DestroyChildren();
+        
         //Debug.Log("Selected: " + collectionID);
         var collection = prefabManager.collections[collectionID];
 
@@ -128,16 +121,11 @@ public class LevelEditor : MonoBehaviour
         for (int objectID = 0; objectID < collection.objects.Length; objectID++)
         {
             var original = collection.objects[objectID];
+            var prefabInfo = original == null ? null : original.GetComponent<EditorPrefabImage>();
 
-            var newObject = Instantiate(menuObjectTemplate, menuObjectHolder.transform);
-
-            newObject.transform.SetParent(menuObjectHolder.transform, false);
+            var newObject = Instantiate(menuObjectTemplate, menuObjectSpawnPoint.transform, false);
             newObject.GetComponent<Image>().sprite = collection.images[objectID];
-
-            //newObject.transform.localPosition += new Vector3(-menuItems * 2, 0, 0);
-
-            newObject.GetComponent<RectTransform>().localPosition += new Vector3(menuItems * 50, 0, 0);
-
+            newObject.GetComponentInChildren<Text>().text = prefabInfo != null ? prefabInfo.objectName : "";
 
             var info = newObject.AddComponent<EditorDisplayObject>();
             info.cid = collectionID;
@@ -152,14 +140,6 @@ public class LevelEditor : MonoBehaviour
             {
                 newObject.GetComponent<Button>().onClick.AddListener(() => OnPrefabSelect(info));
             }
-
-
-            if (newObject.tag == "Floor")
-            {
-                //newObject.transform.localPosition += new Vector3(0, 1, 0); //shift floors up
-            }
-
-            //DisableObject(newObject);
 
             newObject.layer = 11;
 
@@ -177,16 +157,6 @@ public class LevelEditor : MonoBehaviour
     Vector3 GetRoundedPosition(Vector3 point)
     {
         return new Vector3(Mathf.Round(point.x), 0, Mathf.Round(point.z));
-    }
-
-    void DisableObject(GameObject obj)
-    {
-        MonoBehaviour[] comps = obj.GetComponents<MonoBehaviour>();
-        foreach (MonoBehaviour c in comps)
-        {
-            c.enabled = false;
-        }
-        //newObject.GetComponent<Animator>().enabled = true;
     }
 
     public void Clear()
@@ -287,8 +257,14 @@ public class LevelEditor : MonoBehaviour
 
         }
 
-        var collider = obj.GetComponent<Collider>();
-        if (collider != null)
+        var anim = obj.GetComponent<Animator>();
+        if (anim != null)
+        {
+            anim.enabled = false;
+        }
+
+        var colliders = obj.GetComponents<Collider>();
+        foreach(var collider in colliders)
         {
             collider.enabled = false;
         }

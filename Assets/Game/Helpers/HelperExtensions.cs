@@ -17,4 +17,12 @@ public static class HelperExtensions
         material.EnableKeyword("_ALPHAPREMULTIPLY_ON");
         material.renderQueue = 3000;
     }
+
+    public static void DestroyChildren(this Transform root)
+    {
+        foreach(Transform transform in root.transform)
+        {
+            GameObject.Destroy(transform.gameObject);
+        }        
+    }
 }

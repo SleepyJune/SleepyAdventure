@@ -136,4 +136,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 6f1bb28cdcbc1464e899ae9e70889453, type: 3}
-  objectName: 
+  objectName: Fence

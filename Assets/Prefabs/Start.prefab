@@ -94,6 +94,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 50a3b90464838e9458ad38ea41f14858, type: 3}
+  objectName: Start
 --- !u!135 &135809813990015460
 SphereCollider:
   m_ObjectHideFlags: 1

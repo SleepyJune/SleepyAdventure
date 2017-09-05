@@ -293,7 +293,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 615bea5d8574197499da3d179ea4cbf2, type: 3}
-  objectName: 
+  objectName: Fence 90
 --- !u!114 &114504629119667536
 MonoBehaviour:
   m_ObjectHideFlags: 1

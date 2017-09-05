@@ -106,4 +106,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 51eff7f61138e2c4b8b45f02ac847bf7, type: 3}
-  objectName: 
+  objectName: Blank

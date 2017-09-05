@@ -158,7 +158,11 @@ public class GameManager : MonoBehaviour
                 {
                     entityScript.id = unitIDCounter;
                     entityScript.sqr = square;
-                    entityScript.sqr.obstacles.Add(entityScript.id, entityScript);
+
+                    if(entityScript is Obstacle)
+                    {
+                        entityScript.sqr.obstacles.Add(entityScript.id, entityScript);
+                    }
 
                     entityScript.pos2d = square.position;                    
                 }

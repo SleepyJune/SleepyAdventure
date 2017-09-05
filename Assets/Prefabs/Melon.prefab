@@ -191,14 +191,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b67ae60dfb5470448dd5aa5da2647c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pos2d:
-    x: 0
-    y: 0
-    z: 0
   speed: 6
   health: 5
   anim: {fileID: 95489990631058052}
-  rb: {fileID: 54036373876255338}
   attackFrequency: 5
   updateFrequency: 0.25
 --- !u!114 &114809319901369892
@@ -213,7 +208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 42b78de20f8876b4eac59ecffe4dc1a2, type: 3}
-  objectName: 
+  objectName: Melon
 --- !u!135 &135500581665031078
 SphereCollider:
   m_ObjectHideFlags: 1

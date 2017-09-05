@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 85f502fb7a352984f90dd9b628ee33cc, type: 3}
-  objectName: 
+  objectName: Apple
 --- !u!135 &135124130039191500
 SphereCollider:
   m_ObjectHideFlags: 1
