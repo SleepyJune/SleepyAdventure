@@ -8,13 +8,13 @@ public class PrefabCollectionEditor : Editor
 
     //private bool[] showPrefabSlots;
 
-    private SerializedProperty prefabImagesProperty;
+    //private SerializedProperty prefabImagesProperty;
     private SerializedProperty prefabsProperty;
     private SerializedProperty collectionHeightProperty;
 
     private const float addButtonWidth = 30f;
 
-    private const string collectionPropPrefabImagesName = "images";
+    //private const string collectionPropPrefabImagesName = "images";
     private const string collectionPropPrefabsName = "objects";
     private const string collectionPropHeightName = "height";
 
@@ -24,7 +24,7 @@ public class PrefabCollectionEditor : Editor
 
         //showPrefabSlots = new bool[prefabCollection.objects.Length];
 
-        prefabImagesProperty = serializedObject.FindProperty(collectionPropPrefabImagesName);
+        //prefabImagesProperty = serializedObject.FindProperty(collectionPropPrefabImagesName);
         prefabsProperty = serializedObject.FindProperty(collectionPropPrefabsName);
         collectionHeightProperty = serializedObject.FindProperty(collectionPropHeightName);
     }
@@ -44,13 +44,13 @@ public class PrefabCollectionEditor : Editor
         if (GUILayout.Button("+", GUILayout.Width(addButtonWidth)))
         {
             prefabsProperty.arraySize++;
-            prefabImagesProperty.arraySize++;
+            //prefabImagesProperty.arraySize++;
         }
 
         if (GUILayout.Button("-", GUILayout.Width(addButtonWidth)))
         {
             prefabsProperty.arraySize--;
-            prefabImagesProperty.arraySize--;
+            //prefabImagesProperty.arraySize--;
         }
 
         EditorGUILayout.EndHorizontal();
@@ -69,7 +69,7 @@ public class PrefabCollectionEditor : Editor
             EditorGUILayout.PropertyField(prefabsProperty.GetArrayElementAtIndex(index));
         }*/
 
-        EditorGUILayout.PropertyField(prefabImagesProperty.GetArrayElementAtIndex(index));
+        //EditorGUILayout.PropertyField(prefabImagesProperty.GetArrayElementAtIndex(index));
         EditorGUILayout.PropertyField(prefabsProperty.GetArrayElementAtIndex(index));
 
         EditorGUI.indentLevel--;

@@ -124,8 +124,9 @@ public class LevelEditor : MonoBehaviour
             var prefabInfo = original == null ? null : original.GetComponent<EditorPrefabImage>();
 
             var newObject = Instantiate(menuObjectTemplate, menuObjectSpawnPoint.transform, false);
-            newObject.GetComponent<Image>().sprite = collection.images[objectID];
-            newObject.GetComponentInChildren<Text>().text = prefabInfo != null ? prefabInfo.objectName : "";
+            newObject.GetComponent<Image>().sprite = prefabInfo.sprite;
+            newObject.GetComponentInChildren<Text>().text = prefabInfo.objectName;
+            //newObject.GetComponent<Image>().sprite = collection.images[objectID];
 
             var info = newObject.AddComponent<EditorDisplayObject>();
             info.cid = collectionID;

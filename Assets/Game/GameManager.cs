@@ -310,5 +310,10 @@ public class GameManager : MonoBehaviour
     {
         gameOver = true;
         Camera.main.GetComponent<CameraFollow>().isFollowing = true;
+
+        if(player != null)
+        {
+            player.Stop();
+        }
     }
 }

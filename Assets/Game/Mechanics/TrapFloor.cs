@@ -17,8 +17,7 @@ public class TrapFloor : Trap
         {
             //anim.SetTrigger("Activate");
             rigidbody.isKinematic = false;
-
-            unit.Stop();
+                        
             unit.collider.isTrigger = true;
             unit.rigidbody.constraints = RigidbodyConstraints.None;
             unit.anim.SetTrigger("Fall");
