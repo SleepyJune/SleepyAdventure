@@ -5,12 +5,10 @@ using System.Text;
 
 using UnityEngine;
 
-class AppleMovement : Monster, MonsterMovement
+public class AppleMovement : Monster, MonsterMovement
 {
     //IPosition nextPos = IPosition.zero;
-
-    float lastUpdate = 0;
-
+        
     void Awake()
     {
         Initialize();
@@ -30,7 +28,7 @@ class AppleMovement : Monster, MonsterMovement
         
     }
 
-    void Move()
+    protected void Move()
     {
         if (path != null && path.points.Count > 0)
         {
@@ -149,8 +147,9 @@ class AppleMovement : Monster, MonsterMovement
             if (pos2d.Distance(pos) < 2)
             {
                 anim.SetTrigger("Attack");
-                
-                GameManager.instance.player.GetComponent<PlayerHealth>().TakeDamage(this, 5);
+
+                //GameManager.instance.player.GetComponent<PlayerHealth>().TakeDamage(this, 5);
+                GameManager.instance.player.GetComponent<PlayerMovement>().TakeDamage(this, 5);
 
                 lastAttack = Time.time;
             }

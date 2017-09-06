@@ -27,6 +27,7 @@ public class PlayerMovement : Hero
 
     public Projectile currentWeapon;
 
+    PlayerHealth healthScript;
 
     bool cleaverEquiped = false;
 
@@ -52,6 +53,8 @@ public class PlayerMovement : Hero
 */
         attackButton = GameManager.instance.hud.Find("CombatUI").Find("Panel").Find("AttackButton").GetComponent<Button>();
         attackButton.onClick.AddListener(Attack);
+
+        healthScript = GetComponent<PlayerHealth>();
     }
 
     void FixedUpdate()
@@ -315,6 +318,11 @@ public class PlayerMovement : Hero
                 //Debug.Log(hit);
             }
         }
+    }
+
+    public override void TakeDamage(Unit source, int amount)
+    {
+        healthScript.TakeDamage(source, amount);
     }
 
 }

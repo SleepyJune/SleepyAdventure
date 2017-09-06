@@ -1,5 +1,5 @@
 ﻿
-public abstract class Hero : AttackUnit
+public abstract class Hero : AttackableUnit
 {
 
 }

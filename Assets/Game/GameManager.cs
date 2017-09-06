@@ -187,6 +187,11 @@ public class GameManager : MonoBehaviour
 
     }
 
+    /*public void CreateParticle(Unit unit, GameObject particle, Vector3 position)
+    {
+        Instantiate(particle, new Vector3(pos.x, pos.y / 2.0f, pos.z), Quaternion.Euler(rotation), levelHolder.transform);
+    }*/
+
     public void CreateUnit(Unit unit)
     {
         units.Add(unitIDCounter, unit);
@@ -310,5 +315,10 @@ public class GameManager : MonoBehaviour
     {
         gameOver = true;
         Camera.main.GetComponent<CameraFollow>().isFollowing = true;
+
+        if(player != null)
+        {
+            player.Stop();
+        }
     }
 }

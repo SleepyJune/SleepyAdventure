@@ -19,7 +19,9 @@ public abstract class Projectile : Entity
     [System.NonSerialized]
     public Vector3 end;
 
-    bool destroyed = false;
+    public int damage;
+
+    protected bool destroyed = false;
 
     protected virtual void Initialize()
     {
@@ -30,10 +32,13 @@ public abstract class Projectile : Entity
     }
 
     public void SetVelocity()
-    {        
-        var dir = (end - start).normalized;
-        //rigidbody.velocity = dir * speed;
-        rigidbody.AddForce(dir * speed);
+    {
+        if (speed > 0)
+        {
+            var dir = (end - start).normalized;
+            //rigidbody.velocity = dir * speed;
+            rigidbody.AddForce(dir * speed);
+        }
     }
 
     void OnTriggerEnter(Collider collision)

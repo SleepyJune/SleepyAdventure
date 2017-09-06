@@ -6,6 +6,6 @@ using UnityEngine;
 public class PrefabCollection : ScriptableObject {    
     public float height;    
     
-    public Sprite[] images = new Sprite[0];
+    //public Sprite[] images = new Sprite[0];
     public GameObject[] objects = new GameObject[0];
 }
