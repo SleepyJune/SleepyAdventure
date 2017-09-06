@@ -1,9 +1,11 @@
 ﻿
 using UnityEngine;
 
-public abstract class Monster : AttackUnit
+public abstract class Monster : AttackableUnit
 {
     public float updateFrequency = 0.25f;
+
+    protected float lastUpdate = 0;
 
     [System.NonSerialized]
     public bool isDead = false;
@@ -13,10 +15,9 @@ public abstract class Monster : AttackUnit
         base.Initialize();
     }*/
 
-    public void TakeDamage(Unit source, int amount)
+    public override void TakeDamage(Unit source, int amount)
     {
         health -= amount;
-
         GameManager.instance.CreateDamageText(this, -amount);
     }
 

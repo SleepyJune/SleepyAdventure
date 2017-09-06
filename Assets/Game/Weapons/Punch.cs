@@ -4,7 +4,7 @@ using UnityEngine;
 public class Punch : Weapon
 {
 
-    public override bool Attack(AttackUnit source)
+    public override bool Attack(AttackableUnit source)
     {
         if (Time.time - source.GetLastAttackTime() > source.attackFrequency)
         {

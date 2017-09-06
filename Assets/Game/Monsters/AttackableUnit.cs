@@ -1,5 +1,5 @@
 ﻿
-public abstract class AttackUnit : Unit
+public abstract class AttackableUnit : Unit
 {
     protected float attackSpeed = 1;
 
@@ -14,7 +14,9 @@ public abstract class AttackUnit : Unit
         //attackFrequency = 1 / attackSpeed;
         attackSpeed = 1 / attackFrequency;
     }
-    
+
+    public abstract void TakeDamage(Unit source, int amount);
+
     public float GetLastAttackTime()
     {
         return lastAttack;

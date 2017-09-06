@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 54036373876255338}
   - component: {fileID: 135500581665031078}
   - component: {fileID: 114809319901369892}
-  - component: {fileID: 114171991716697746}
+  - component: {fileID: 114001308494257084}
   m_Layer: 0
   m_Name: Melon
   m_TagString: Untagged
@@ -180,7 +180,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114171991716697746
+--- !u!114 &114001308494257084
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -188,14 +188,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1412736728263532}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b67ae60dfb5470448dd5aa5da2647c6, type: 3}
+  m_Script: {fileID: 11500000, guid: 441c310d778fd7c4ea7cbb34a09dc080, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 6
   health: 5
   anim: {fileID: 95489990631058052}
-  attackFrequency: 5
+  attackFrequency: 1
   updateFrequency: 0.25
+  explosion: {fileID: 114773778680505900, guid: 3167552e490875d4c855537d7a6156ee,
+    type: 2}
 --- !u!114 &114809319901369892
 MonoBehaviour:
   m_ObjectHideFlags: 1
