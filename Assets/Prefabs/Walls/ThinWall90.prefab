@@ -9,75 +9,75 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1669970530100632}
+  m_RootGameObject: {fileID: 1605078126343302}
   m_IsPrefabParent: 1
---- !u!1 &1558439341579920
+--- !u!1 &1005940513435204
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4836637430447132}
-  - component: {fileID: 33310198920489028}
-  - component: {fileID: 23328734655746290}
+  - component: {fileID: 4685754420815030}
+  - component: {fileID: 33967441275213774}
+  - component: {fileID: 23996097971241574}
   m_Layer: 0
-  m_Name: fire ground
+  m_Name: thin wall 90
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1669970530100632
+--- !u!1 &1605078126343302
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4694276003905542}
-  - component: {fileID: 65518069781319366}
-  - component: {fileID: 114412404538935656}
+  - component: {fileID: 4382971723704812}
+  - component: {fileID: 65211211377743000}
+  - component: {fileID: 114673388425800702}
   m_Layer: 0
-  m_Name: fire ground
+  m_Name: ThinWall90
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4694276003905542
+--- !u!4 &4382971723704812
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1669970530100632}
+  m_GameObject: {fileID: 1605078126343302}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4836637430447132}
+  - {fileID: 4685754420815030}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4836637430447132
+--- !u!4 &4685754420815030
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1558439341579920}
+  m_GameObject: {fileID: 1005940513435204}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.50000024, z: 0.50000024}
   m_Children: []
-  m_Father: {fileID: 4694276003905542}
+  m_Father: {fileID: 4382971723704812}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23328734655746290
+--- !u!23 &23996097971241574
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1558439341579920}
+  m_GameObject: {fileID: 1005940513435204}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -85,7 +85,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 06e20786d45c96246b0566b14f5ee1cc, type: 2}
+  - {fileID: 2100000, guid: ee03df6c58470bc4f895403a569b919d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -104,35 +104,35 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33310198920489028
+--- !u!33 &33967441275213774
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1558439341579920}
-  m_Mesh: {fileID: 4300006, guid: d79cc7bc0a3d29b4f90ce67d3b3a8b48, type: 3}
---- !u!65 &65518069781319366
+  m_GameObject: {fileID: 1005940513435204}
+  m_Mesh: {fileID: 4300004, guid: 56c1e86ea6fdaa6479f96f6238fccbb9, type: 3}
+--- !u!65 &65211211377743000
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1669970530100632}
+  m_GameObject: {fileID: 1605078126343302}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114412404538935656
+--- !u!114 &114673388425800702
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1669970530100632}
+  m_GameObject: {fileID: 1605078126343302}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a31442963d0a935468842882b9e06567, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: f4a657a67c1ae2449be773bd4a48b956, type: 3}
-  objectName: Fire
+  sprite: {fileID: 21300000, guid: 227b4419bf0c1254fba79b8768e00c5b, type: 3}
+  objectName: Thin Wall 90
