@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4466584930126694}
   - component: {fileID: 137717936127670278}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: fence_door_003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,7 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4362497400877128}
   - component: {fileID: 95230825322595478}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: fence door
   m_TagString: Door
   m_Icon: {fileID: 0}
@@ -54,7 +54,7 @@ GameObject:
   - component: {fileID: 114644317668816478}
   - component: {fileID: 65930107272137704}
   - component: {fileID: 114145838581109968}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FenceDoor
   m_TagString: Door
   m_Icon: {fileID: 0}
@@ -70,7 +70,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4831683418466140}
   - component: {fileID: 137708085138178996}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: fence_door_002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -172,6 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ede806d34898d142b098dce01721915, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDead: 0
   isWalkable: 0
 --- !u!114 &114644317668816478
 MonoBehaviour:

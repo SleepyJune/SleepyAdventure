@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4279275955808796}
   - component: {fileID: 33195175997298528}
   - component: {fileID: 23889728146567080}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: melon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 135500581665031078}
   - component: {fileID: 114809319901369892}
   - component: {fileID: 114001308494257084}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Melon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 4849773346377550}
   - component: {fileID: 95489990631058052}
   - component: {fileID: 137859162183559200}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: MelonAnimation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,10 +191,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 441c310d778fd7c4ea7cbb34a09dc080, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDead: 0
   speed: 6
   health: 5
   anim: {fileID: 95489990631058052}
-  attackFrequency: 1
+  attackFrequency: 10
   updateFrequency: 0.25
   explosion: {fileID: 114773778680505900, guid: 3167552e490875d4c855537d7a6156ee,
     type: 2}

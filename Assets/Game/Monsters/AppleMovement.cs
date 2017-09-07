@@ -18,12 +18,12 @@ public class AppleMovement : Monster, MonsterMovement
     {
         Move();
 
-        if (Time.time - lastUpdate > updateFrequency)
+        if (GameManager.time - lastUpdate > updateFrequency)
         {
             GetDestination();
             Idle();
             Attack();
-            lastUpdate = Time.time;
+            lastUpdate = GameManager.time;
         }
         
     }
@@ -139,7 +139,7 @@ public class AppleMovement : Monster, MonsterMovement
 
     public void Attack()
     {
-        if (Time.time - lastAttack > attackFrequency)
+        if (GameManager.time - lastAttack > attackFrequency)
         {
 
             var pos = GameManager.instance.player.pos2d;
@@ -151,7 +151,7 @@ public class AppleMovement : Monster, MonsterMovement
                 //GameManager.instance.player.GetComponent<PlayerHealth>().TakeDamage(this, 5);
                 GameManager.instance.player.GetComponent<PlayerMovement>().TakeDamage(this, 5);
 
-                lastAttack = Time.time;
+                lastAttack = GameManager.time;
             }
         }
     }

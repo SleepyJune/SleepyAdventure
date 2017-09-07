@@ -163,6 +163,7 @@ public class Pathfinding
                 {
                     if (obj != unit)
                     {
+                        //Debug.Log(obj.name);
                         return false;
                     }
                 }

@@ -7,25 +7,25 @@ using UnityEngine;
 
 public class MelonMovement : AppleMovement
 {
-    public Explosion explosion;
+    public CircularSpell explosion;
 
     void Update()
     {
         Move();
 
-        if (Time.time - lastUpdate > updateFrequency)
+        if (GameManager.time - lastUpdate > updateFrequency)
         {
             GetDestination();
             Idle();
             Attack();
-            lastUpdate = Time.time;
+            lastUpdate = GameManager.time;
         }
 
     }
 
     public new void Attack()
     {
-        if (Time.time - lastAttack > attackFrequency)
+        if (GameManager.time - lastAttack > attackFrequency)
         {
             var pos = GameManager.instance.player.pos2d;
 
@@ -35,10 +35,10 @@ public class MelonMovement : AppleMovement
 
 
                 //GameManager.instance.player.GetComponent<PlayerHealth>().TakeDamage(this, 5);
-                GameManager.instance.CreateProjectile(this, explosion, this.transform.position, this.transform.position);
+                GameManager.instance.CreateCircularSpell(this, explosion, this.transform.position);
 
 
-                lastAttack = Time.time;
+                lastAttack = GameManager.time;
             }
         }
     }

@@ -11,6 +11,7 @@ using System.IO;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
+    public static float time { get { return Time.time + 60; } }
 
     public PrefabManager prefabManager;
     public GameObject playerPrefab;
@@ -19,7 +20,7 @@ public class GameManager : MonoBehaviour
     public Transform hud;
 
     public Dictionary<int, Unit> units = new Dictionary<int, Unit>();
-    public Dictionary<int, Projectile> projectiles = new Dictionary<int, Projectile>();
+    public Dictionary<int, Spell> projectiles = new Dictionary<int, Spell>();
     public Dictionary<int, Obstacle> obstacles = new Dictionary<int, Obstacle>();
 
     private int unitIDCounter = 0;
@@ -35,7 +36,7 @@ public class GameManager : MonoBehaviour
 
     // Use this for initialization
     void Start()
-    {
+    {        
         if (instance == null)
         {
             instance = this;
@@ -96,7 +97,7 @@ public class GameManager : MonoBehaviour
 
         foreach(var unit in units.Values)
         {
-            var square = level.GetSquareAtPoint(unit.transform.position.ConvertToIPosition().To2D());
+            var square = level.GetSquareAtPoint(unit.transform.position);
             if (square != null)
             {                
                 if(unit.sqr != square)
@@ -161,11 +162,6 @@ public class GameManager : MonoBehaviour
                     entityScript.id = unitIDCounter;
                     entityScript.sqr = square;
 
-                    if(entityScript is Obstacle)
-                    {
-                        entityScript.sqr.obstacles.Add(entityScript.id, entityScript);
-                    }
-
                     entityScript.pos2d = square.position;                    
                 }
 
@@ -194,6 +190,7 @@ public class GameManager : MonoBehaviour
 
     public void CreateUnit(Unit unit)
     {
+        unit.sqr.obstacles.Add(unitIDCounter, unit);
         units.Add(unitIDCounter, unit);
         unitIDCounter+= 1;
     }
@@ -217,6 +214,7 @@ public class GameManager : MonoBehaviour
 
     public void CreateObstacle(Obstacle obj)
     {
+        obj.sqr.obstacles.Add(unitIDCounter, obj);
         obstacles.Add(unitIDCounter, obj);
         unitIDCounter += 1;
     }
@@ -294,7 +292,14 @@ public class GameManager : MonoBehaviour
         damageText.CreateDamageText(unit, damage);
     }
 
-    public void CreateProjectile(Unit source, Projectile projectile, Vector3 from, Vector3 to)
+    public void CreateCircularSpell(Unit source, CircularSpell spell, Vector3 pos)
+    {
+        var aoe = Instantiate(spell, pos, Quaternion.identity);
+
+        aoe.source = source;
+    }
+
+    public void CreateLinearSpell(Unit source, LinearSpell projectile, Vector3 from, Vector3 to)
     {        
         var proj = Instantiate(projectile, from, Quaternion.identity);
 
@@ -302,8 +307,7 @@ public class GameManager : MonoBehaviour
         proj.start = from;
         proj.end = to;
 
-        proj.SetVelocity();       
-        
+        proj.SetVelocity();
     }
 
     public void OnPlayerChangeWeapon()

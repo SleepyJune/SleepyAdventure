@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4685754420815030}
   - component: {fileID: 33967441275213774}
   - component: {fileID: 23996097971241574}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: thin wall 90
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4382971723704812}
   - component: {fileID: 65211211377743000}
   - component: {fileID: 114673388425800702}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: ThinWall90
   m_TagString: Untagged
   m_Icon: {fileID: 0}
