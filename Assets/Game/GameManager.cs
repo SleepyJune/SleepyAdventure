@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     public Transform hud;
 
     public Dictionary<int, Unit> units = new Dictionary<int, Unit>();
-    public Dictionary<int, Projectile> projectiles = new Dictionary<int, Projectile>();
+    public Dictionary<int, Spell> projectiles = new Dictionary<int, Spell>();
     public Dictionary<int, Obstacle> obstacles = new Dictionary<int, Obstacle>();
 
     private int unitIDCounter = 0;
@@ -292,7 +292,12 @@ public class GameManager : MonoBehaviour
         damageText.CreateDamageText(unit, damage);
     }
 
-    public void CreateProjectile(Unit source, Projectile projectile, Vector3 from, Vector3 to)
+    public void CreateCircularSpell(Unit source, CircularSpell spell, Vector3 pos)
+    {
+        var aoe = Instantiate(spell, pos, Quaternion.identity);
+    }
+
+    public void CreateLinearSpell(Unit source, LinearSpell projectile, Vector3 from, Vector3 to)
     {        
         var proj = Instantiate(projectile, from, Quaternion.identity);
 
@@ -300,8 +305,7 @@ public class GameManager : MonoBehaviour
         proj.start = from;
         proj.end = to;
 
-        proj.SetVelocity();       
-        
+        proj.SetVelocity();
     }
 
     public void OnPlayerChangeWeapon()

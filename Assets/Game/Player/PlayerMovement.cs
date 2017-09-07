@@ -25,7 +25,7 @@ public class PlayerMovement : Hero
 
     Button attackButton;
 
-    public Projectile currentWeapon;
+    public Weapon currentWeapon;
 
     PlayerHealth healthScript;
 
@@ -82,7 +82,7 @@ public class PlayerMovement : Hero
     {
         if (cleaverEquiped)
         {
-            AttackPattern2();
+            currentWeapon.Attack(this);
         }
         else
         {
@@ -90,20 +90,23 @@ public class PlayerMovement : Hero
         }
     }
 
-    public void AttackPattern2()
+    /*public void AttackPattern2()
     {
         if (GameManager.time - lastAttack > attackFrequency)
         {
             if (currentWeapon != null)
             {
-                var pos = this.transform.position + this.transform.forward * 10;
-                GameManager.instance.CreateProjectile(this, currentWeapon, this.transform.position, pos);
+                if(currentWeapon is LinearSpell)
+                {
+                    var pos = this.transform.position + this.transform.forward * 10;
+                    GameManager.instance.CreateLinearSpell(this, (LinearSpell)currentWeapon, this.transform.position, pos);
+                }                
             }
 
             anim.SetTrigger("Punch");
             lastAttack = GameManager.time;
         }
-    }
+    }*/
 
     public void AttackPattern1()
     {

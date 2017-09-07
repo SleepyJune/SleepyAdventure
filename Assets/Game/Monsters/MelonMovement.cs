@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class MelonMovement : AppleMovement
 {
-    public Explosion explosion;
+    public CircularSpell explosion;
 
     void Update()
     {
@@ -35,7 +35,7 @@ public class MelonMovement : AppleMovement
 
 
                 //GameManager.instance.player.GetComponent<PlayerHealth>().TakeDamage(this, 5);
-                GameManager.instance.CreateProjectile(this, explosion, this.transform.position, this.transform.position);
+                GameManager.instance.CreateCircularSpell(this, explosion, this.transform.position);
 
 
                 lastAttack = GameManager.time;
