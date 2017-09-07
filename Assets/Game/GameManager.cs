@@ -295,6 +295,8 @@ public class GameManager : MonoBehaviour
     public void CreateCircularSpell(Unit source, CircularSpell spell, Vector3 pos)
     {
         var aoe = Instantiate(spell, pos, Quaternion.identity);
+
+        aoe.source = source;
     }
 
     public void CreateLinearSpell(Unit source, LinearSpell projectile, Vector3 from, Vector3 to)

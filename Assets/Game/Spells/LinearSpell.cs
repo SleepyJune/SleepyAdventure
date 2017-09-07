@@ -10,9 +10,11 @@ public class LinearSpell : Spell
     public int speed = 1000;
     public int maxDistance = 5;
 
+    public GameObject particleOnHit;
+
     void Awake()
     {
-        Initialize();
+        Initialize();        
     }
 
     void Update()
@@ -25,6 +27,8 @@ public class LinearSpell : Spell
 
     public void SetVelocity()
     {
+        Physics.IgnoreCollision(source.collider, this.collider);
+
         if (speed > 0)
         {
             var dir = (end - start).normalized;
@@ -36,11 +40,17 @@ public class LinearSpell : Spell
     void OnTriggerEnter(Collider collision)
     {
         if (isDead) return;
-
+                
         var monster = collision.gameObject.GetComponent<Monster>();
         if (monster != null)
         {
             monster.TakeDamage(source, 10);
+
+            if (particleOnHit)
+            {
+                Instantiate(particleOnHit, monster.anim.transform);
+            }
+
             isDead = true;
             Destroy(this.transform.gameObject);
         }

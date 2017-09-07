@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114353711523863414}
   - component: {fileID: 65809274521054412}
   - component: {fileID: 95162973397379234}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Cleaver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 33785385486741700}
   - component: {fileID: 23062529058690740}
   - component: {fileID: 95812055215931550}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: knife
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -193,6 +193,8 @@ MonoBehaviour:
   damage: 0
   speed: 1000
   maxDistance: 20
+  particleOnHit: {fileID: 1048157638747232, guid: b507208ae492e7f41bfc38428639caeb,
+    type: 2}
 --- !u!114 &114353711523863414
 MonoBehaviour:
   m_ObjectHideFlags: 1

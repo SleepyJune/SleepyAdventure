@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 54717369514983802}
   - component: {fileID: 65815698590501692}
   - component: {fileID: 114166348925529824}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Spear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 4521547347749910}
   - component: {fileID: 33997413716390042}
   - component: {fileID: 23289009801506918}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: spear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,7 +54,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4961240268372610}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: spear parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,6 +183,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06cd2acc8d3aa7645b108ecb25533b85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDead: 0
+  damage: 20
   speed: 1000
   maxDistance: 20
-  damage: 20
+  particleOnHit: {fileID: 0}

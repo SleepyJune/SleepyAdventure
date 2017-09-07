@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4376252972896576}
   - component: {fileID: 33033643129392814}
   - component: {fileID: 23419236214341274}
-  m_Layer: 8
+  m_Layer: 12
   m_Name: rock wall model
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4521346450146546}
   - component: {fileID: 114085102657375128}
   - component: {fileID: 65822801102558946}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: rock wall
   m_TagString: Wall
   m_Icon: {fileID: 0}

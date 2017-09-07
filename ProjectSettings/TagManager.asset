@@ -25,9 +25,9 @@ TagManager:
   - Shootable
   - EditorObject
   - EditorMenuObject
-  - 
-  - 
-  - 
+  - Wall
+  - Projectile
+  - AttackableUnit
   - 
   - 
   - 
