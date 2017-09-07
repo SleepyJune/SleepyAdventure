@@ -13,19 +13,19 @@ public class MelonMovement : AppleMovement
     {
         Move();
 
-        if (Time.time - lastUpdate > updateFrequency)
+        if (GameManager.time - lastUpdate > updateFrequency)
         {
             GetDestination();
             Idle();
             Attack();
-            lastUpdate = Time.time;
+            lastUpdate = GameManager.time;
         }
 
     }
 
     public new void Attack()
     {
-        if (Time.time - lastAttack > attackFrequency)
+        if (GameManager.time - lastAttack > attackFrequency)
         {
             var pos = GameManager.instance.player.pos2d;
 
@@ -38,7 +38,7 @@ public class MelonMovement : AppleMovement
                 GameManager.instance.CreateProjectile(this, explosion, this.transform.position, this.transform.position);
 
 
-                lastAttack = Time.time;
+                lastAttack = GameManager.time;
             }
         }
     }

@@ -194,7 +194,7 @@ MonoBehaviour:
   speed: 6
   health: 5
   anim: {fileID: 95489990631058052}
-  attackFrequency: 1
+  attackFrequency: 10
   updateFrequency: 0.25
   explosion: {fileID: 114773778680505900, guid: 3167552e490875d4c855537d7a6156ee,
     type: 2}

@@ -11,13 +11,13 @@ public class Cleaver : Weapon
 
     public override bool Attack(AttackableUnit source)
     {
-        if (Time.time - source.GetLastAttackTime() > source.attackFrequency)
+        if (GameManager.time - source.GetLastAttackTime() > source.attackFrequency)
         {
             var pos = source.transform.position + source.transform.forward * 10;
             GameManager.instance.CreateProjectile(source, proj, source.transform.position, pos);
 
             source.anim.SetTrigger("Punch");
-            source.SetLastAttackTime(Time.time);
+            source.SetLastAttackTime(GameManager.time);
 
             return true;
         }

@@ -92,7 +92,7 @@ public class PlayerMovement : Hero
 
     public void AttackPattern2()
     {
-        if (Time.time - lastAttack > attackFrequency)
+        if (GameManager.time - lastAttack > attackFrequency)
         {
             if (currentWeapon != null)
             {
@@ -101,13 +101,13 @@ public class PlayerMovement : Hero
             }
 
             anim.SetTrigger("Punch");
-            lastAttack = Time.time;
+            lastAttack = GameManager.time;
         }
     }
 
     public void AttackPattern1()
     {
-        if (Time.time - lastAttack > attackFrequency)
+        if (GameManager.time - lastAttack > attackFrequency)
         {
             var enemies = GameManager.instance.units.Values.Where(u => u is Monster);
 
@@ -127,7 +127,7 @@ public class PlayerMovement : Hero
             }
 
             anim.SetTrigger("Punch");
-            lastAttack = Time.time;
+            lastAttack = GameManager.time;
         }
     }
 
