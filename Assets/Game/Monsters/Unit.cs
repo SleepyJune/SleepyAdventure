@@ -61,6 +61,14 @@ public abstract class Unit : Entity
         return pixelSize;
     }
 
+    public void Stop()
+    {
+        rigidbody.velocity = Vector3.zero;
+
+        path = null;
+        canMove = false;
+    }
+
     public void LookAt(Unit target)
     {
         LookAt(target.transform.position);

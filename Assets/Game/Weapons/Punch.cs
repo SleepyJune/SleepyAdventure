@@ -4,9 +4,9 @@ using UnityEngine;
 public class Punch : Weapon
 {
 
-    public override bool Attack(AttackUnit source)
+    public override bool Attack(AttackableUnit source)
     {
-        if (Time.time - source.GetLastAttackTime() > source.attackFrequency)
+        if (GameManager.time - source.GetLastAttackTime() > source.attackFrequency)
         {
             var enemies = GameManager.instance.units.Values.Where(u => u is Monster);
 
@@ -26,7 +26,7 @@ public class Punch : Weapon
             }
 
             source.anim.SetTrigger("Punch");
-            source.SetLastAttackTime(Time.time);
+            source.SetLastAttackTime(GameManager.time);
 
             return true;
         }

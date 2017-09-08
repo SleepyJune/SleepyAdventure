@@ -26,7 +26,7 @@ public class FenceDoor : Obstacle, Interactable
             return false;
         }
 
-        if (Time.time - lastUseTime > reUseableTime)
+        if (GameManager.time - lastUseTime > reUseableTime)
         {
             var isDoorOpen = anim.GetBool("isOpen");
 
@@ -49,7 +49,7 @@ public class FenceDoor : Obstacle, Interactable
                 sqr.obstacles.Remove(id);
             }
 
-            lastUseTime = Time.time;
+            lastUseTime = GameManager.time;
             return true;
         }
 

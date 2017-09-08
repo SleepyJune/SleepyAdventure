@@ -2,5 +2,5 @@
 
 public abstract class Weapon : MonoBehaviour
 {
-    public abstract bool Attack(AttackUnit unit);
+    public abstract bool Attack(AttackableUnit unit);
 }

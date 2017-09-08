@@ -9,17 +9,17 @@ EditorBuildSettings:
     path: 
     guid: 8818660853626f941ab338df4cdd8555
   - enabled: 1
-    path: Assets/Scenes/LevelLoader/IntroScreen.unity
+    path: Assets/Scenes/IntroScreen.unity
     guid: c11ca47f794e13a4eb9683b1cfa7f900
   - enabled: 1
-    path: Assets/Scenes/LevelEditor/LevelEditor.unity
-    guid: 69d978e19446c6549bb778cc49813ce6
-  - enabled: 1
-    path: Assets/Scenes/LevelLoader/LevelLoader.unity
+    path: Assets/Scenes/LevelLoader.unity
     guid: 74e713430ba55f745be890e20c21fc33
   - enabled: 1
-    path: Assets/Scenes/LevelLoader/LevelComplete.unity
+    path: Assets/Scenes/LevelComplete.unity
     guid: 27f9ed17413e94d49bbf7cba510bd358
   - enabled: 1
-    path: Assets/Scenes/LevelLoader/LevelFailed.unity
+    path: Assets/Scenes/LevelFailed.unity
     guid: 35e7395b341d5db4ca1b0fe51b78514a
+  - enabled: 1
+    path: Assets/Scenes/LevelEditor.unity
+    guid: 69d978e19446c6549bb778cc49813ce6
