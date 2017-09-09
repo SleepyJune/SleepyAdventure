@@ -25,7 +25,7 @@ public class PlayerMovement : Hero
 
     Button attackButton;
 
-    public Weapon currentWeapon;
+    public Weapon currentWeapon = null;
 
     PlayerHealth healthScript;
 
@@ -62,15 +62,15 @@ public class PlayerMovement : Hero
         GetMoveTo();
         Move();
         HighlightSquare();
-        OnAnimation();
+        OnKeyPress();
     }
 
-    void OnAnimation()
+    void OnKeyPress()
     {
         if (Input.GetKey("space"))
         {
             Attack();            
-        }                    
+        }
     }
 
     public void OnChangeWeapon()
@@ -80,7 +80,7 @@ public class PlayerMovement : Hero
 
     public void Attack()
     {
-        if (cleaverEquiped)
+        if (currentWeapon)
         {
             currentWeapon.Attack(this);
         }

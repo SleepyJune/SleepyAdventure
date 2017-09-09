@@ -13,10 +13,11 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
     public static float time { get { return Time.time + 60; } }
 
-    public PrefabManager prefabManager;
+    public GameObject inventoryMenu;
+
     public GameObject playerPrefab;
 
-    public Hero player;
+    public PlayerMovement player;
     public Transform hud;
 
     public Dictionary<int, Unit> units = new Dictionary<int, Unit>();
@@ -25,12 +26,14 @@ public class GameManager : MonoBehaviour
 
     private int unitIDCounter = 0;
 
+    [System.NonSerialized]
     public int gameCounter = 0;
 
     GameObject levelHolder;
     Level level;
 
     DamageTextController damageText;
+    PrefabManager prefabManager;
 
     private bool gameOver = false;
 
@@ -51,23 +54,16 @@ public class GameManager : MonoBehaviour
         levelHolder = new GameObject("LevelHolder");
 
         damageText = GetComponent<DamageTextController>();
+
+        prefabManager = PrefabManager.instance;
     }
 
     // Update is called once per frame
     void Update()
     {
-        BackButton();
         DeleteDeadMonsters();
         UpdateWalkableSquares();
         gameCounter += 1;
-    }
-
-    void BackButton()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            GetComponent<SceneChanger>().OnLoadButtonPressed("IntroScreen");
-        }
     }
 
     void DeleteDeadMonsters()
@@ -300,7 +296,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void CreateLinearSpell(Unit source, LinearSpell projectile, Vector3 from, Vector3 to)
-    {        
+    {
         var proj = Instantiate(projectile, from, Quaternion.identity);
 
         proj.source = source;
@@ -310,9 +306,14 @@ public class GameManager : MonoBehaviour
         proj.SetVelocity();
     }
 
-    public void OnPlayerChangeWeapon()
+    public void OnOpenInventory()
     {
-        ((PlayerMovement)player).OnChangeWeapon();
+        inventoryMenu.SetActive(!inventoryMenu.activeSelf);
+    }
+
+    public void OnPlayerChangeWeapon(Weapon weapon)
+    {
+        player.currentWeapon = weapon;
     }
 
     public void GameOver()
