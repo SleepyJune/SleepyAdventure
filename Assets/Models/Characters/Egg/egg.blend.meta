@@ -17,6 +17,17 @@ ModelImporter:
     100018: Sphere
     100020: yolk
     100022: egg_001
+    100024: ear
+    100026: ear_001
+    100028: egg_back_leg
+    100030: egg_body_001
+    100032: egg_body_002
+    100034: egg_front_leg
+    100036: egg_legs_001
+    100038: egg_shape
+    100040: left_eye_001
+    100042: nose_001
+    100044: right_eye_001
     400000: //RootNode
     400002: egg
     400004: egg_body
@@ -29,6 +40,17 @@ ModelImporter:
     400018: Sphere
     400020: yolk
     400022: egg_001
+    400024: ear
+    400026: ear_001
+    400028: egg_back_leg
+    400030: egg_body_001
+    400032: egg_body_002
+    400034: egg_front_leg
+    400036: egg_legs_001
+    400038: egg_shape
+    400040: left_eye_001
+    400042: nose_001
+    400044: right_eye_001
     2300000: egg
     2300002: egg_body
     2300004: egg_cut
@@ -40,6 +62,17 @@ ModelImporter:
     2300016: Sphere
     2300018: yolk
     2300020: egg_001
+    2300022: ear
+    2300024: ear_001
+    2300026: egg_back_leg
+    2300028: egg_body_001
+    2300030: egg_body_002
+    2300032: egg_front_leg
+    2300034: egg_legs_001
+    2300036: egg_shape
+    2300038: left_eye_001
+    2300040: nose_001
+    2300042: right_eye_001
     3300000: egg
     3300002: egg_body
     3300004: egg_cut
@@ -51,6 +84,17 @@ ModelImporter:
     3300016: Sphere
     3300018: yolk
     3300020: egg_001
+    3300022: ear
+    3300024: ear_001
+    3300026: egg_back_leg
+    3300028: egg_body_001
+    3300030: egg_body_002
+    3300032: egg_front_leg
+    3300034: egg_legs_001
+    3300036: egg_shape
+    3300038: left_eye_001
+    3300040: nose_001
+    3300042: right_eye_001
     4300000: yolk
     4300002: egg
     4300004: left_eye
@@ -62,6 +106,17 @@ ModelImporter:
     4300016: Plane_004
     4300018: egg_cut
     4300020: egg_001
+    4300022: egg_body_002
+    4300024: egg_front_leg
+    4300026: right_eye_001
+    4300028: egg_legs_001
+    4300030: egg_body_001
+    4300032: nose_001
+    4300034: left_eye_001
+    4300036: ear_001
+    4300038: ear
+    4300040: egg_back_leg
+    4300042: egg_shape
     7400000: Default Take
     9500000: //RootNode
   materials:
