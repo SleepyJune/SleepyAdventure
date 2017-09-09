@@ -9,7 +9,7 @@ class HotKeys : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Inventory.instance.Save();
+            //Inventory.instance.Save();
             GetComponent<SceneChanger>().OnLoadButtonPressed("IntroScreen");
         }
 

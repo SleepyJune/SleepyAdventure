@@ -57,6 +57,7 @@ public class Inventory : MonoBehaviour
             var slot = Instantiate(slotPrefab, list);
             var slotScript = slot.GetComponent<ItemDropHandler>();
             slotScript.itemSlotNumber = i;
+            slotScript.inventory = this;
 
             var itemID = slots[i];
 

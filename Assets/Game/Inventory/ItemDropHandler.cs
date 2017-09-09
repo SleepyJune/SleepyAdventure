@@ -19,6 +19,9 @@ class ItemDropHandler : MonoBehaviour, IDropHandler
 
     public int itemSlotNumber;
 
+    [NonSerialized]
+    public Inventory inventory;
+
     public void OnDrop(PointerEventData data)
     {
         if (data.pointerDrag != null)
@@ -28,10 +31,11 @@ class ItemDropHandler : MonoBehaviour, IDropHandler
             if (draggedItem != null)
             {
                 var itemScript = draggedItem.gameObject.GetComponentInChildren<Item>();
+
                 if (item == null)
                 {
-                    Inventory.instance.slots[itemSlotNumber] = itemScript.itemId;
-                    Inventory.instance.slots[draggedItem.startSlot.itemSlotNumber] = 0;
+                    inventory.slots[draggedItem.startSlot.itemSlotNumber] = 0;
+                    inventory.slots[itemSlotNumber] = itemScript.itemId;
 
                     draggedItem.transform.SetParent(transform);
                 }
@@ -39,14 +43,14 @@ class ItemDropHandler : MonoBehaviour, IDropHandler
                 {
                     var currentItemScript = item.gameObject.GetComponentInChildren<Item>();
 
-                    Inventory.instance.slots[itemSlotNumber] = itemScript.itemId;
-                    Inventory.instance.slots[draggedItem.startSlot.itemSlotNumber] = currentItemScript.itemId;
+                    inventory.slots[itemSlotNumber] = itemScript.itemId;
+                    inventory.slots[draggedItem.startSlot.itemSlotNumber] = currentItemScript.itemId;
 
                     draggedItem.transform.SetParent(transform);
                     item.transform.SetParent(draggedItem.startParent);
                 }
 
-                Inventory.instance.Save();
+                inventory.Save();
             }
         }
     }
