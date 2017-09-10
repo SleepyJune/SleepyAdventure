@@ -1,0 +1,14 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: MelonAnimationController
+  m_Controller: {fileID: 9100000, guid: f041090b536277a40b3fb5fdc8b91983, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400004, guid: 26ae177e79d7f8c45b6160bf55da856e, type: 3}
+    m_OverrideClip: {fileID: 7400002, guid: f6eff37a8a9258449b42f2e3d6647435, type: 3}
+  - m_OriginalClip: {fileID: 7400002, guid: 26ae177e79d7f8c45b6160bf55da856e, type: 3}
+    m_OverrideClip: {fileID: 7400000, guid: f6eff37a8a9258449b42f2e3d6647435, type: 3}

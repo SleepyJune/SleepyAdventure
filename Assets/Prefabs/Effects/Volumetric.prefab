@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 23668996953610592}
   - component: {fileID: 114408278391062582}
   - component: {fileID: 135564256548947252}
+  - component: {fileID: 114765305102156228}
   m_Layer: 0
   m_Name: Volumetric
   m_TagString: Untagged
@@ -175,6 +176,18 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 0
   timeScale: 2
+--- !u!114 &114765305102156228
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1953709274499902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5aaeadb5c20a7564d907bf6b0fb6be66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 100
 --- !u!135 &135564256548947252
 SphereCollider:
   m_ObjectHideFlags: 1
