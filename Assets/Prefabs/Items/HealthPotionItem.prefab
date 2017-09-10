@@ -19,17 +19,17 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 224930340656532572}
-  - component: {fileID: 114296718979994864}
-  - component: {fileID: 222702404521307644}
-  - component: {fileID: 114449674967897948}
+  - component: {fileID: 222982680384089282}
+  - component: {fileID: 114808975793085732}
+  - component: {fileID: 114166002153000512}
   m_Layer: 0
-  m_Name: CleaverItem
+  m_Name: HealthPotionItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &114296718979994864
+--- !u!114 &114166002153000512
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -37,15 +37,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1604431356753838}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ab75f63840be9a4eb0288ad55d80aff, type: 3}
+  m_Script: {fileID: 11500000, guid: 9bab5b4bb83ec75458387f688d2adf51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  image: {fileID: 21300000, guid: 71e7caa4a6d4cd74f8fb85b8a7783a5a, type: 3}
-  itemId: 1
-  itemName: Cool Knife
-  description: Just kidding, it's an ugly cleaver.
-  weapon: {fileID: 114353711523863414, guid: bffefb6581f523b40bcb3740940be086, type: 2}
---- !u!114 &114449674967897948
+  image: {fileID: 21300000, guid: d2a695bce6883bf48b4ce2e11e0952e5, type: 3}
+  itemId: 101
+  itemName: Potion
+  description: Mmm, some juicy potion.
+  healthAmount: 100
+--- !u!114 &114808975793085732
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -64,7 +64,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 71e7caa4a6d4cd74f8fb85b8a7783a5a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d2a695bce6883bf48b4ce2e11e0952e5, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -72,7 +72,7 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!222 &222702404521307644
+--- !u!222 &222982680384089282
 CanvasRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

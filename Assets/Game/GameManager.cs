@@ -37,9 +37,8 @@ public class GameManager : MonoBehaviour
 
     private bool gameOver = false;
 
-    // Use this for initialization
-    void Start()
-    {        
+    void Awake()
+    {
         if (instance == null)
         {
             instance = this;
@@ -48,8 +47,11 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        //DontDestroyOnLoad(gameObject);
+    }
 
+    // Use this for initialization
+    void Start()
+    {
         level = new Level();
         levelHolder = new GameObject("LevelHolder");
 
@@ -304,16 +306,6 @@ public class GameManager : MonoBehaviour
         proj.end = to;
 
         proj.SetVelocity();
-    }
-
-    public void OnOpenInventory()
-    {
-        inventoryMenu.SetActive(!inventoryMenu.activeSelf);
-    }
-
-    public void OnPlayerChangeWeapon(Weapon weapon)
-    {
-        player.currentWeapon = weapon;
     }
 
     public void GameOver()

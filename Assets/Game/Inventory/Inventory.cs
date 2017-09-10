@@ -11,6 +11,12 @@ public class Inventory : MonoBehaviour
     public GameObject slotPrefab;
     public GameObject itemPrefab;
 
+
+    [System.NonSerialized]
+    public Equipment equipment;
+
+    public Transform InfoPanel;
+
     public Transform topOfCanvas;
 
     public int maxSlots = 25;
@@ -21,6 +27,8 @@ public class Inventory : MonoBehaviour
     const string saveFilename = "Inventory.save";
 
     Transform list;
+
+    CanvasGroup canvasGroup;
 
     bool inventoryKeyPress = false;
 
@@ -44,7 +52,10 @@ public class Inventory : MonoBehaviour
             savePath = Application.dataPath + "/Saves/";
         }
 
+        equipment = GetComponent<Equipment>();
+
         list = transform.Find("Panel/List");
+        canvasGroup = GetComponent<CanvasGroup>();
 
         LoadInventory();
         InitializeSlots();
@@ -70,18 +81,31 @@ public class Inventory : MonoBehaviour
                     var itemSlot = Instantiate(itemPrefab, slot.transform);
 
                     var item = Instantiate(prefab, itemSlot.transform);
-                    var itemScript = item.GetComponent<Item>();
 
                     var itemDragScript = itemSlot.GetComponent<ItemDragHandler>();
-                    //itemDragScript.itemScript = itemScript;
+                    var itemScript = item.GetComponent<Item>();
 
-                    //GetComponent<Button>().onClick.AddListener(()=>Debug.Log(GameManager.instance.gameCounter));
-                    itemDragScript.GetComponent<Button>().onClick.AddListener(() => itemScript.Use());
-
-                    //itemSlot.GetComponent<Image>().sprite = itemScript.image;
+                    itemDragScript.Initialize(itemScript);
                 }
             }
         }
+    }
+
+    public void OpenInventory()
+    {
+        //inventoryPanel.SetActive(!inventoryPanel.activeSelf);
+
+        if(canvasGroup.alpha == 0)
+        {
+            canvasGroup.alpha = 1f;
+            canvasGroup.blocksRaycasts = true;
+        }
+        else
+        {
+            canvasGroup.alpha = 0f;
+            canvasGroup.blocksRaycasts = false;
+        }
+        
     }
 
     public void Save()

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-class ItemDropHandler : MonoBehaviour, IDropHandler
+public class ItemDropHandler : MonoBehaviour, IDropHandler
 {
     public GameObject item
     {

@@ -25,7 +25,7 @@ public class PlayerMovement : Hero
 
     Button attackButton;
 
-    public Weapon currentWeapon = null;
+    public Equipment equipment;
 
     PlayerHealth healthScript;
 
@@ -55,6 +55,8 @@ public class PlayerMovement : Hero
         attackButton.onClick.AddListener(Attack);
 
         healthScript = GetComponent<PlayerHealth>();
+
+        equipment = Inventory.instance.equipment;
     }
 
     void FixedUpdate()
@@ -80,33 +82,15 @@ public class PlayerMovement : Hero
 
     public void Attack()
     {
-        if (currentWeapon)
+        if (equipment.weapon)
         {
-            currentWeapon.Attack(this);
+            equipment.weapon.Attack(this);
         }
         else
         {
             AttackPattern1();
         }
     }
-
-    /*public void AttackPattern2()
-    {
-        if (GameManager.time - lastAttack > attackFrequency)
-        {
-            if (currentWeapon != null)
-            {
-                if(currentWeapon is LinearSpell)
-                {
-                    var pos = this.transform.position + this.transform.forward * 10;
-                    GameManager.instance.CreateLinearSpell(this, (LinearSpell)currentWeapon, this.transform.position, pos);
-                }                
-            }
-
-            anim.SetTrigger("Punch");
-            lastAttack = GameManager.time;
-        }
-    }*/
 
     public void AttackPattern1()
     {

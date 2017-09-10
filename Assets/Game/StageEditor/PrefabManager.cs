@@ -11,7 +11,7 @@ public class PrefabManager : MonoBehaviour
 
     public static PrefabManager instance = null;
 
-    void Start()
+    void Awake()
     {
         if (instance == null)
         {

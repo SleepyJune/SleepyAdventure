@@ -191,9 +191,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 441c310d778fd7c4ea7cbb34a09dc080, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDead: 0
   speed: 6
   health: 5
+  maxHealth: 5
   anim: {fileID: 95489990631058052}
   attackFrequency: 10
   updateFrequency: 0.25

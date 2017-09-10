@@ -9,7 +9,7 @@ class HotKeys : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            //Inventory.instance.Save();
+            Inventory.instance.Save();
             GetComponent<SceneChanger>().OnLoadButtonPressed("IntroScreen");
         }
 
@@ -17,7 +17,7 @@ class HotKeys : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.I) && !inventoryKeyPress)
             {
-                GameManager.instance.OnOpenInventory();
+                Inventory.instance.OpenInventory();
                 inventoryKeyPress = true;
             }
 
