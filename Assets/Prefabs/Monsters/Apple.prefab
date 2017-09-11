@@ -136,6 +136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: bd27a4940b63e594eb8fedcdb182ef90, type: 3}
   objectName: Apple
+  prefabID: 201
 --- !u!135 &135124130039191500
 SphereCollider:
   m_ObjectHideFlags: 1

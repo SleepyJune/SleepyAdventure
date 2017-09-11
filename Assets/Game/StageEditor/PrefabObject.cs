@@ -5,4 +5,7 @@ using UnityEngine;
 public class PrefabObject : MonoBehaviour {
 
     public Sprite sprite;
+    public string objectName;
+    public int prefabID;
+
 }

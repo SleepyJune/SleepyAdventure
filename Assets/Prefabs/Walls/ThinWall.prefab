@@ -136,3 +136,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 03784bcf0d2b9234eb19bcf1caa286f3, type: 3}
   objectName: Thin Wall
+  prefabID: 306

@@ -294,6 +294,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 18f4d11b6a561a249b7defa08041f6e0, type: 3}
   objectName: Fence 90
+  prefabID: 303
 --- !u!114 &114504629119667536
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -307,6 +308,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 6f1bb28cdcbc1464e899ae9e70889453, type: 3}
   objectName: 
+  prefabID: 0
 --- !u!114 &114589724239546788
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -320,3 +322,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 6f1bb28cdcbc1464e899ae9e70889453, type: 3}
   objectName: 
+  prefabID: 0

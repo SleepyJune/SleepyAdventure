@@ -145,13 +145,10 @@ public class GameManager : MonoBehaviour
                 level.map.Add(square.position, square);
             }
             square.objects.Add(obj);
-
-            var selectedOriginal = prefabManager.collections[obj.cid].objects[obj.id];
-
-            //var sqrObject = level.AddSquareObject(obj.pos, obj.rotation, obj.cid, obj.id, selectedOriginal);
+                                    
             if (obj != null)
             {
-                var newObject = CreateNewObject(obj.cid, obj.id, obj.pos, obj.rotation);
+                var newObject = CreateNewObject(obj.pid, obj.pos, obj.rotation);
                 obj.SetGameObject(newObject);
                                 
                 var entityScript = newObject.GetComponent<Entity>();
@@ -223,9 +220,9 @@ public class GameManager : MonoBehaviour
         hud.gameObject.SetActive(true);
     }
 
-    GameObject CreateNewObject(int cid, int id, IPosition pos, Vector3 rotation)
+    GameObject CreateNewObject(int pid, IPosition pos, Vector3 rotation)
     {
-        var selectedOriginal = prefabManager.collections[cid].objects[id];
+        var selectedOriginal = prefabManager.GetGameObject(pid);
 
         if (selectedOriginal.tag == "Start")
         {

@@ -36,6 +36,28 @@ public class Level
         return str;
     }
 
+    public string SaveLevel2()
+    {
+        List<SquareObject> objects = new List<SquareObject>();
+
+        foreach (var square in map.Values)
+        {
+            if (square != null)
+            {
+                foreach (var obj in square.objects)
+                {
+                    objects.Add(obj);
+                }
+            }
+        }
+
+        var str = JsonHelper.ToJson<SquareObject>(objects.ToArray());
+
+        str = str.Replace("\"rotation\":{\"x\":0.0,\"y\":0.0,\"z\":0.0},", "");
+
+        return str;
+    }
+
     public void RemoveSquareObject(IPosition pos)
     {
         Square sqr;
@@ -46,12 +68,12 @@ public class Level
         }
     }
 
-    public SquareObject AddSquareObject(IPosition pos, int cid, int id, GameObject obj)
+    public SquareObject AddSquareObject(IPosition pos, GameObject obj)
     {
-        return AddSquareObject(pos, Vector3.zero, cid, id, obj);
+        return AddSquareObject(pos, Vector3.zero, obj);
     }
 
-    public SquareObject AddSquareObject(IPosition pos, Vector3 rotation, int cid, int id, GameObject obj)
+    public SquareObject AddSquareObject(IPosition pos, Vector3 rotation, GameObject obj)
     {
         var square = this.GetSquareAtPoint(pos.To2D());
 
@@ -69,7 +91,7 @@ public class Level
 
         if (square == null)
         {
-            SquareObject newObj = new SquareObject(pos, rotation, cid, id, obj);
+            SquareObject newObj = new SquareObject(pos, rotation, obj);
             square = new Square(pos.To2D());
             square.objects.Add(newObj);
                         
@@ -85,7 +107,7 @@ public class Level
             }
             else
             {
-                SquareObject newObj = new SquareObject(pos, rotation, cid, id, obj);
+                SquareObject newObj = new SquareObject(pos, rotation, obj);
                 square.objects.Add(newObj);
                 
                 return newObj;

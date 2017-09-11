@@ -212,6 +212,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 1d3dd0587e5fae041a36dde278669b1a, type: 3}
   objectName: Melon
+  prefabID: 202
 --- !u!135 &135500581665031078
 SphereCollider:
   m_ObjectHideFlags: 1

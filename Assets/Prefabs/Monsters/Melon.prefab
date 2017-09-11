@@ -235,6 +235,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 6
   health: 5
+  maxHealth: 100
   anim: {fileID: 95407957696007046}
   attackFrequency: 10
   updateFrequency: 0.25
@@ -253,6 +254,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 1d3dd0587e5fae041a36dde278669b1a, type: 3}
   objectName: Melon
+  prefabID: 202
 --- !u!135 &135117011561927444
 SphereCollider:
   m_ObjectHideFlags: 1

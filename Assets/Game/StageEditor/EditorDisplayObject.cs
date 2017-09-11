@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class EditorDisplayObject : MonoBehaviour {
 
-    public int cid;
-    public int id;
+    public PrefabCollection collection;
+
+    public int pid;
 
     public IPosition pos;
 

@@ -8,8 +8,9 @@ using System.IO;
 
 public class LevelEditor : MonoBehaviour
 {
-
+    [System.NonSerialized]
     public PrefabManager prefabManager;
+
     public GameObject defaultSquare;
     public GameObject saveScreen;
 
@@ -37,7 +38,8 @@ public class LevelEditor : MonoBehaviour
     int editorMenuObjectMask;
     int editorObjectMask;
 
-    int selectedCollection = -1;
+    PrefabCollection selectedCollection = null;
+    PrefabCollection baseCollection;
 
     bool clicked = false;
 
@@ -64,7 +66,7 @@ public class LevelEditor : MonoBehaviour
 
         floorPlane.transform.localScale = new Vector3(width, 1, height);
 
-        //prefabManager = GetComponent<PrefabManager>();
+        prefabManager = PrefabManager.instance;
 
 
         if (Application.platform == RuntimePlatform.Android)
@@ -76,14 +78,9 @@ public class LevelEditor : MonoBehaviour
             savePath = Application.dataPath + "/Saves/";
         }
 
+        baseCollection = prefabManager.collections[0];
 
-        for (int collectionID = 0; collectionID < prefabManager.collections.Length; collectionID++)
-        {
-
-        }
-
-        OnSelectCollection(0);
-
+        OnSelectCollection(baseCollection);
     }
 
     public void OnSaveScreenButtonPressed()
@@ -99,29 +96,28 @@ public class LevelEditor : MonoBehaviour
 
     public void OnHomeButtonPressed()
     {
-        OnSelectCollection(0);
+        OnSelectCollection(baseCollection);
     }
 
-    void OnSelectCollection(int collectionID)
+    void OnSelectCollection(PrefabCollection collection)
     {
-        if (selectedCollection == collectionID)
+        if (selectedCollection == collection)
         {
             return;
         }
 
-        selectedCollection = collectionID;
+        selectedCollection = collection;
 
         menuObjectSpawnPoint.transform.DestroyChildren();
         
         //Debug.Log("Selected: " + collectionID);
-        var collection = prefabManager.collections[collectionID];
 
         menuItems = 0;
 
         for (int objectID = 0; objectID < collection.objects.Length; objectID++)
         {
             var original = collection.objects[objectID];
-            var prefabInfo = original == null ? null : original.GetComponent<EditorPrefabImage>();
+            var prefabInfo = original == null ? null : original.GetComponent<PrefabObject>();
 
             var newObject = Instantiate(menuObjectTemplate, menuObjectSpawnPoint.transform, false);
             newObject.GetComponent<Image>().sprite = prefabInfo.sprite;
@@ -129,13 +125,15 @@ public class LevelEditor : MonoBehaviour
             //newObject.GetComponent<Image>().sprite = collection.images[objectID];
 
             var info = newObject.AddComponent<EditorDisplayObject>();
-            info.cid = collectionID;
-            info.id = objectID;
-
-            if (collectionID == 0)
+            info.pid = prefabInfo ? prefabInfo.prefabID : 0;
+            info.collection = collection;
+                        
+            if (collection == baseCollection)
             {
                 int menuSelectID = objectID + 1;
-                newObject.GetComponent<Button>().onClick.AddListener(() => OnSelectCollection(menuSelectID));
+                var menuSelectCollection = prefabManager.collections[menuSelectID];
+
+                newObject.GetComponent<Button>().onClick.AddListener(() => OnSelectCollection(menuSelectCollection));
             }
             else
             {
@@ -153,6 +151,9 @@ public class LevelEditor : MonoBehaviour
     {
         selectedInfo = info;
         currentRotation = Vector3.zero;
+
+        //Debug.Log(info.pid);
+        //Debug.Log(prefabManager.GetGameObject(info.pid));
     }
 
     Vector3 GetRoundedPosition(Vector3 point)
@@ -181,7 +182,7 @@ public class LevelEditor : MonoBehaviour
         if (File.Exists(path))
         {
             Clear();
-
+                        
             string str = File.ReadAllText(path);
 
             var sqrObjects = JsonHelper.FromJson<SquareObject>(str);
@@ -191,18 +192,17 @@ public class LevelEditor : MonoBehaviour
                 Square square = new Square(obj.pos);
                 square.objects.Add(obj);
 
-                //var newObject = prefabManager.collections[obj.cid].objects[obj.id];
-                //Instantiate(newObject, new Vector3(obj.pos.x, obj.pos.y, obj.pos.z), new Quaternion(), levelHolder.transform);
-
-                var selectedOriginal = prefabManager.collections[obj.cid].objects[obj.id];
-                if (level.AddSquareObject(obj.pos, obj.rotation, obj.cid, obj.id, selectedOriginal) != null)
+                var selectedOriginal = prefabManager.GetGameObject(obj.pid);
+                if (level.AddSquareObject(obj.pos, obj.rotation, selectedOriginal) != null)
                 {
-                    CreateNewObject(obj.cid, obj.id, obj.pos, obj.rotation);
+                    CreateNewObject(obj.pid, obj.pos, obj.rotation);
                 }
 
                 //level.map.Add(square.position, square);
             }
 
+            level.name = Path.GetFileNameWithoutExtension(path);
+            levelNameInput.text = level.name;
 
             //level.LoadLevel(str);
         }
@@ -224,16 +224,30 @@ public class LevelEditor : MonoBehaviour
         saveScreen.SetActive(false);
     }
 
-    void CreateNewObject(int cid, int id, IPosition pos, Vector3 rotation)
+    public void Save2()
     {
-        var selectedOriginal = prefabManager.collections[cid].objects[id];
+        var savePath = Application.dataPath + "/Resources/Saves/";
+
+        level.name = levelNameInput.text;
+
+        string str = level.SaveLevel();
+
+        if (!Directory.Exists(savePath))
+        {
+            Directory.CreateDirectory(savePath);
+        }
+
+        File.WriteAllText(savePath + level.name + ".json", str);        
+    }
+
+    void CreateNewObject(int pid, IPosition pos, Vector3 rotation)
+    {
+        var selectedOriginal = prefabManager.GetGameObject(pid);
         var newObject = Instantiate(selectedOriginal, new Vector3(pos.x, pos.y / 2.0f, pos.z), Quaternion.Euler(rotation), levelHolder.transform);
 
         newObject.layer = 10;
 
         var displayScript = newObject.AddComponent<EditorDisplayObject>();
-        displayScript.cid = cid;
-        displayScript.id = id;
         displayScript.pos = pos;
 
         DisableComponents(newObject);
@@ -290,15 +304,14 @@ public class LevelEditor : MonoBehaviour
                 var hitPoint = hit.point;
                 hitPoint.y = 0;
 
-                var selectedOriginal = prefabManager.collections[selectedInfo.cid].objects[selectedInfo.id];
+                var selectedOriginal = prefabManager.GetGameObject(selectedInfo.pid);
 
-                var spawnPos = (hitPoint + new Vector3(0, prefabManager.collections[selectedInfo.cid].height,0))
+                var spawnPos = (hitPoint + new Vector3(0, selectedInfo.collection.height,0))
                         .ConvertToIPosition();
 
-                if (level.AddSquareObject(spawnPos, currentRotation, selectedInfo.cid, selectedInfo.id, selectedOriginal) != null)
+                if (level.AddSquareObject(spawnPos, currentRotation, selectedOriginal) != null)
                 {
-                    CreateNewObject(selectedInfo.cid,
-                                    selectedInfo.id,
+                    CreateNewObject(selectedInfo.pid,
                                     spawnPos,
                                     currentRotation);
                 }
@@ -387,7 +400,7 @@ public class LevelEditor : MonoBehaviour
             return;
         }
 
-        var selectedOriginal = prefabManager.collections[selectedInfo.cid].objects[selectedInfo.id];
+        var selectedOriginal = prefabManager.GetGameObject(selectedInfo.pid);
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -398,7 +411,7 @@ public class LevelEditor : MonoBehaviour
             var hitPoint = hit.point;
             hitPoint.y = 0;
 
-            var spawnPos = (hitPoint + new Vector3(0, prefabManager.collections[selectedInfo.cid].height, 0))
+            var spawnPos = (hitPoint + new Vector3(0, selectedInfo.collection.height, 0))
                         .ConvertToIPosition();
 
             if (indicatorCube == null)
@@ -437,8 +450,7 @@ public class LevelEditor : MonoBehaviour
     void Update()
     {
         BackButton();
-        ZoomFunction();
-
+        
         if (Input.GetButtonDown("Fire2"))
         {
             selectedInfo = null;
@@ -454,6 +466,7 @@ public class LevelEditor : MonoBehaviour
             if (EventSystem.current.IsPointerOverGameObject() == false)
             {
                 HighlightSquare();
+                ZoomFunction();
 
                 if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2"))
                 {

@@ -137,3 +137,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: ea5e809c67f9f5c439ef2fe4f7d5f8c2, type: 3}
   objectName: Fence
+  prefabID: 301
