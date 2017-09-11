@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class Punch : Weapon
 {
-
-    public override bool Attack(AttackableUnit source)
+    public override bool Attack(AttackableUnit source, Vector3 start, Vector3 end)
     {
         if (GameManager.time - source.GetLastAttackTime() > source.attackFrequency)
         {

@@ -29,7 +29,7 @@ public class PlayerMovement : Hero
 
     PlayerHealth healthScript;
 
-    bool cleaverEquiped = false;
+    CombatUI combatUI;
 
     void Start()
     {
@@ -57,34 +57,32 @@ public class PlayerMovement : Hero
         healthScript = GetComponent<PlayerHealth>();
 
         equipment = Inventory.instance.equipment;
+        combatUI = equipment.weapon.combatUI;
+    }
+
+    void Update()
+    {
+        HighlightSquare();
+        combatUI.Update();
     }
 
     void FixedUpdate()
     {
         GetMoveTo();
         Move();
-        HighlightSquare();
-        OnKeyPress();
     }
 
-    void OnKeyPress()
+    public void OnChangeWeapon(Weapon newWeapon)
     {
-        if (Input.GetKey("space"))
-        {
-            Attack();            
-        }
-    }
-
-    public void OnChangeWeapon()
-    {
-        cleaverEquiped = !cleaverEquiped;
+        newWeapon.combatUI.Initialize();
+        combatUI = newWeapon.combatUI;
     }
 
     public void Attack()
     {
         if (equipment.weapon)
         {
-            equipment.weapon.Attack(this);
+            //equipment.weapon.Attack(this);
         }
         else
         {

@@ -355,6 +355,7 @@ GameObject:
   - component: {fileID: 180530471}
   - component: {fileID: 180530472}
   - component: {fileID: 180530473}
+  - component: {fileID: 180530474}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -425,6 +426,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8ff1cb1a26938e4fb20fde133dbef28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &180530474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 180530468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6187a5d50b937d4286288abb0f8f3ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  line: {fileID: 0}
+  mouseStartPosion: {x: 0, y: 0, z: 0}
 --- !u!224 &183587043 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224571782987437610, guid: 70ea5a7391c20bb428743f50c875d26b,
@@ -875,6 +889,12 @@ Prefab:
       propertyPath: m_SizeDelta.x
       value: 358
       objectReference: {fileID: 0}
+    - target: {fileID: 114182873510231612, guid: 49483ea056ef3134bb1ad01d15948aeb,
+        type: 2}
+      propertyPath: defaultWeapon
+      value: 
+      objectReference: {fileID: 114664250325972600, guid: babf0214cbf33da4cbe64830b06452bb,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 49483ea056ef3134bb1ad01d15948aeb, type: 2}
   m_IsPrefabParent: 0

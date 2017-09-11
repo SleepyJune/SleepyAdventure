@@ -200,4 +200,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29185893891459e42ac6cb78850bfbe3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  combatUI: {fileID: 114895013855729260, guid: 8585b3672c5b0a34d8e078e6f6651ecb, type: 2}
   proj: {fileID: 114166348925529824}

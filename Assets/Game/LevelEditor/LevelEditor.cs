@@ -109,7 +109,8 @@ public class LevelEditor : MonoBehaviour
         selectedCollection = collection;
 
         menuObjectSpawnPoint.transform.DestroyChildren();
-        
+        menuObjectSpawnPoint.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);       
+
         //Debug.Log("Selected: " + collectionID);
 
         menuItems = 0;
