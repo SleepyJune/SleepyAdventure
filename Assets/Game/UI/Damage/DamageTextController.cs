@@ -11,7 +11,7 @@ public class DamageTextController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        canvas = GameObject.Find("Canvas");
+        canvas = GameObject.Find("Canvas/DamageTextHolder");
 	}
 	
 	public void CreateDamageText(Unit unit, int damage)

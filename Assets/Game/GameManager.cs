@@ -32,7 +32,9 @@ public class GameManager : MonoBehaviour
     GameObject levelHolder;
     Level level;
 
-    DamageTextController damageText;
+    DamageTextController damageTextManager;
+    EmojiBarManager emojiBarManager;
+
     PrefabManager prefabManager;
 
     private bool gameOver = false;
@@ -55,7 +57,8 @@ public class GameManager : MonoBehaviour
         level = new Level();
         levelHolder = new GameObject("LevelHolder");
 
-        damageText = GetComponent<DamageTextController>();
+        damageTextManager = GetComponent<DamageTextController>();
+        emojiBarManager = GetComponent<EmojiBarManager>();
 
         prefabManager = PrefabManager.instance;
     }
@@ -284,7 +287,12 @@ public class GameManager : MonoBehaviour
 
     public void CreateDamageText(Unit unit, int damage)
     {
-        damageText.CreateDamageText(unit, damage);
+        damageTextManager.CreateDamageText(unit, damage);
+    }
+
+    public EmojiBar CreateEmojiBar(Monster unit)
+    {
+        return emojiBarManager.CreateBar(unit);
     }
 
     public void CreateCircularSpell(Unit source, CircularSpell spell, Vector3 pos)
@@ -303,6 +311,23 @@ public class GameManager : MonoBehaviour
         proj.end = to;
 
         proj.SetVelocity();
+    }
+
+    public Vector3 GetMousePosition()
+    {
+        if (player)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            var groundPlane = new Plane(player.transform.up, player.transform.position);
+            float rayDistance;
+
+            if (groundPlane.Raycast(ray, out rayDistance))
+            {
+                return ray.GetPoint(rayDistance);
+            }
+        }
+
+        return Vector3.zero;
     }
 
     public void GameOver()

@@ -13,6 +13,7 @@ public class Cleaver : Weapon
 
             source.anim.SetTrigger("Punch");
             source.SetLastAttackTime(GameManager.time);
+            source.LookAt(end);
 
             return true;
         }

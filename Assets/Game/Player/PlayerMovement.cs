@@ -189,18 +189,6 @@ public class PlayerMovement : Hero
         }
     }
 
-    bool testTouch()
-    {
-        foreach (Touch touch in Input.touches)
-        {
-            if (touch.position.x < Screen.width / 2)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
     void HighlightSquare()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

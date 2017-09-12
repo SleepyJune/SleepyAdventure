@@ -108,13 +108,20 @@ public class AppleMovement : Monster, MonsterMovement
     }
 
     public void GetDestination()
-    {        
-        if(GameManager.instance.player != null)
+    {
+        var player = GameManager.instance.player;
+        if (player != null)
         {
-            path = this.UnitMoveTo(GameManager.instance.player.transform.position);
-            if(path != null)
-            {
+            var playerPos = player.transform.position;
 
+            if(playerPos.Distance(transform.position) <= senseRange)
+            {
+                path = this.UnitMoveTo(GameManager.instance.player.transform.position);
+                emojiBar.anim.SetTrigger("Spotted");
+            }
+            else
+            {
+                emojiBar.anim.SetTrigger("Idle");
             }
 
         }
@@ -126,13 +133,16 @@ public class AppleMovement : Monster, MonsterMovement
 
         if (!isMoving && GameManager.instance.player != null)
         {
-            var lookat = GameManager.instance.player.transform.position;
+            var playerPos = GameManager.instance.player.transform.position;
 
-            Vector3 dir = (lookat - transform.position).normalized;
-            dir.y = 0;
+            if (playerPos.Distance(transform.position) <= senseRange)
+            {                
+                Vector3 dir = (playerPos - transform.position).normalized;
+                dir.y = 0;
 
-            Quaternion newRotation = Quaternion.LookRotation(dir);
-            rigidbody.MoveRotation(newRotation);
+                Quaternion newRotation = Quaternion.LookRotation(dir);
+                rigidbody.MoveRotation(newRotation);
+            }
 
         }
     }

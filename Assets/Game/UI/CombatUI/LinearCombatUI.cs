@@ -45,6 +45,11 @@ public class LinearCombatUI : CombatUI
                 Vector3 diff2d = (Input.mousePosition - mouseStartPosion).normalized;
                 Vector3 diff = new Vector3(diff2d.x, 0, diff2d.y);
 
+                if(diff == Vector3.zero)
+                {
+                    diff = player.transform.forward;
+                }
+
                 //Debug.Log(diff);
 
                 Vector3 pos = player.transform.position + diff * 2;

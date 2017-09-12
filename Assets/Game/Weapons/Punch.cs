@@ -8,12 +8,26 @@ public class Punch : Weapon
         if (GameManager.time - source.GetLastAttackTime() > source.attackFrequency)
         {
             var enemies = GameManager.instance.units.Values.Where(u => u is Monster);
-
+            var playerTransform = GameManager.instance.player.transform;
+                        
             foreach (Monster enemy in enemies)
             {
-                if (enemy.transform.position.ConvertToIPosition().To2D()
-                    .Distance(source.transform.position.ConvertToIPosition().To2D()) < 2)
-                {
+                var enemyPos = enemy.transform.position;
+                    
+                if (enemyPos.Distance(source.transform.position) < 2)
+                {                                        
+                    //var proj = enemyPos.ProjectionOnPoint(start, end);
+                    //var proj = start + Vector3.ProjectOnPlane(ab, playerTransform.up);
+
+                    //Debug.DrawLine(start, enemyPos, Color.white, 1, false);
+                    //Debug.DrawLine(start, end, Color.white, 1, false);
+                    
+                    var angle = start.GetAngleBetween2D(enemyPos, end);
+                    if(angle > 20)
+                    {
+                        continue;
+                    }
+
                     var dir = enemy.transform.position - source.transform.position;
                     dir.y = 0;
 
@@ -26,6 +40,7 @@ public class Punch : Weapon
 
             source.anim.SetTrigger("Punch");
             source.SetLastAttackTime(GameManager.time);
+            source.LookAt(end);
 
             return true;
         }

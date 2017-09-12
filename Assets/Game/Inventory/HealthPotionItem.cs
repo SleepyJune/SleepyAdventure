@@ -6,8 +6,8 @@ public class HealthPotionItem : Item
 
     public override bool Use()
     {
-        GameManager.instance.player.health = 
-            Mathf.Min(GameManager.instance.player.maxHealth, GameManager.instance.player.health + healthAmount);
+        GameManager.instance.player.TakeDamage(null, -healthAmount);
+            //Mathf.Min(GameManager.instance.player.maxHealth, GameManager.instance.player.health + healthAmount);
 
         return true;
     }
