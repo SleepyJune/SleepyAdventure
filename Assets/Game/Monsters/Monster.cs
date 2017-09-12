@@ -27,6 +27,8 @@ public abstract class Monster : AttackableUnit
 
     public void Death()
     {
+        isDead = true;
+
         anim.SetTrigger("Die");
         anim.SetBool("isDead", true);
 

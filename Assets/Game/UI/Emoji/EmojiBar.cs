@@ -22,6 +22,12 @@ public class EmojiBar : MonoBehaviour
 
     void Update()
     {
+        if (unit.isDead)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         UpdateBarLocation();
     }
 

@@ -16,6 +16,11 @@ public class AppleMovement : Monster, MonsterMovement
 
     void Update()
     {
+        if (isDead)
+        {
+            return;
+        }
+
         Move();
 
         if (GameManager.time - lastUpdate > updateFrequency)

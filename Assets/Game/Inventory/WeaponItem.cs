@@ -3,9 +3,9 @@
 public class WeaponItem : Item
 {
     public Weapon weapon;
-
+        
     public override bool Use()
     {        
-        return Inventory.instance.equipment.ChangeWeapon(weapon);
+        return Inventory.instance.equipment.ChangeWeapon(this);
     }
 }

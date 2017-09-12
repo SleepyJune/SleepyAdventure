@@ -65,8 +65,8 @@ public class Inventory : MonoBehaviour
     {
         for(int i = 0; i < slots.Length; i++)
         {
-            var slot = Instantiate(slotPrefab, list);
-            var slotScript = slot.GetComponent<ItemDropHandler>();
+            var inventorySlot = Instantiate(slotPrefab, list);
+            var slotScript = inventorySlot.GetComponent<ItemDropHandler>();
             slotScript.itemSlotNumber = i;
             slotScript.inventory = this;
 
@@ -78,14 +78,15 @@ public class Inventory : MonoBehaviour
 
                 if (prefab != null)
                 {
-                    var itemSlot = Instantiate(itemPrefab, slot.transform);
+                    var itemSlotParent = Instantiate(itemPrefab, inventorySlot.transform);
 
-                    var item = Instantiate(prefab, itemSlot.transform);
+                    var item = Instantiate(prefab, itemSlotParent.transform);
 
-                    var itemDragScript = itemSlot.GetComponent<ItemDragHandler>();
+                    var itemSlot = itemSlotParent.GetComponent<ItemSlot>();
                     var itemScript = item.GetComponent<Item>();
+                    itemScript.itemSlot = itemSlot;
 
-                    itemDragScript.Initialize(itemScript);
+                    itemSlot.Initialize(itemScript);
                 }
             }
         }

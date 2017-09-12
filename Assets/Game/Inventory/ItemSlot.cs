@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
+public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
     CanvasGroup canvasGroup;
 
@@ -18,17 +18,10 @@ public class ItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     
     public Item itemScript;
 
-    public Color equipedBackground;
-
-    [System.NonSerialized]
-    public Color normalBackground;
-
     void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
         background = GetComponent<Image>();
-
-        normalBackground = GetComponent<Image>().color;
     }
 
     public void Initialize(Item item)
@@ -47,17 +40,7 @@ public class ItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     public void UseItem()
     {
-        if (itemScript.Use())
-        {
-            if(itemScript is WeaponItem)
-            {
-                background.color = equipedBackground;
-            }
-        }
-        else
-        {
-            background.color = normalBackground;
-        }
+        itemScript.Use();
     }
 
     public void OnBeginDrag(PointerEventData eventData)

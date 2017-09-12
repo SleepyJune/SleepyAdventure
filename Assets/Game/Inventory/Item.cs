@@ -11,5 +11,8 @@ public abstract class Item : MonoBehaviour
     public string itemName;
     public string description;
 
+    [System.NonSerialized]
+    public ItemSlot itemSlot;
+
     public abstract bool Use();//Unit source);
 }

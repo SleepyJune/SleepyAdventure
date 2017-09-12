@@ -26,7 +26,7 @@ public class ItemDropHandler : MonoBehaviour, IDropHandler
     {
         if (data.pointerDrag != null)
         {
-            var draggedItem = data.pointerDrag.GetComponent<ItemDragHandler>();
+            var draggedItem = data.pointerDrag.GetComponent<ItemSlot>();
 
             if (draggedItem != null)
             {

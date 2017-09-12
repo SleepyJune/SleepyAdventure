@@ -963,6 +963,46 @@ Prefab:
       value: 
       objectReference: {fileID: 114664250325972600, guid: babf0214cbf33da4cbe64830b06452bb,
         type: 2}
+    - target: {fileID: 114182873510231612, guid: 49483ea056ef3134bb1ad01d15948aeb,
+        type: 2}
+      propertyPath: equipedBackground.r
+      value: 0.29411763
+      objectReference: {fileID: 0}
+    - target: {fileID: 114182873510231612, guid: 49483ea056ef3134bb1ad01d15948aeb,
+        type: 2}
+      propertyPath: equipedBackground.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114182873510231612, guid: 49483ea056ef3134bb1ad01d15948aeb,
+        type: 2}
+      propertyPath: equipedBackground.b
+      value: 0.35740364
+      objectReference: {fileID: 0}
+    - target: {fileID: 114182873510231612, guid: 49483ea056ef3134bb1ad01d15948aeb,
+        type: 2}
+      propertyPath: equipedBackground.a
+      value: 0.5882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 114182873510231612, guid: 49483ea056ef3134bb1ad01d15948aeb,
+        type: 2}
+      propertyPath: normalBackground.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114182873510231612, guid: 49483ea056ef3134bb1ad01d15948aeb,
+        type: 2}
+      propertyPath: normalBackground.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114182873510231612, guid: 49483ea056ef3134bb1ad01d15948aeb,
+        type: 2}
+      propertyPath: normalBackground.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114182873510231612, guid: 49483ea056ef3134bb1ad01d15948aeb,
+        type: 2}
+      propertyPath: normalBackground.a
+      value: 0.5882353
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 49483ea056ef3134bb1ad01d15948aeb, type: 2}
   m_IsPrefabParent: 0
