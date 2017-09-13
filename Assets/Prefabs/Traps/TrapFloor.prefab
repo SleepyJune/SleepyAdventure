@@ -136,6 +136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 2fd7ae44186fae648b716fc4e471b4e3, type: 3}
   objectName: Trap Floor
+  prefabID: 401
 --- !u!136 &136623139417879826
 CapsuleCollider:
   m_ObjectHideFlags: 1

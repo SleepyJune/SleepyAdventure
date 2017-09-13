@@ -4,14 +4,12 @@ using System.Collections;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public int startingHealth = 100;
-    public int currentHealth = 100;
+    public int startingHealth = 100;    
     public Slider healthSlider;
     public Image damageImage;
     public AudioClip deathClip;
     public float flashSpeed = 5f;
     public Color flashColour = new Color(1f, 0f, 0f, 0.1f);
-
 
     Animator anim;
     AudioSource playerAudio;
@@ -24,7 +22,7 @@ public class PlayerHealth : MonoBehaviour
         anim = GetComponent <Animator> ();
         playerAudio = GetComponent <AudioSource> ();
         playerMovement = GetComponent <PlayerMovement> ();
-        currentHealth = startingHealth;
+        //currentHealth = startingHealth;
 
         var healthBar = GameManager.instance.hud.Find("PlayerHealthBar").gameObject;
 
@@ -51,40 +49,36 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage (Unit source, int amount)
     {
-        //Debug.Log(currentHealth);
+        //Debug.Log(currentHealth);        
 
-        damaged = true;
+        playerMovement.health -= amount;
+        healthSlider.value = playerMovement.health;
 
-        currentHealth -= amount;
 
-        healthSlider.value = currentHealth;
-
-        //playerAudio.Play ();
-
-        if(currentHealth <= 0 && !isDead)
+        if (amount > 0)
         {
-            Death();
+            damaged = true;
+            //playerAudio.Play ();
+
+            if (playerMovement.health <= 0 && !isDead)
+            {
+                Death();
+            }
+            else if (playerMovement.health > 0)
+            {
+                GameManager.instance.CreateDamageText(playerMovement, -amount);
+                //GetComponent<PlayerMovement>().LookAt(source);
+                //anim.SetTrigger("Hurt");
+            }
         }
-        else if(currentHealth > 0)
+        else
         {
-            GameManager.instance.CreateDamageText(playerMovement, -amount);
-            //GetComponent<PlayerMovement>().LookAt(source);
-            //anim.SetTrigger("Hurt");
-        }
-    }
-
-    public void GainHealth(int amount)
-    {
-        currentHealth += amount;
-
-        healthSlider.value = currentHealth;
-        
-        if (currentHealth >= startingHealth)
-        {
-            currentHealth = startingHealth;
+            if (playerMovement.health >= playerMovement.maxHealth)
+            {
+                playerMovement.health = playerMovement.maxHealth;
+            }
         }
     }
-
 
     void Death ()
     {
@@ -100,6 +94,6 @@ public class PlayerHealth : MonoBehaviour
         //return null;
 
         GameManager.instance.GameOver();
-        GameManager.instance.SetSceneWithWait("LevelFailed",2);
+        GameManager.instance.SetScene("LevelFailed",2);
     }
 }

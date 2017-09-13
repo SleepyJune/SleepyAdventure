@@ -2,5 +2,7 @@
 
 public abstract class Weapon : MonoBehaviour
 {
-    public abstract bool Attack(AttackableUnit unit);
+    public CombatUI combatUI;
+
+    public abstract bool Attack(AttackableUnit unit, Vector3 start, Vector3 end);
 }

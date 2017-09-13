@@ -136,3 +136,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 4131a9f86da8415479b4e77f46b0fb37, type: 3}
   objectName: Soil
+  prefabID: 18

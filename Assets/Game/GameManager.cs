@@ -13,10 +13,11 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
     public static float time { get { return Time.time + 60; } }
 
-    public PrefabManager prefabManager;
+    public GameObject inventoryMenu;
+
     public GameObject playerPrefab;
 
-    public Hero player;
+    public PlayerMovement player;
     public Transform hud;
 
     public Dictionary<int, Unit> units = new Dictionary<int, Unit>();
@@ -25,18 +26,21 @@ public class GameManager : MonoBehaviour
 
     private int unitIDCounter = 0;
 
+    [System.NonSerialized]
     public int gameCounter = 0;
 
     GameObject levelHolder;
     Level level;
 
-    DamageTextController damageText;
+    DamageTextController damageTextManager;
+    EmojiBarManager emojiBarManager;
+
+    PrefabManager prefabManager;
 
     private bool gameOver = false;
 
-    // Use this for initialization
-    void Start()
-    {        
+    void Awake()
+    {
         if (instance == null)
         {
             instance = this;
@@ -45,29 +49,28 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        //DontDestroyOnLoad(gameObject);
+    }
 
+    // Use this for initialization
+    void Start()
+    {
         level = new Level();
         levelHolder = new GameObject("LevelHolder");
 
-        damageText = GetComponent<DamageTextController>();
+        damageTextManager = GetComponent<DamageTextController>();
+        emojiBarManager = GetComponent<EmojiBarManager>();
+
+        prefabManager = PrefabManager.instance;
     }
 
     // Update is called once per frame
     void Update()
     {
-        BackButton();
         DeleteDeadMonsters();
         UpdateWalkableSquares();
         gameCounter += 1;
-    }
 
-    void BackButton()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            GetComponent<SceneChanger>().OnLoadButtonPressed("IntroScreen");
-        }
+        DelayAction.OnUpdate();
     }
 
     void DeleteDeadMonsters()
@@ -147,13 +150,10 @@ public class GameManager : MonoBehaviour
                 level.map.Add(square.position, square);
             }
             square.objects.Add(obj);
-
-            var selectedOriginal = prefabManager.collections[obj.cid].objects[obj.id];
-
-            //var sqrObject = level.AddSquareObject(obj.pos, obj.rotation, obj.cid, obj.id, selectedOriginal);
+                                    
             if (obj != null)
             {
-                var newObject = CreateNewObject(obj.cid, obj.id, obj.pos, obj.rotation);
+                var newObject = CreateNewObject(obj.pid, obj.pos, obj.rotation);
                 obj.SetGameObject(newObject);
                                 
                 var entityScript = newObject.GetComponent<Entity>();
@@ -225,9 +225,9 @@ public class GameManager : MonoBehaviour
         hud.gameObject.SetActive(true);
     }
 
-    GameObject CreateNewObject(int cid, int id, IPosition pos, Vector3 rotation)
+    GameObject CreateNewObject(int pid, IPosition pos, Vector3 rotation)
     {
-        var selectedOriginal = prefabManager.collections[cid].objects[id];
+        var selectedOriginal = prefabManager.GetGameObject(pid);
 
         if (selectedOriginal.tag == "Start")
         {
@@ -271,15 +271,9 @@ public class GameManager : MonoBehaviour
         return Pathfinding.GetShortestPath(unit, from, to);
     }
 
-    public void SetSceneWithWait(string str, float waitTime)
+    public void SetScene(string str, float waitTime)
     {
-        StartCoroutine(SetScene(str, waitTime));
-    }
-
-    private IEnumerator SetScene(string str, float waitTime)
-    {
-        yield return new WaitForSeconds(waitTime);
-        SceneManager.LoadScene(str);
+        DelayAction.Add(() => SetScene(str), waitTime);
     }
 
     public void SetScene(string str)
@@ -289,7 +283,12 @@ public class GameManager : MonoBehaviour
 
     public void CreateDamageText(Unit unit, int damage)
     {
-        damageText.CreateDamageText(unit, damage);
+        damageTextManager.CreateDamageText(unit, damage);
+    }
+
+    public EmojiBar CreateEmojiBar(Monster unit)
+    {
+        return emojiBarManager.CreateBar(unit);
     }
 
     public void CreateCircularSpell(Unit source, CircularSpell spell, Vector3 pos)
@@ -300,7 +299,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void CreateLinearSpell(Unit source, LinearSpell projectile, Vector3 from, Vector3 to)
-    {        
+    {
         var proj = Instantiate(projectile, from, Quaternion.identity);
 
         proj.source = source;
@@ -310,9 +309,21 @@ public class GameManager : MonoBehaviour
         proj.SetVelocity();
     }
 
-    public void OnPlayerChangeWeapon()
+    public Vector3 GetMousePosition()
     {
-        ((PlayerMovement)player).OnChangeWeapon();
+        if (player)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            var groundPlane = new Plane(player.transform.up, player.transform.position);
+            float rayDistance;
+
+            if (groundPlane.Raycast(ray, out rayDistance))
+            {
+                return ray.GetPoint(rayDistance);
+            }
+        }
+
+        return Vector3.zero;
     }
 
     public void GameOver()

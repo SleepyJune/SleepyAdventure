@@ -25,11 +25,11 @@ public class PlayerMovement : Hero
 
     Button attackButton;
 
-    public Weapon currentWeapon;
+    public Equipment equipment;
 
     PlayerHealth healthScript;
 
-    bool cleaverEquiped = false;
+    CombatUI combatUI;
 
     void Start()
     {
@@ -55,58 +55,40 @@ public class PlayerMovement : Hero
         attackButton.onClick.AddListener(Attack);
 
         healthScript = GetComponent<PlayerHealth>();
+
+        equipment = Inventory.instance.equipment;
+        combatUI = equipment.weapon.combatUI;
+    }
+
+    void Update()
+    {
+        HighlightSquare();
+        combatUI.Update();
     }
 
     void FixedUpdate()
     {
         GetMoveTo();
         Move();
-        HighlightSquare();
-        OnAnimation();
     }
 
-    void OnAnimation()
+    public void OnChangeWeapon(Weapon newWeapon)
     {
-        if (Input.GetKey("space"))
-        {
-            Attack();            
-        }                    
-    }
-
-    public void OnChangeWeapon()
-    {
-        cleaverEquiped = !cleaverEquiped;
+        newWeapon.combatUI.Initialize();
+        combatUI = newWeapon.combatUI;
     }
 
     public void Attack()
     {
-        if (cleaverEquiped)
+        if (equipment.weapon)
         {
-            currentWeapon.Attack(this);
+            //equipment.weapon.Attack(this);
         }
         else
         {
             AttackPattern1();
         }
     }
-
-    /*public void AttackPattern2()
-    {
-        if (GameManager.time - lastAttack > attackFrequency)
-        {
-            if (currentWeapon != null)
-            {
-                if(currentWeapon is LinearSpell)
-                {
-                    var pos = this.transform.position + this.transform.forward * 10;
-                    GameManager.instance.CreateLinearSpell(this, (LinearSpell)currentWeapon, this.transform.position, pos);
-                }                
-            }
-
-            anim.SetTrigger("Punch");
-            lastAttack = GameManager.time;
-        }
-    }*/
 
     public void AttackPattern1()
     {
@@ -205,18 +187,6 @@ public class PlayerMovement : Hero
                 anim.SetFloat("Speed", 0);
             }
         }
-    }
-
-    bool testTouch()
-    {
-        foreach (Touch touch in Input.touches)
-        {
-            if (touch.position.x < Screen.width / 2)
-            {
-                return true;
-            }
-        }
-        return false;
     }
 
     void HighlightSquare()

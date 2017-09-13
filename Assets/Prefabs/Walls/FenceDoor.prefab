@@ -172,7 +172,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ede806d34898d142b098dce01721915, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDead: 0
   isWalkable: 0
 --- !u!114 &114644317668816478
 MonoBehaviour:
@@ -187,6 +186,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 61a2900350ed0f84e97c3377c65ad7e8, type: 3}
   objectName: Fence Door
+  prefabID: 304
 --- !u!137 &137708085138178996
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

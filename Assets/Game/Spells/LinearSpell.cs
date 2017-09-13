@@ -27,13 +27,19 @@ public class LinearSpell : Spell
 
     public void SetVelocity()
     {
-        Physics.IgnoreCollision(source.collider, this.collider);
+        var dir = (end - start).normalized;
+        dir.y = 0;
 
         if (speed > 0)
-        {
-            var dir = (end - start).normalized;
+        {            
             //rigidbody.velocity = dir * speed;
             rigidbody.AddForce(dir * speed);
+        }        
+
+        if (dir != Vector3.zero)
+        {
+            Quaternion newRotation = Quaternion.LookRotation(dir);
+            rigidbody.MoveRotation(newRotation);
         }
     }
 
@@ -52,7 +58,13 @@ public class LinearSpell : Spell
             }
 
             isDead = true;
-            Destroy(this.transform.gameObject);
+            Destroy(transform.gameObject);
         }
+    }
+
+    public override void Death()
+    {
+        isDead = true;
+        Destroy(transform.gameObject);
     }
 }

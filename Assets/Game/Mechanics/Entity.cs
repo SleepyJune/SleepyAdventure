@@ -11,6 +11,7 @@ public abstract class Entity : MonoBehaviour
     [System.NonSerialized]
     public IPosition pos2d;
 
+    [System.NonSerialized]
     public bool isDead = false;
 
     public bool Equals(Entity obj)

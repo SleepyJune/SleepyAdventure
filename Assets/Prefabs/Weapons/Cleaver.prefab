@@ -41,7 +41,6 @@ GameObject:
   - component: {fileID: 4995795410833652}
   - component: {fileID: 33785385486741700}
   - component: {fileID: 23062529058690740}
-  - component: {fileID: 95812055215931550}
   m_Layer: 13
   m_Name: knife
   m_TagString: Untagged
@@ -161,23 +160,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!95 &95812055215931550
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1769636217717738}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 6c63390abb1f19c46b39b355e85e626e, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114286047065239376
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -189,7 +171,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06cd2acc8d3aa7645b108ecb25533b85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDead: 0
   damage: 0
   speed: 1000
   maxDistance: 20
@@ -206,4 +187,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29185893891459e42ac6cb78850bfbe3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  combatUI: {fileID: 114895013855729260, guid: 8585b3672c5b0a34d8e078e6f6651ecb, type: 2}
   proj: {fileID: 114286047065239376}

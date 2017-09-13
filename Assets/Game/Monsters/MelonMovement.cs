@@ -11,6 +11,11 @@ public class MelonMovement : AppleMovement
 
     void Update()
     {
+        if (isDead)
+        {
+            return;
+        }
+
         Move();
 
         if (GameManager.time - lastUpdate > updateFrequency)
@@ -33,10 +38,8 @@ public class MelonMovement : AppleMovement
             {
                 anim.SetTrigger("Attack");
 
-
                 //GameManager.instance.player.GetComponent<PlayerHealth>().TakeDamage(this, 5);
                 GameManager.instance.CreateCircularSpell(this, explosion, this.transform.position);
-
 
                 lastAttack = GameManager.time;
             }

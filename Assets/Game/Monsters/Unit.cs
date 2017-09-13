@@ -8,6 +8,7 @@ public abstract class Unit : Entity
     public PathInfo path;
     
     public int health;
+    public int maxHealth = 100;
     
     public Animator anim;
 
@@ -29,6 +30,8 @@ public abstract class Unit : Entity
         //renderer = GetComponent<Renderer>();
         collider = GetComponent<Collider>();
         rigidbody = GetComponent<Rigidbody>();
+
+        health = maxHealth;
     }
 
     public IEnumerator DisableUnitMovementHelper(float time)

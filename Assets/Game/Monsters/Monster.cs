@@ -4,16 +4,22 @@ using UnityEngine;
 public abstract class Monster : AttackableUnit
 {
     public float updateFrequency = 0.25f;
-
     protected float lastUpdate = 0;
 
-    [System.NonSerialized]
-    public bool isDead = false;
+    public float senseRange = 10;
+    
+    public Transform emojiBarTransform;
 
-    /*protected override void Initialize()
+    [System.NonSerialized]
+    public EmojiBar emojiBar;
+
+    public AnimationClip deathAnimation;
+
+    protected override void Initialize()
     {
         base.Initialize();
-    }*/
+        emojiBar = GameManager.instance.CreateEmojiBar(this);
+    }
 
     public override void TakeDamage(Unit source, int amount)
     {
@@ -23,11 +29,22 @@ public abstract class Monster : AttackableUnit
 
     public void Death()
     {
+        isDead = true;
+
         anim.SetTrigger("Die");
         anim.SetBool("isDead", true);
 
-        this.GetComponentInChildren<Renderer>().material.SetTransparentMode();
+        //this.GetComponentInChildren<Renderer>().material.SetTransparentMode();
 
-        this.DeleteUnit(1);
+
+        if (deathAnimation)
+        {
+            DeleteUnit(deathAnimation.length);
+        }
+        else
+        {
+            DeleteUnit(0);
+        }
+
     }
 }
