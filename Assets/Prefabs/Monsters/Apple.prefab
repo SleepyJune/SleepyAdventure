@@ -154,6 +154,7 @@ MonoBehaviour:
   updateFrequency: 0.25
   senseRange: 5
   emojiBarTransform: {fileID: 4042467589999262}
+  deathAnimation: {fileID: 7400000, guid: 701ae086452b6bb43ba3214332dcf94a, type: 2}
 --- !u!114 &114871998172035302
 MonoBehaviour:
   m_ObjectHideFlags: 1

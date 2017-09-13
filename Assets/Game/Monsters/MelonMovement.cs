@@ -11,6 +11,11 @@ public class MelonMovement : AppleMovement
 
     void Update()
     {
+        if (isDead)
+        {
+            return;
+        }
+
         Move();
 
         if (GameManager.time - lastUpdate > updateFrequency)

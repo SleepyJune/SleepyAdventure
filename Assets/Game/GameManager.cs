@@ -69,6 +69,8 @@ public class GameManager : MonoBehaviour
         DeleteDeadMonsters();
         UpdateWalkableSquares();
         gameCounter += 1;
+
+        DelayAction.OnUpdate();
     }
 
     void DeleteDeadMonsters()
@@ -269,15 +271,9 @@ public class GameManager : MonoBehaviour
         return Pathfinding.GetShortestPath(unit, from, to);
     }
 
-    public void SetSceneWithWait(string str, float waitTime)
+    public void SetScene(string str, float waitTime)
     {
-        StartCoroutine(SetScene(str, waitTime));
-    }
-
-    private IEnumerator SetScene(string str, float waitTime)
-    {
-        yield return new WaitForSeconds(waitTime);
-        SceneManager.LoadScene(str);
+        DelayAction.Add(() => SetScene(str), waitTime);
     }
 
     public void SetScene(string str)

@@ -10,7 +10,7 @@ public class Goal : Trap {
         {
             other.GetComponent<Animator>().SetTrigger("Victory");
             GameManager.instance.GameOver();
-            GameManager.instance.SetSceneWithWait("LevelComplete", 2);
+            GameManager.instance.SetScene("LevelComplete", 2);
 
             this.transform.gameObject.SetActive(false);
         }

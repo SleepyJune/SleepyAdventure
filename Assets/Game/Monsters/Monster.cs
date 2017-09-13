@@ -13,6 +13,8 @@ public abstract class Monster : AttackableUnit
     [System.NonSerialized]
     public EmojiBar emojiBar;
 
+    public AnimationClip deathAnimation;
+
     protected override void Initialize()
     {
         base.Initialize();
@@ -32,8 +34,17 @@ public abstract class Monster : AttackableUnit
         anim.SetTrigger("Die");
         anim.SetBool("isDead", true);
 
-        this.GetComponentInChildren<Renderer>().material.SetTransparentMode();
+        //this.GetComponentInChildren<Renderer>().material.SetTransparentMode();
 
-        this.DeleteUnit(1);
+
+        if (deathAnimation)
+        {
+            DeleteUnit(deathAnimation.length);
+        }
+        else
+        {
+            DeleteUnit(0);
+        }
+
     }
 }

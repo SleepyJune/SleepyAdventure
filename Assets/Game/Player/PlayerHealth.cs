@@ -94,6 +94,6 @@ public class PlayerHealth : MonoBehaviour
         //return null;
 
         GameManager.instance.GameOver();
-        GameManager.instance.SetSceneWithWait("LevelFailed",2);
+        GameManager.instance.SetScene("LevelFailed",2);
     }
 }

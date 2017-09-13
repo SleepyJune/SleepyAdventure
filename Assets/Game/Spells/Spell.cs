@@ -1,4 +1,4 @@
-﻿
+﻿using System.Collections;
 using UnityEngine;
 
 public abstract class Spell : Entity
@@ -24,5 +24,7 @@ public abstract class Spell : Entity
         }
 
         //var timeFlying = maxDistance/speed;        
-    }    
+    }
+
+    public abstract void Death(); //spell destruction and clean up
 }

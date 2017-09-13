@@ -23,7 +23,7 @@ public class TrapFloor : Trap
             unit.anim.SetTrigger("Fall");
 
             GameManager.instance.GameOver();
-            GameManager.instance.SetSceneWithWait("LevelFailed", 2.5f);
+            GameManager.instance.SetScene("LevelFailed", 2.5f);
 
             Destroy(gameObject,2);
         }

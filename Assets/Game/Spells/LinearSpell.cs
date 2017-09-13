@@ -58,7 +58,13 @@ public class LinearSpell : Spell
             }
 
             isDead = true;
-            Destroy(this.transform.gameObject);
+            Destroy(transform.gameObject);
         }
+    }
+
+    public override void Death()
+    {
+        isDead = true;
+        Destroy(transform.gameObject);
     }
 }
