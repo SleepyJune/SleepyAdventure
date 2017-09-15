@@ -17,12 +17,12 @@ public class MelonMovement : AppleMovement
         }
 
         Move();
+        Attack();
 
         if (GameManager.time - lastUpdate > updateFrequency)
         {
             GetDestination();
             Idle();
-            Attack();
             lastUpdate = GameManager.time;
         }
 
@@ -37,11 +37,11 @@ public class MelonMovement : AppleMovement
             if (pos2d.Distance(pos) < 2)
             {
                 anim.SetTrigger("Attack");
-
-                //GameManager.instance.player.GetComponent<PlayerHealth>().TakeDamage(this, 5);
-                GameManager.instance.CreateCircularSpell(this, explosion, this.transform.position);
-
+                
+                GameManager.instance.CreateCircularSpell(this, explosion, this.transform.position);                
                 lastAttack = GameManager.time;
+
+                Death();
             }
         }
     }

@@ -10,7 +10,7 @@ public class CircularSpell : Spell
     public float damageDelay = 0.25f;
     public float deathTime = 1f;
 
-    //private HashSet<Unit> affectedList;
+    private HashSet<Unit> affectedList;
         
     void Awake()
     {
@@ -21,6 +21,8 @@ public class CircularSpell : Spell
             collider.enabled = false;
             DelayAction.Add(() => { collider.enabled = true; }, damageDelay);
         }
+
+        affectedList = new HashSet<Unit>();
 
         DelayAction.Add(Death, deathTime);
     }
@@ -36,9 +38,13 @@ public class CircularSpell : Spell
     void OnTriggerEnter(Collider collision)
     {       
         var unit = collision.gameObject.GetComponent<AttackableUnit>();
-        if (unit != null)
+        if (unit != null && !unit.isDead)
         {
-            unit.TakeDamage(source, damage);
+            if (!affectedList.Contains(unit)) //deal damage only once
+            {
+                unit.TakeDamage(source, damage);
+                affectedList.Add(unit);
+            }
         }        
     }
 

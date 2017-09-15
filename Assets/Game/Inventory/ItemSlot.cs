@@ -18,6 +18,8 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     
     public Item itemScript;
 
+    int currentTouchId;
+
     void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
@@ -45,6 +47,8 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        currentTouchId = eventData.pointerId;
+                
         startParent = transform.parent;
         startPosition = transform.position;
         startSlot = transform.parent.GetComponent<ItemDropHandler>();
@@ -55,17 +59,30 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public void OnDrag(PointerEventData eventData)
     {
-        transform.position = Input.mousePosition;
+        if(currentTouchId == eventData.pointerId)
+        {
+            if (currentTouchId >= 0)
+            {
+                transform.position = Input.touches[currentTouchId].position;
+            }
+            else
+            {
+                transform.position = Input.mousePosition;
+            }
+        }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        canvasGroup.blocksRaycasts = true;
-
-        if(transform.parent == Inventory.instance.topOfCanvas)
+        if (currentTouchId == eventData.pointerId)
         {
-            transform.position = startPosition;
-            transform.parent = startParent;
+            canvasGroup.blocksRaycasts = true;
+
+            if (transform.parent == Inventory.instance.topOfCanvas)
+            {
+                transform.position = startPosition;
+                transform.parent = startParent;
+            }
         }
     }
 
@@ -84,5 +101,10 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     {
         Inventory.instance.InfoPanel.GetComponent<CanvasGroup>().alpha = 0f;
         //Inventory.instance.InfoPanel.GetComponent<CanvasGroup>().blocksRaycasts = false;
+    }
+
+    void OnDestroy()
+    {
+        GetComponent<Button>().onClick.RemoveAllListeners();
     }
 }

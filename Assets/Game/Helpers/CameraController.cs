@@ -69,9 +69,18 @@ public class CameraController : MonoBehaviour {
     }
 
 	// Update is called once per frame
-	void Update () {
-        ZoomFunction();
-        PanFunction();
-        //FollowPlayer();
-    }
+	/*void Update () {
+
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            
+        }
+        else
+        {
+            ZoomFunction();
+            PanFunction();
+            //FollowPlayer();
+        }
+
+    }*/
 }

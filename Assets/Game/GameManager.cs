@@ -39,6 +39,10 @@ public class GameManager : MonoBehaviour
 
     private bool gameOver = false;
 
+    public AttackButton attackButton;
+
+    public TouchInputManager inputManager;
+
     void Awake()
     {
         if (instance == null)
@@ -60,7 +64,9 @@ public class GameManager : MonoBehaviour
         damageTextManager = GetComponent<DamageTextController>();
         emojiBarManager = GetComponent<EmojiBarManager>();
 
-        prefabManager = PrefabManager.instance;
+        inputManager = GetComponent<TouchInputManager>();
+
+        prefabManager = PrefabManager.instance;        
     }
 
     // Update is called once per frame
@@ -223,6 +229,7 @@ public class GameManager : MonoBehaviour
     {
         Pathfinding.InitPathSquares(level);
         hud.gameObject.SetActive(true);
+        Inventory.instance.equipment.SetDefaultWeapon();
     }
 
     GameObject CreateNewObject(int pid, IPosition pos, Vector3 rotation)
@@ -314,6 +321,23 @@ public class GameManager : MonoBehaviour
         if (player)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            var groundPlane = new Plane(player.transform.up, player.transform.position);
+            float rayDistance;
+
+            if (groundPlane.Raycast(ray, out rayDistance))
+            {
+                return ray.GetPoint(rayDistance);
+            }
+        }
+
+        return Vector3.zero;
+    }
+
+    public Vector3 GetTouchPosition(Vector2 position)
+    {
+        if (player)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(position);
             var groundPlane = new Plane(player.transform.up, player.transform.position);
             float rayDistance;
 

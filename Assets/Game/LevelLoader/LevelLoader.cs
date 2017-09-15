@@ -51,16 +51,21 @@ public class LevelLoader : MonoBehaviour
         if (!Directory.Exists(savePath))
         {
             Directory.CreateDirectory(savePath);
+        }
 
-            var levels = Resources.LoadAll("Levels", typeof(TextAsset));
+        var levels = Resources.LoadAll("Levels", typeof(TextAsset));
+        foreach (var obj in levels)
+        {
+            var level = obj as TextAsset;
 
-            foreach (var obj in levels)
+            if(!File.Exists(savePath + level.name + ".json"))
             {
-                var level = obj as TextAsset;
                 File.WriteAllText(savePath + level.name + ".json", level.text);
             }
-
         }
+
+        
+        
 
         DirectoryInfo d = new DirectoryInfo(savePath);
 

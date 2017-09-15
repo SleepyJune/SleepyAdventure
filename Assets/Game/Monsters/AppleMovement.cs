@@ -11,7 +11,10 @@ public class AppleMovement : Monster, MonsterMovement
         
     void Awake()
     {
-        Initialize();
+        if (GameManager.instance) //check if it's editor or game
+        {
+            Initialize();
+        }
     }
 
     void Update()

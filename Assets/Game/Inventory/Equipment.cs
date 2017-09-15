@@ -13,7 +13,14 @@ public class Equipment : MonoBehaviour
 
     void Awake()
     {
+        
+    }
+
+    public void SetDefaultWeapon()
+    {
         weapon = defaultWeapon;
+
+        GameManager.instance.attackButton.OnChangeWeapon(weapon);
     }
 
     public bool ChangeWeapon(WeaponItem weaponItem)
@@ -33,6 +40,7 @@ public class Equipment : MonoBehaviour
             currentWeaponItem = weaponItem;
 
             GameManager.instance.player.OnChangeWeapon(newWeapon);
+            GameManager.instance.attackButton.OnChangeWeapon(newWeapon);
             return true;
         }
         else
@@ -42,6 +50,7 @@ public class Equipment : MonoBehaviour
 
             weapon = defaultWeapon;
             GameManager.instance.player.OnChangeWeapon(defaultWeapon);
+            GameManager.instance.attackButton.OnChangeWeapon(defaultWeapon);
             return false;
         }
     }

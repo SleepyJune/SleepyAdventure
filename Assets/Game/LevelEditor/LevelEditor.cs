@@ -134,7 +134,7 @@ public class LevelEditor : MonoBehaviour
                 int menuSelectID = objectID + 1;
                 var menuSelectCollection = prefabManager.collections[menuSelectID];
 
-                newObject.GetComponent<Button>().onClick.AddListener(() => OnSelectCollection(menuSelectCollection));
+                newObject.GetComponent<Button>().onClick.AddListener(() => OnSelectCollection(menuSelectCollection));                
             }
             else
             {
