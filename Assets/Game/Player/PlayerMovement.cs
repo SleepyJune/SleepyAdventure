@@ -28,6 +28,7 @@ public class PlayerMovement : Hero
     GameObject pathHighlightHolder;
 
     AttackButton attackButton;
+    CameraButton cameraButton;
 
     public Equipment equipment;
 
@@ -47,7 +48,8 @@ public class PlayerMovement : Hero
         //attackFrequency = 1 / attackSpeed;
         
         attackButton = GameManager.instance.hud.Find("CombatUI").Find("Panel").Find("AttackButton").GetComponent<AttackButton>();
-               
+        cameraButton = GameManager.instance.hud.Find("CameraButton").Find("Panel").Find("CameraButton").GetComponent<CameraButton>();
+
 
         healthScript = GetComponent<PlayerHealth>();
 
@@ -151,32 +153,35 @@ public class PlayerMovement : Hero
 
     void HighlightSquare()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, camRayLength, floorMask))
+        if (Input.mousePresent)
         {
-            var pos = hit.point.ConvertToIPosition();
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, camRayLength, floorMask))
+            {
+                var pos = hit.point.ConvertToIPosition();
 
-            if (Pathfinding.GetPathSquare(hit.point) == null)
-            {
-                return;
-            }
+                if (Pathfinding.GetPathSquare(hit.point) == null)
+                {
+                    return;
+                }
 
-            if (indicatorCube == null)
-            {
-                indicatorCube = Instantiate(indicatorCubePrefab, new Vector3(pos.x, 0, pos.z), Quaternion.identity);
+                if (indicatorCube == null)
+                {
+                    indicatorCube = Instantiate(indicatorCubePrefab, new Vector3(pos.x, 0, pos.z), Quaternion.identity);
+                }
+                else if (indicatorCube.transform.position.ConvertToIPosition() != pos)
+                {
+                    Destroy(indicatorCube);
+                    indicatorCube = Instantiate(indicatorCubePrefab, new Vector3(pos.x, 0, pos.z), Quaternion.identity);
+                }
             }
-            else if (indicatorCube.transform.position.ConvertToIPosition() != pos)
+            else
             {
-                Destroy(indicatorCube);
-                indicatorCube = Instantiate(indicatorCubePrefab, new Vector3(pos.x, 0, pos.z), Quaternion.identity);
-            }
-        }
-        else
-        {
-            if (indicatorCube != null)
-            {
-                Destroy(indicatorCube);
+                if (indicatorCube != null)
+                {
+                    Destroy(indicatorCube);
+                }
             }
         }
     }
@@ -238,7 +243,10 @@ public class PlayerMovement : Hero
 
     private void GetMoveTo(Touch touch)
     {
-        if (canMove && !attackButton.isPressed && !IsPointerOverUI(touch))
+        if (canMove 
+            && !attackButton.isPressed
+            && !cameraButton.isPressed
+            && !IsPointerOverUI(touch))
         {
             Ray ray = Camera.main.ScreenPointToRay(touch.position);
             RaycastHit hit;

@@ -10,11 +10,13 @@ using UnityEngine.EventSystems;
 public class AttackButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
 {
     Weapon weapon;
-
     Button button;
 
     [NonSerialized]
     public bool isPressed = false;
+
+    [NonSerialized]
+    public int fingerId = (int)KeyCode.F;
 
     void Start()
     {
@@ -27,7 +29,7 @@ public class AttackButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         if (Input.GetKeyDown(KeyCode.F))
         {
             var pointer = new PointerEventData(EventSystem.current);
-            pointer.pointerId = -2;
+            pointer.pointerId = (int)KeyCode.F;
             pointer.position = transform.position;
 
             ExecuteEvents.Execute(button.gameObject, pointer, ExecuteEvents.pointerEnterHandler);
@@ -37,7 +39,7 @@ public class AttackButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         if (Input.GetKeyUp(KeyCode.F))
         {
             var pointer = new PointerEventData(EventSystem.current);
-            pointer.pointerId = -2;
+            pointer.pointerId = (int)KeyCode.F;
             pointer.position = transform.position;
 
             ExecuteEvents.Execute(button.gameObject, pointer, ExecuteEvents.pointerUpHandler);
@@ -60,31 +62,33 @@ public class AttackButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     }
 
     public void OnPointerDown(PointerEventData eventData)
-    {
-        //Debug.Log("mouseDown: " + eventData.pointerId);
+    {        
+        isPressed = true;
+        fingerId = eventData.pointerId;
 
         if (weapon && weapon.combatUI.onAttackButtonDown != null)
         {
             weapon.combatUI.onAttackButtonDown(eventData);
         }
-        isPressed = true;
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        isPressed = false;
+
         if (weapon && weapon.combatUI.onAttackButtonUp != null)
         {
             weapon.combatUI.onAttackButtonUp(eventData);
         }
-        isPressed = false;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        isPressed = false;
+
         if (weapon && weapon.combatUI.onAttackButtonUp != null)
         {
             weapon.combatUI.onAttackButtonUp(eventData);
         }
-        isPressed = false;
     }
 }

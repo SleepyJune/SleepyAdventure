@@ -57,16 +57,14 @@ public class LevelLoader : MonoBehaviour
         foreach (var obj in levels)
         {
             var level = obj as TextAsset;
+            var path = savePath + level.name + ".json";
 
-            if(!File.Exists(savePath + level.name + ".json"))
+            if (!File.Exists(path) || Application.isMobilePlatform) //overwrite files if mobile platform
             {
                 File.WriteAllText(savePath + level.name + ".json", level.text);
             }
-        }
-
+        }       
         
-        
-
         DirectoryInfo d = new DirectoryInfo(savePath);
 
         int numfiles = 0;

@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4461846449645494}
   - component: {fileID: 135205931316168216}
   - component: {fileID: 114773778680505900}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: MelonProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4933163162178102}
   - component: {fileID: 198938277053871874}
   - component: {fileID: 199233452497470094}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Flame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 4345135175232788}
   - component: {fileID: 198314873507402360}
   - component: {fileID: 199530829084327202}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Explosion01b
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -15,7 +15,7 @@ public class MelonMovement : AppleMovement
         {
             return;
         }
-
+                
         Move();
         Attack();
 

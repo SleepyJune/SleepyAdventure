@@ -14,8 +14,7 @@ public class LinearCombatUI : CombatUI
     Vector2 touchStart;
 
     PlayerMovement player;
-
-    int attackButtonTouchId = -2; //the finger id that activated the attack button
+        
     int currentTouchId = -2;
 
     // Use this for initialization
@@ -41,7 +40,7 @@ public class LinearCombatUI : CombatUI
 
     void OnTouchStart(Touch touch)
     {
-        if (attackButton.isPressed && currentTouchId != touch.fingerId && attackButtonTouchId != touch.fingerId)
+        if (attackButton.isPressed && currentTouchId != touch.fingerId && attackButton.fingerId != touch.fingerId)
         {            
             if(line)
             {
@@ -106,7 +105,7 @@ public class LinearCombatUI : CombatUI
 
     void OnAttackButtonDownFunction(PointerEventData eventData)
     {
-        attackButtonTouchId = eventData != null ? eventData.pointerId : -2;
+        
     }
 
     void OnAttackButtonUpFunction(PointerEventData eventData)
