@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public static class HelperExtensions
 {
@@ -20,10 +21,10 @@ public static class HelperExtensions
 
     public static void DestroyChildren(this Transform root)
     {
-        foreach(Transform transform in root.transform)
+        foreach (Transform transform in root.transform)
         {
             GameObject.Destroy(transform.gameObject);
-        }        
+        }
     }
 
     public static Vector3 ProjectionOnPoint2D(this Vector3 point, Vector3 start, Vector3 end)
@@ -35,7 +36,7 @@ public static class HelperExtensions
     }
 
     public static Vector3 ProjectionOnPoint(this Vector3 point, Vector3 start, Vector3 end)
-    {        
+    {
         var ap = (point - start);
         var ab = (end - start).normalized;
 
@@ -54,5 +55,27 @@ public static class HelperExtensions
         v2 = v2.To2D();
 
         return Vector3.Angle(v1 - start, v2 - start);
+    }
+
+    public static bool IsPointerOverUI(this Touch touch)
+    {
+        if (touch.fingerId >= 0)
+        {
+            PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+            eventDataCurrentPosition.position = touch.position;
+
+            List<RaycastResult> results = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+
+            if (results.Count > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+        else
+        {
+            return EventSystem.current.IsPointerOverGameObject();
+        }
     }
 }

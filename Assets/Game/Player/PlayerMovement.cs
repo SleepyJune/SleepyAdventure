@@ -216,37 +216,14 @@ public class PlayerMovement : Hero
     {
         PointerEventData pData = (PointerEventData)data;
         var end = pData.pointerCurrentRaycast.worldPosition.ConvertToIPosition().To2D().ToVector();
-    }
-
-    bool IsPointerOverUI(Touch touch)
-    {
-        if (touch.fingerId >= 0) {//Application.platform == RuntimePlatform.Android) {
-
-            PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
-            eventDataCurrentPosition.position = touch.position;
-
-            List<RaycastResult> results = new List<RaycastResult>();
-            EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
-
-            if (results.Count > 0)
-            {
-                //Debug.Log(touch.fingerId + ": " + touch.phase.ToString());
-                return true;
-            }
-            return false;
-        }
-        else
-        {
-            return EventSystem.current.IsPointerOverGameObject();
-        }
-    }
+    }    
 
     private void GetMoveTo(Touch touch)
     {
         if (canMove 
             && !attackButton.isPressed
             && !cameraButton.isPressed
-            && !IsPointerOverUI(touch))
+            && !touch.IsPointerOverUI())
         {
             Ray ray = Camera.main.ScreenPointToRay(touch.position);
             RaycastHit hit;

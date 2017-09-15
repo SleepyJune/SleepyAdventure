@@ -43,6 +43,9 @@ public class GameManager : MonoBehaviour
 
     public TouchInputManager inputManager;
 
+    public delegate void Callback();
+    public event Callback OnGameStart;
+
     void Awake()
     {
         if (instance == null)
@@ -230,6 +233,11 @@ public class GameManager : MonoBehaviour
         Pathfinding.InitPathSquares(level);
         hud.gameObject.SetActive(true);
         Inventory.instance.equipment.SetDefaultWeapon();
+
+        if (OnGameStart != null)
+        {
+            OnGameStart();
+        }
     }
 
     GameObject CreateNewObject(int pid, IPosition pos, Vector3 rotation)

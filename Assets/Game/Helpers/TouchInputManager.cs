@@ -21,6 +21,11 @@ public class TouchInputManager : MonoBehaviour
 
     void Awake()
     {
+        if (Application.isMobilePlatform)
+        {
+            useMouse = false;
+        }
+
         if (!useMouse)
         {
             Input.simulateMouseWithTouches = false;

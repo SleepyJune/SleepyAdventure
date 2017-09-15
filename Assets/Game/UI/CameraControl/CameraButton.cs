@@ -14,6 +14,8 @@ public class CameraButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     public float sensitivity = 0.05f;
     public float panSensitivity = 0.01f;
 
+    //public bool noButton = false;
+
     [NonSerialized]
     public bool isPressed = false;
 
@@ -26,26 +28,28 @@ public class CameraButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     int panFingerCount = 2;
     int zoomFingerCount = 3;
 
-    Vector2 lastPanMousePosition;
 
-    void Start()
+    void Awake()
     {
         button = GetComponent<Button>();
-        
-        DelayAction.Add(() =>
+
+        GameManager.instance.OnGameStart += Initialize;      
+    }
+
+    void Initialize()
+    {
+        inputs = GameManager.instance.inputManager.inputs;
+
+        GameManager.instance.inputManager.touchStart += OnTouchStart;
+        GameManager.instance.inputManager.touchMove += OnTouchMove;
+        GameManager.instance.inputManager.touchEnd += OnTouchEnd;
+
+        if (GameManager.instance.inputManager.useMouse)
         {
-            inputs = GameManager.instance.inputManager.inputs;
+            panFingerCount = 1;
+        }
 
-            GameManager.instance.inputManager.touchStart += OnTouchStart;
-            GameManager.instance.inputManager.touchMove += OnTouchMove;
-            GameManager.instance.inputManager.touchEnd += OnTouchEnd;
-
-            if (GameManager.instance.inputManager.useMouse)
-            {
-                panFingerCount = 1;
-            }
-
-        }, 0.5f);        
+        GameManager.instance.OnGameStart -= Initialize;
     }
 
     void OnDestroy()
@@ -82,8 +86,21 @@ public class CameraButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         if (isPressed && inputs.Count == panFingerCount)
         {
             TouchInput panTouch = inputs.Values.First(i => i.id != fingerId);
-            lastPanMousePosition = panTouch.position;
         }
+
+        /*if (noButton && inputs.Count == panFingerCount) //pan function
+        {
+            isPressed = true;
+
+            foreach (var input in inputs.Values)
+            {
+                if (Input.touches[input.id].IsPointerOverUI())
+                {
+                    isPressed = false;
+                    break;
+                }
+            }
+        }*/
     }
 
     void OnTouchMove(Touch touch)
@@ -92,10 +109,8 @@ public class CameraButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         {
             TouchInput panTouch = inputs.Values.First(i => i.id != fingerId);
 
-            Vector2 delta = lastPanMousePosition - panTouch.position;
-            Camera.main.transform.Translate(delta.x * panSensitivity, delta.y * panSensitivity, 0);
-
-            lastPanMousePosition = panTouch.position;
+            Vector2 delta = panTouch.previousPosition - panTouch.position;
+            Camera.main.transform.Translate(delta.x * panSensitivity, delta.y * panSensitivity, 0);            
         }
 
         if (isPressed && inputs.Count >= zoomFingerCount) //zoom function
@@ -113,11 +128,41 @@ public class CameraButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
             fov = Mathf.Clamp(fov, minFov, maxFov);
             Camera.main.fieldOfView = fov;
         }
+
+        /*if (noButton && inputs.Count == panFingerCount) //pan function
+        {
+            isPressed = true;
+
+            foreach (var input in inputs.Values)
+            {
+                if (Input.touches[input.id].IsPointerOverUI())
+                {
+                    isPressed = false;
+                    break;
+                }
+            }
+
+            if (isPressed)
+            {
+                TouchInput panTouch1 = inputs.Values.First();
+                TouchInput panTouch2 = inputs.Values.First(i => i.id != panTouch1.id);
+
+                Vector2 delta1 = panTouch1.previousPosition - panTouch1.position;
+                Vector2 delta2 = panTouch2.previousPosition - panTouch2.position;
+
+                Vector2 delta = delta1 + delta2;
+
+                Camera.main.transform.Translate(delta.x * panSensitivity, delta.y * panSensitivity, 0);
+            }           
+        }*/
     }
 
     void OnTouchEnd(Touch touch)
     {
-        
+        /*if (noButton && isPressed)
+        {
+            isPressed = false;
+        }*/
     }
 
     public void OnPointerDown(PointerEventData eventData)
