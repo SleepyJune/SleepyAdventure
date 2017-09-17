@@ -8,6 +8,8 @@ using UnityEngine.EventSystems;
 
 public class TouchInputManager : MonoBehaviour
 {
+    public static TouchInputManager instance = null;
+
     public Dictionary<int, TouchInput> inputs;
 
     public delegate void Callback(Touch touch);
@@ -21,6 +23,16 @@ public class TouchInputManager : MonoBehaviour
 
     void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         if (Application.isMobilePlatform)
         {
             useMouse = false;

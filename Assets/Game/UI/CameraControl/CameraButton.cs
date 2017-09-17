@@ -6,6 +6,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class CameraButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
 {
@@ -28,56 +29,90 @@ public class CameraButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     int panFingerCount = 2;
     int zoomFingerCount = 3;
 
+    Scene activeScene;
 
-    void Awake()
+    Vector3 lastPanMousePosition;
+
+    void Start()
     {
         button = GetComponent<Button>();
+        activeScene = SceneManager.GetActiveScene();
 
-        GameManager.instance.OnGameStart += Initialize;      
+        Initialize();
     }
 
     void Initialize()
     {
-        inputs = GameManager.instance.inputManager.inputs;
+        inputs = TouchInputManager.instance.inputs;
 
-        GameManager.instance.inputManager.touchStart += OnTouchStart;
-        GameManager.instance.inputManager.touchMove += OnTouchMove;
-        GameManager.instance.inputManager.touchEnd += OnTouchEnd;
+        TouchInputManager.instance.touchStart += OnTouchStart;
+        TouchInputManager.instance.touchMove += OnTouchMove;
+        TouchInputManager.instance.touchEnd += OnTouchEnd;
 
-        if (GameManager.instance.inputManager.useMouse)
+        if (TouchInputManager.instance.useMouse) //temporary
         {
             panFingerCount = 1;
+            panSensitivity = 0.02f;
+            sensitivity = 10;
         }
-
-        GameManager.instance.OnGameStart -= Initialize;
     }
 
     void OnDestroy()
     {
-        GameManager.instance.inputManager.touchStart -= OnTouchStart;
-        GameManager.instance.inputManager.touchMove -= OnTouchMove;
-        GameManager.instance.inputManager.touchEnd -= OnTouchEnd;
+        TouchInputManager.instance.touchStart -= OnTouchStart;
+        TouchInputManager.instance.touchMove -= OnTouchMove;
+        TouchInputManager.instance.touchEnd -= OnTouchEnd;
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C))
+        if (TouchInputManager.instance.useMouse)
         {
-            var pointer = new PointerEventData(EventSystem.current);
-            pointer.pointerId = (int)KeyCode.C;
-            pointer.position = transform.position;
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                var pointer = new PointerEventData(EventSystem.current);
+                pointer.pointerId = (int)KeyCode.C;
+                pointer.position = transform.position;
 
-            ExecuteEvents.Execute(button.gameObject, pointer, ExecuteEvents.pointerEnterHandler);
-            ExecuteEvents.Execute(button.gameObject, pointer, ExecuteEvents.pointerDownHandler);
+                ExecuteEvents.Execute(button.gameObject, pointer, ExecuteEvents.pointerEnterHandler);
+                ExecuteEvents.Execute(button.gameObject, pointer, ExecuteEvents.pointerDownHandler);
+            }
+
+            if (Input.GetKeyUp(KeyCode.C))
+            {
+                var pointer = new PointerEventData(EventSystem.current);
+                pointer.pointerId = (int)KeyCode.C;
+                pointer.position = transform.position;
+
+                ExecuteEvents.Execute(button.gameObject, pointer, ExecuteEvents.pointerUpHandler);
+            }
+
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                var scrollSpeed = Input.GetAxis("Mouse ScrollWheel");
+                ZoomFunction(scrollSpeed);
+            }
+
+            if (activeScene.name == "LevelLoader")
+            {
+                CheckPan();
+            }
+        }
+    }
+
+    void CheckPan()
+    {
+        if (Input.GetButtonDown("Fire2"))
+        {
+            lastPanMousePosition = Input.mousePosition;
         }
 
-        if (Input.GetKeyUp(KeyCode.C))
+        if (Input.GetButton("Fire2"))
         {
-            var pointer = new PointerEventData(EventSystem.current);
-            pointer.pointerId = (int)KeyCode.C;
-            pointer.position = transform.position;
+            Vector2 delta = lastPanMousePosition - Input.mousePosition;
+            Camera.main.transform.Translate(delta.x * panSensitivity, 0, delta.y * panSensitivity, Space.World);
 
-            ExecuteEvents.Execute(button.gameObject, pointer, ExecuteEvents.pointerUpHandler);
+            lastPanMousePosition = Input.mousePosition;
         }
     }
 
@@ -87,20 +122,6 @@ public class CameraButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         {
             TouchInput panTouch = inputs.Values.First(i => i.id != fingerId);
         }
-
-        /*if (noButton && inputs.Count == panFingerCount) //pan function
-        {
-            isPressed = true;
-
-            foreach (var input in inputs.Values)
-            {
-                if (Input.touches[input.id].IsPointerOverUI())
-                {
-                    isPressed = false;
-                    break;
-                }
-            }
-        }*/
     }
 
     void OnTouchMove(Touch touch)
@@ -110,7 +131,7 @@ public class CameraButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
             TouchInput panTouch = inputs.Values.First(i => i.id != fingerId);
 
             Vector2 delta = panTouch.previousPosition - panTouch.position;
-            Camera.main.transform.Translate(delta.x * panSensitivity, delta.y * panSensitivity, 0);            
+            Camera.main.transform.Translate(delta.x * panSensitivity, 0, delta.y * panSensitivity, Space.World);            
         }
 
         if (isPressed && inputs.Count >= zoomFingerCount) //zoom function
@@ -122,47 +143,14 @@ public class CameraButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
             float touchDeltaMag = (zoomTouch1.position - zoomTouch2.position).magnitude;
             
             float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
-                        
-            float fov = Camera.main.fieldOfView;
-            fov += deltaMagnitudeDiff * sensitivity;
-            fov = Mathf.Clamp(fov, minFov, maxFov);
-            Camera.main.fieldOfView = fov;
+
+            ZoomFunction(-deltaMagnitudeDiff);
         }
-
-        /*if (noButton && inputs.Count == panFingerCount) //pan function
-        {
-            isPressed = true;
-
-            foreach (var input in inputs.Values)
-            {
-                if (Input.touches[input.id].IsPointerOverUI())
-                {
-                    isPressed = false;
-                    break;
-                }
-            }
-
-            if (isPressed)
-            {
-                TouchInput panTouch1 = inputs.Values.First();
-                TouchInput panTouch2 = inputs.Values.First(i => i.id != panTouch1.id);
-
-                Vector2 delta1 = panTouch1.previousPosition - panTouch1.position;
-                Vector2 delta2 = panTouch2.previousPosition - panTouch2.position;
-
-                Vector2 delta = delta1 + delta2;
-
-                Camera.main.transform.Translate(delta.x * panSensitivity, delta.y * panSensitivity, 0);
-            }           
-        }*/
     }
 
     void OnTouchEnd(Touch touch)
     {
-        /*if (noButton && isPressed)
-        {
-            isPressed = false;
-        }*/
+
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -179,5 +167,13 @@ public class CameraButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     public void OnPointerExit(PointerEventData eventData)
     {
         isPressed = false;
+    }
+
+    public void ZoomFunction(float scrollSpeed)
+    {
+        float fov = Camera.main.fieldOfView;
+        fov -= scrollSpeed * sensitivity;
+        fov = Mathf.Clamp(fov, minFov, maxFov);
+        Camera.main.fieldOfView = fov;
     }
 }

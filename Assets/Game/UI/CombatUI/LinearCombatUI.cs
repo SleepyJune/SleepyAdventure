@@ -26,16 +26,16 @@ public class LinearCombatUI : CombatUI
         onAttackButtonDown = OnAttackButtonDownFunction;
         onAttackButtonUp = OnAttackButtonUpFunction;
 
-        GameManager.instance.inputManager.touchStart += OnTouchStart;
-        GameManager.instance.inputManager.touchMove += OnTouchMove;
-        GameManager.instance.inputManager.touchEnd += OnTouchEnd;
+        TouchInputManager.instance.touchStart += OnTouchStart;
+        TouchInputManager.instance.touchMove += OnTouchMove;
+        TouchInputManager.instance.touchEnd += OnTouchEnd;
     }
 
     public override void Death()
     {
-        GameManager.instance.inputManager.touchStart -= OnTouchStart;
-        GameManager.instance.inputManager.touchMove -= OnTouchMove;
-        GameManager.instance.inputManager.touchEnd -= OnTouchEnd;
+        TouchInputManager.instance.touchStart -= OnTouchStart;
+        TouchInputManager.instance.touchMove -= OnTouchMove;
+        TouchInputManager.instance.touchEnd -= OnTouchEnd;
     }
 
     void OnTouchStart(Touch touch)

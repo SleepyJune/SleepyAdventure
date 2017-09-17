@@ -355,45 +355,7 @@ public class LevelEditor : MonoBehaviour
             stageSelectedScript.RemoveObject();
         }
     }
-
-    public float minFov = 15f;
-    public float maxFov = 90f;
-    public float sensitivity = 10f;
-    public float panSensitivity = .01f;
-
-    bool isPanOn = false;
-
-    Vector3 lastPanMousePosition;
-
-    void ZoomFunction()
-    {
-        float fov = Camera.main.fieldOfView;
-        fov -= Input.GetAxis("Mouse ScrollWheel") * sensitivity;
-        fov = Mathf.Clamp(fov, minFov, maxFov);
-        Camera.main.fieldOfView = fov;
-    }
-
-    void PanFunction()
-    {
-        if (Input.GetButtonDown("Fire1"))
-        {
-            lastPanMousePosition = Input.mousePosition;
-        }
-
-        if (Input.GetButton("Fire1"))
-        {
-            Vector3 delta = -Input.mousePosition + lastPanMousePosition;
-            Camera.main.transform.Translate(delta.x * panSensitivity, delta.y * panSensitivity, 0);
-            lastPanMousePosition = Input.mousePosition;
-        }
-
-    }
-
-    public void OnPanPressed()
-    {
-        isPanOn = !isPanOn;
-    }
-
+    
     void HighlightSquare()
     {
         if (selectedInfo == null)
@@ -458,47 +420,41 @@ public class LevelEditor : MonoBehaviour
             Destroy(indicatorCube);
         }
 
-        if (isPanOn)
+        var isPointerOverGameObject = EventSystem.current.IsPointerOverGameObject();
+                
+        if (!isPointerOverGameObject)
         {
-            PanFunction();
-        }
-        else
-        {
-            if (EventSystem.current.IsPointerOverGameObject() == false)
+            HighlightSquare();
+
+            if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2"))
             {
-                HighlightSquare();
-                ZoomFunction();
-
-                if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2"))
+                if (indicatorCube == null)
                 {
-                    if(indicatorCube == null)
-                    {
-                        EditorScriptActions();
-                    }
-
+                    EditorScriptActions();
                 }
+            }
 
-                if (Input.GetButton("Fire1"))
+            if (Input.GetButton("Fire1"))
+            {
+                if (clicked == false)
                 {
-                    if (clicked == false)
-                    {
-                        clicked = true;
-
-                        PlaceNewObject();
-                    }
-                }
-                else
-                {
-                    clicked = false;
+                    clicked = true;
+                    PlaceNewObject();
                 }
             }
             else
             {
-                if (indicatorCube != null)
-                {
-                    Destroy(indicatorCube);
-                }
+                clicked = false;
             }
         }
+        else
+        {
+            if (indicatorCube != null)
+            {
+                Destroy(indicatorCube);
+            }
+        }
+
+
     }
 }

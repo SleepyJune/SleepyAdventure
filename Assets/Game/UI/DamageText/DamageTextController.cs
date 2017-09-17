@@ -16,21 +16,18 @@ public class DamageTextController : MonoBehaviour {
 	
 	public void CreateDamageText(Unit unit, int damage)
     {
-        Vector2 screenLocation = 
-            Camera.main.WorldToScreenPoint(
-                unit.transform.position +
+        Vector3 screenLocation = Camera.main.WorldToScreenPoint(
+            unit.transform.position +
                 new Vector3(Random.Range(-.2f, .2f), .5f + Random.Range(-.2f, .2f), Random.Range(-.2f, .2f)));
-
-        var size = unit.GetPixelSize()/30;
-        
+                        
         var text = Instantiate(damageTextPrefab);
         text.transform.SetParent(canvas.transform, false);
         text.transform.position = screenLocation;
         text.GetComponentInChildren<Text>().text = damage.ToString();
 
-        text.transform.localScale = Vector3.Scale(text.transform.localScale, new Vector3(size, size, size));
+        var sizeRatio = unit.GetRelativeSizeRatio();
+        text.transform.localScale = new Vector3(sizeRatio, sizeRatio, sizeRatio);
 
         Destroy(text, 2);
-
     }
 }

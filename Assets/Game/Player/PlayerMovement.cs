@@ -56,7 +56,7 @@ public class PlayerMovement : Hero
         equipment = Inventory.instance.equipment;
         combatUI = equipment.weapon.combatUI;
 
-        GameManager.instance.inputManager.touchStart += GetMoveTo;
+        TouchInputManager.instance.touchStart += GetMoveTo;
 
         
     }

@@ -40,9 +40,7 @@ public class GameManager : MonoBehaviour
     private bool gameOver = false;
 
     public AttackButton attackButton;
-
-    public TouchInputManager inputManager;
-
+        
     public delegate void Callback();
     public event Callback OnGameStart;
 
@@ -55,6 +53,7 @@ public class GameManager : MonoBehaviour
         else if (instance != this)
         {
             Destroy(gameObject);
+            return;
         }
     }
 
@@ -66,8 +65,6 @@ public class GameManager : MonoBehaviour
 
         damageTextManager = GetComponent<DamageTextController>();
         emojiBarManager = GetComponent<EmojiBarManager>();
-
-        inputManager = GetComponent<TouchInputManager>();
 
         prefabManager = PrefabManager.instance;        
     }
