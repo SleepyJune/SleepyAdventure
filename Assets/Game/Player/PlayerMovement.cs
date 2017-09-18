@@ -4,12 +4,16 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 using System.Linq;
+using System;
+using System.Collections.Generic;
 
 public class PlayerMovement : Hero
 {
     private Vector3 movement;
 
     int floorMask;
+    int uiMask;
+
     float camRayLength = 100f;
 
     int keys = 0;
@@ -23,7 +27,8 @@ public class PlayerMovement : Hero
 
     GameObject pathHighlightHolder;
 
-    Button attackButton;
+    AttackButton attackButton;
+    CameraButton cameraButton;
 
     public Equipment equipment;
 
@@ -36,28 +41,24 @@ public class PlayerMovement : Hero
         Initialize();
 
         floorMask = LayerMask.GetMask("Floor");
+        uiMask = LayerMask.GetMask("UI");
+
         indicatorCubePrefab = Resources.Load("IndicatorCubeGreen", typeof(GameObject)) as GameObject;
 
         //attackFrequency = 1 / attackSpeed;
+        
+        attackButton = GameManager.instance.hud.Find("CombatUI").Find("Panel").Find("AttackButton").GetComponent<AttackButton>();
+        cameraButton = GameManager.instance.hud.Find("CameraButton").Find("Panel").Find("CameraButton").GetComponent<CameraButton>();
 
-        /*
-#if UNITY_EDITOR
-        Debug.Log("Unity Editor");
-#elif UNITY_ANDROID
-        Debug.Log("Unity Editor");
-#elif UNITY_IOS
-    Debug.Log("Unity iPhone");
-#else
-    Debug.Log("Any other platform");
-#endif
-*/
-        attackButton = GameManager.instance.hud.Find("CombatUI").Find("Panel").Find("AttackButton").GetComponent<Button>();
-        attackButton.onClick.AddListener(Attack);
 
         healthScript = GetComponent<PlayerHealth>();
 
         equipment = Inventory.instance.equipment;
         combatUI = equipment.weapon.combatUI;
+
+        TouchInputManager.instance.touchStart += GetMoveTo;
+
+        
     }
 
     void Update()
@@ -68,52 +69,13 @@ public class PlayerMovement : Hero
 
     void FixedUpdate()
     {
-        GetMoveTo();
+        //GetMoveTo();
         Move();
     }
 
     public void OnChangeWeapon(Weapon newWeapon)
     {
-        newWeapon.combatUI.Initialize();
         combatUI = newWeapon.combatUI;
-    }
-
-    public void Attack()
-    {
-        if (equipment.weapon)
-        {
-            //equipment.weapon.Attack(this);
-        }
-        else
-        {
-            AttackPattern1();
-        }
-    }
-
-    public void AttackPattern1()
-    {
-        if (GameManager.time - lastAttack > attackFrequency)
-        {
-            var enemies = GameManager.instance.units.Values.Where(u => u is Monster);
-
-            foreach (Monster enemy in enemies)
-            {
-                if (enemy.transform.position.ConvertToIPosition().To2D()
-                    .Distance(transform.position.ConvertToIPosition().To2D()) < 2)
-                {
-                    var dir = enemy.transform.position - transform.position;
-                    dir.y = 0;
-
-                    enemy.transform.GetComponent<Rigidbody>().AddForce(1000 * dir);
-
-                    enemy.TakeDamage(this, 100);
-
-                }
-            }
-
-            anim.SetTrigger("Punch");
-            lastAttack = GameManager.time;
-        }
     }
 
     void Move()
@@ -163,7 +125,7 @@ public class PlayerMovement : Hero
                 {
                     transform.position += dir * speed * Time.deltaTime;
 
-                    anim.SetFloat("Speed", speed * Time.deltaTime);                    
+                    anim.SetFloat("Speed", speed * Time.deltaTime);
                 }
                 else
                 {
@@ -175,7 +137,7 @@ public class PlayerMovement : Hero
                 }
                 isWalking = true;
 
-                if(path != null)
+                if (path != null)
                 {
                     LookAt(nextPos.ToVector());
                 }
@@ -191,32 +153,35 @@ public class PlayerMovement : Hero
 
     void HighlightSquare()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, camRayLength, floorMask))
+        if (Input.mousePresent)
         {
-            var pos = hit.point.ConvertToIPosition();
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, camRayLength, floorMask))
+            {
+                var pos = hit.point.ConvertToIPosition();
 
-            if(Pathfinding.GetPathSquare(hit.point) == null)
-            {
-                return;
-            }
+                if (Pathfinding.GetPathSquare(hit.point) == null)
+                {
+                    return;
+                }
 
-            if (indicatorCube == null)
-            {
-                indicatorCube = Instantiate(indicatorCubePrefab, new Vector3(pos.x, 0, pos.z), Quaternion.identity);
+                if (indicatorCube == null)
+                {
+                    indicatorCube = Instantiate(indicatorCubePrefab, new Vector3(pos.x, 0, pos.z), Quaternion.identity);
+                }
+                else if (indicatorCube.transform.position.ConvertToIPosition() != pos)
+                {
+                    Destroy(indicatorCube);
+                    indicatorCube = Instantiate(indicatorCubePrefab, new Vector3(pos.x, 0, pos.z), Quaternion.identity);
+                }
             }
-            else if (indicatorCube.transform.position.ConvertToIPosition() != pos)
+            else
             {
-                Destroy(indicatorCube);
-                indicatorCube = Instantiate(indicatorCubePrefab, new Vector3(pos.x, 0, pos.z), Quaternion.identity);
-            }
-        }
-        else
-        {
-            if (indicatorCube != null)
-            {
-                Destroy(indicatorCube);
+                if (indicatorCube != null)
+                {
+                    Destroy(indicatorCube);
+                }
             }
         }
     }
@@ -251,13 +216,16 @@ public class PlayerMovement : Hero
     {
         PointerEventData pData = (PointerEventData)data;
         var end = pData.pointerCurrentRaycast.worldPosition.ConvertToIPosition().To2D().ToVector();
-    }
+    }    
 
-    private void GetMoveTo()
+    private void GetMoveTo(Touch touch)
     {
-        if (canMove && EventSystem.current.IsPointerOverGameObject() == false && Input.GetButton("Fire1"))
+        if (canMove 
+            && !attackButton.isPressed
+            && !cameraButton.isPressed
+            && !touch.IsPointerOverUI())
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = Camera.main.ScreenPointToRay(touch.position);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, camRayLength, floorMask))
             {
@@ -269,7 +237,6 @@ public class PlayerMovement : Hero
                     return;
                 }
 
-
                 path = GameManager.instance.UnitMoveTo(this, transform.position, end);
 
                 if (path != null)
@@ -278,7 +245,7 @@ public class PlayerMovement : Hero
                 }
                 else
                 {
-                    if(hit.point.ConvertToIPosition().To2D() != transform.position.ConvertToIPosition().To2D())
+                    if (hit.point.ConvertToIPosition().To2D() != transform.position.ConvertToIPosition().To2D())
                     {
                         LookAt(hit.point);
                     }
@@ -297,5 +264,5 @@ public class PlayerMovement : Hero
     {
         healthScript.TakeDamage(source, amount);
     }
-
+    
 }

@@ -17,21 +17,8 @@ public class EmojiBarManager : MonoBehaviour
 
     public EmojiBar CreateBar(Monster unit)
     {
-        Vector2 screenLocation =
-            Camera.main.WorldToScreenPoint(
-                unit.transform.position);
-
-        var size = unit.GetPixelSize() / 30;
-
         var bar = Instantiate(emojiPrefab);
         bar.transform.SetParent(canvas.transform, false);
-        bar.transform.position = screenLocation;
-        
-        //text.GetComponentInChildren<Text>().text = damage.ToString();
-
-        bar.transform.localScale = Vector3.Scale(bar.transform.localScale, new Vector3(size, size, size));
-
-        //Destroy(bar, 2);
 
         var barScript = bar.GetComponent<EmojiBar>();
         barScript.unit = unit;

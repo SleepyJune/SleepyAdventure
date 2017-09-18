@@ -1,15 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 using System.Linq;
 
-public class CameraController : MonoBehaviour {
+public class MouseCameraController : MonoBehaviour
+{
 
     public float minFov = 15f;
     public float maxFov = 90f;
     public float sensitivity = 10f;
-    public float panSensitivity = .01f;
+    public float panSensitivity = .02f;
 
     bool isPanOn = false;
 
@@ -20,20 +24,22 @@ public class CameraController : MonoBehaviour {
 
     public float smooth = 3f;
 
-    void ZoomFunction()
+    Scene activeScene;
+
+    void Start()
+    {
+        activeScene = SceneManager.GetActiveScene();
+    }
+
+    public void ZoomFunction(float scrollSpeed)
     {
         float fov = Camera.main.fieldOfView;
-        fov -= Input.GetAxis("Mouse ScrollWheel") * sensitivity;
+        fov -= scrollSpeed * sensitivity;
         fov = Mathf.Clamp(fov, minFov, maxFov);
         Camera.main.fieldOfView = fov;
     }
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-
-    void PanFunction()
+    void CheckPan()
     {
         if (Input.GetButtonDown("Fire2"))
         {
@@ -42,11 +48,16 @@ public class CameraController : MonoBehaviour {
 
         if (Input.GetButton("Fire2"))
         {
-            Vector3 delta = -Input.mousePosition + lastPanMousePosition;
-            Camera.main.transform.Translate(delta.x * panSensitivity, delta.y * panSensitivity, 0);
+            PanFunction(lastPanMousePosition, Input.mousePosition);
+
             lastPanMousePosition = Input.mousePosition;
         }
-
+    }
+        
+    public void PanFunction(Vector3 pointerOrigin, Vector3 pointerCurrent)
+    {
+        Vector3 delta = pointerOrigin - pointerCurrent;
+        Camera.main.transform.Translate(delta.x * panSensitivity, 0, delta.y * panSensitivity, Space.World);
     }
 
     void FollowPlayer()
@@ -68,10 +79,18 @@ public class CameraController : MonoBehaviour {
 
     }
 
-	// Update is called once per frame
-	void Update () {
-        ZoomFunction();
-        PanFunction();
-        //FollowPlayer();
+    // Update is called once per frame
+    void Update()
+    {
+        if (!Application.isMobilePlatform)
+        {            
+            if (activeScene.name == "LevelLoader")
+            {
+                var scrollSpeed = Input.GetAxis("Mouse ScrollWheel");            
+                ZoomFunction(scrollSpeed);
+                CheckPan();
+                //FollowPlayer();
+            }
+        }
     }
 }

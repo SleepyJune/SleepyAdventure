@@ -64,6 +64,21 @@ public abstract class Unit : Entity
         return pixelSize;
     }
 
+    public float GetBoundsSize()
+    {
+        Vector3 origin = Camera.main.WorldToScreenPoint(new Vector3(collider.bounds.min.x, collider.bounds.max.y, 0f));
+        Vector3 extent = Camera.main.WorldToScreenPoint(new Vector3(collider.bounds.max.x, collider.bounds.min.y, 0f));
+
+        return Vector3.Distance(extent, origin);
+    }
+
+    public float GetRelativeSizeRatio()
+    {
+        var distance = Vector3.Distance(this.transform.position, Camera.main.transform.position);
+                                     
+        return (15.5f * 55) / (distance * Camera.main.fieldOfView);
+    }
+
     public void Stop()
     {
         rigidbody.velocity = Vector3.zero;

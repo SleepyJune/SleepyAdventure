@@ -13,11 +13,15 @@ public class EmojiBar : MonoBehaviour
     [System.NonSerialized]
     public Monster unit;
 
+    float lastSize;
+    
     // Use this for initialization
     void Start()
     {
         canvas = GameObject.Find("Canvas/EmojiBarHolder");
         anim = transform.GetComponentInChildren<Animator>();
+
+        lastSize = unit.GetBoundsSize();
     }
 
     void Update()
@@ -31,16 +35,20 @@ public class EmojiBar : MonoBehaviour
         UpdateBarLocation();
     }
 
+
     public void UpdateBarLocation()
     {
         Vector2 screenLocation =
             Camera.main.WorldToScreenPoint(
                 unit.emojiBarTransform.position);
 
-        var size = unit.GetPixelSize() / 30;
-              
+        //var currentSize = unit.GetBoundsSize();
+        var sizeRatio = unit.GetRelativeSizeRatio();
+
         transform.position = screenLocation;
-        transform.localScale = new Vector3(size, size, size);
+        transform.localScale = new Vector3(sizeRatio, sizeRatio, sizeRatio);
+
+        //lastSize = currentSize;
 
     }
 }

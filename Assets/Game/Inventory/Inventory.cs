@@ -138,7 +138,11 @@ public class Inventory : MonoBehaviour
     {
         if (!Directory.Exists(savePath) || !File.Exists(savePath + saveFilename))
         {
-            slots = new int[25];
+            //slots = new int[25];
+
+            string tempInventory = "{\"Items\":[0,0,101,0,0,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}";
+            slots = JsonHelper.FromJson<int>(tempInventory);
+
             return;
         }
 

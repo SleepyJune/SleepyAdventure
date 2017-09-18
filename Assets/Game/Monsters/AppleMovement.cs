@@ -8,10 +8,15 @@ using UnityEngine;
 public class AppleMovement : Monster, MonsterMovement
 {
     //IPosition nextPos = IPosition.zero;
-        
+    
+    bool aggro = false;
+
     void Awake()
     {
-        Initialize();
+        if (GameManager.instance) //check if it's editor or game
+        {
+            Initialize();
+        }
     }
 
     void Update()
@@ -122,11 +127,20 @@ public class AppleMovement : Monster, MonsterMovement
             if(playerPos.Distance(transform.position) <= senseRange)
             {
                 path = this.UnitMoveTo(GameManager.instance.player.transform.position);
-                emojiBar.anim.SetTrigger("Spotted");
+
+                if (!aggro)
+                {
+                    emojiBar.anim.SetTrigger("Spotted");
+                    aggro = true;
+                }
             }
             else
             {
-                emojiBar.anim.SetTrigger("Idle");
+                if (aggro)
+                {
+                    emojiBar.anim.SetTrigger("Sleep");
+                    aggro = false;
+                }
             }
 
         }

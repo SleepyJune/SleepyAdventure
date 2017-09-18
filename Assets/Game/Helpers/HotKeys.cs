@@ -2,11 +2,18 @@
 
 class HotKeys : MonoBehaviour
 {
-
     bool inventoryKeyPress = false;
+
+    public GameObject test;
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.E) && Input.GetButton("Fire1"))
+        {
+            var obj = Instantiate(test, Input.mousePosition, Quaternion.identity);
+            Destroy(obj, 5);
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Inventory.instance.Save();

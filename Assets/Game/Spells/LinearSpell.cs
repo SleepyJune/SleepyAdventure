@@ -44,12 +44,12 @@ public class LinearSpell : Spell
     }
 
     void OnTriggerEnter(Collider collision)
-    {
+    {        
         if (isDead) return;
                 
-        var monster = collision.gameObject.GetComponent<Monster>();
-        if (monster != null)
-        {
+        var monster = collision.gameObject.GetComponent<Monster>();        
+        if (monster != null && !monster.isDead)
+        {            
             monster.TakeDamage(source, 10);
 
             if (particleOnHit)
