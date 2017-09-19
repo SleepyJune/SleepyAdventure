@@ -6482,8 +6482,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
-  health: 25
-  maxHealth: 25
+  health: 20
+  maxHealth: 20
   anim: {fileID: 9500000}
   attackFrequency: 1
   equipment: {fileID: 0}
