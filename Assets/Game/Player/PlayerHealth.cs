@@ -4,7 +4,7 @@ using System.Collections;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public int startingHealth = 100;    
+    //public int startingHealth = 100;    
     public Slider healthSlider;
     public Image damageImage;
     public AudioClip deathClip;
@@ -17,22 +17,21 @@ public class PlayerHealth : MonoBehaviour
     bool isDead;
     bool damaged;
 
-    void Awake ()
+    void Awake()
     {
-        anim = GetComponent <Animator> ();
-        playerAudio = GetComponent <AudioSource> ();
-        playerMovement = GetComponent <PlayerMovement> ();
+        anim = GetComponent<Animator>();
+        playerAudio = GetComponent<AudioSource>();
+        playerMovement = GetComponent<PlayerMovement>();
         //currentHealth = startingHealth;
 
         var healthBar = GameManager.instance.hud.Find("PlayerHealthBar").gameObject;
-
         healthSlider = healthBar.GetComponentInChildren<Slider>();
     }
 
 
-    void Update ()
-    {                        
-        if(damaged)
+    void Update()
+    {
+        if (damaged)
         {
             //damageImage.color = flashColour;
         }
@@ -47,12 +46,12 @@ public class PlayerHealth : MonoBehaviour
     {
     }
 
-    public void TakeDamage (Unit source, int amount)
+    public void TakeDamage(Unit source, int amount)
     {
         //Debug.Log(currentHealth);        
 
         playerMovement.health -= amount;
-        healthSlider.value = playerMovement.health;
+        healthSlider.value = 100 * playerMovement.health / playerMovement.maxHealth;
 
 
         if (amount > 0)
@@ -80,10 +79,10 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    void Death ()
+    void Death()
     {
         isDead = true;
-        
+
         anim.SetTrigger("Die");
         anim.SetBool("isDead", true);
         //playerAudio.clip = deathClip;
@@ -94,6 +93,6 @@ public class PlayerHealth : MonoBehaviour
         //return null;
 
         GameManager.instance.GameOver();
-        GameManager.instance.SetScene("LevelFailed",2);
+        GameManager.instance.SetScene("LevelFailed", 2);
     }
 }

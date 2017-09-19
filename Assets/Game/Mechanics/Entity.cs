@@ -10,6 +10,14 @@ public abstract class Entity : MonoBehaviour
     public Square sqr;
     [System.NonSerialized]
     public IPosition pos2d;
+        
+    public Vector3 pos
+    {
+        get
+        {
+            return transform.position;
+        }
+    }
 
     [System.NonSerialized]
     public bool isDead = false;

@@ -12,9 +12,7 @@ MonoBehaviour:
   m_Name: SpecialPrefabCollection
   m_EditorClassIdentifier: 
   height: 1
-  images:
-  - {fileID: 21300000, guid: 50a3b90464838e9458ad38ea41f14858, type: 3}
-  - {fileID: 21300000, guid: 085f8a51a93fe96459fbce12c0140584, type: 3}
   objects:
   - {fileID: 1416747583241312, guid: 4c66110cd5851a649a04819d15b11cd0, type: 2}
   - {fileID: 1416747583241312, guid: 8de1a2b69e3a8c94d81c54b4a398cae9, type: 2}
+  - {fileID: 1901882436620072, guid: 426e696694ea72044b11d7f4e366c74e, type: 2}

@@ -280,7 +280,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        return Pathfinding.GetShortestPath(unit, from, to);
+        return Pathfinding.GetPath(unit, from, to);
     }
 
     public void SetScene(string str, float waitTime)

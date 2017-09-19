@@ -171,7 +171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06cd2acc8d3aa7645b108ecb25533b85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 0
+  damage: 1
+  radius: 1
   speed: 1000
   maxDistance: 20
   particleOnHit: {fileID: 1048157638747232, guid: b507208ae492e7f41bfc38428639caeb,

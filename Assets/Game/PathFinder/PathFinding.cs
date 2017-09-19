@@ -6,6 +6,12 @@ using System.Linq;
 
 public class Pathfinding
 {
+    public enum PathType
+    {
+        Shortest,
+        Straight
+    }
+
 
     public static Dictionary<IPosition, PathSquare> pathSquares = new Dictionary<IPosition, PathSquare>();
 
@@ -118,7 +124,7 @@ public class Pathfinding
         }
     }
 
-    public static PathInfo GetShortestPath(Unit unit, Vector3 start, Vector3 end)
+    public static PathInfo GetPath(Unit unit, Vector3 start, Vector3 end, PathType type = PathType.Shortest)
     {
         PathSquare startSqr = GetPathSquare(start);
         PathSquare endSqr = GetPathSquare(end);
@@ -127,7 +133,15 @@ public class Pathfinding
 
         if (startSqr != null && endSqr != null)
         {
-            return GetShortestPath(unit, startSqr, endSqr);
+            switch (type)
+            {
+                case PathType.Shortest:
+                    return GetShortestPath(unit, startSqr, endSqr);
+                case PathType.Straight:
+                    return GetStraightPath(unit, startSqr, endSqr);
+                default:
+                    return null;
+            }
         }
 
         return null;
@@ -266,6 +280,55 @@ public class Pathfinding
         {
             return null;
         }
+    }
+
+    public static PathInfo GetStraightPath(Unit unit, PathSquare start, PathSquare end)
+    {
+        HashSet<PathSquare> closedSet = new HashSet<PathSquare>();
+
+        ResetPathSquare();
+
+        bool reachedGoal = false;
+
+        var direction = (end.pos.ToVector() - start.pos.ToVector()).normalized;
+
+        var current = start;
+
+        while (current != null)
+        {          
+            if (current == end)
+            {
+                //return PathInfo.GenerateWaypoints(start, current);
+                reachedGoal = true;
+            }
+
+            closedSet.Add(current);
+
+            var next = current.pos.ToVector() + direction;
+
+            PathSquareNeighbourInfo nextNeighbour;
+            if(current.neighbours.TryGetValue(next.ConvertToIPosition(), out nextNeighbour))
+            {
+                if (!closedSet.Contains(nextNeighbour.neighbour))
+                {
+                    if (nextNeighbour.neighbour == end || CanWalkToSquare(unit, nextNeighbour))
+                    {
+                        nextNeighbour.neighbour.parent = current;
+                        current = nextNeighbour.neighbour;
+                        continue;
+                    }
+                }              
+            }
+
+            break;
+        }
+
+        if (reachedGoal)
+        {
+            return PathInfo.GenerateWaypoints(start, current);
+        }
+
+        return null;
     }
 
     public static bool CanWalkToSquare(Unit unit, IPosition to)

@@ -6481,11 +6481,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ec45203ae7a1a54c9d02c355f983833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
-  health: 100
+  speed: 3
+  health: 25
+  maxHealth: 25
   anim: {fileID: 9500000}
   attackFrequency: 1
-  currentWeapon: {fileID: 0}
+  equipment: {fileID: 0}
 --- !u!114 &114976788301836918
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6497,8 +6498,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 544f2064df03e95419b4a5147c506b08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 100
-  currentHealth: 100
   healthSlider: {fileID: 0}
   damageImage: {fileID: 0}
   deathClip: {fileID: 0}

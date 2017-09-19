@@ -8,9 +8,7 @@ using UnityEngine;
 public class AppleMovement : Monster, MonsterMovement
 {
     //IPosition nextPos = IPosition.zero;
-    
-    bool aggro = false;
-
+        
     void Awake()
     {
         if (GameManager.instance) //check if it's editor or game

@@ -48,8 +48,9 @@ public class LinearCombatUI : CombatUI
             }
 
             line = Instantiate(linePrefab).GetComponent<LineRenderer>();
-            line.SetPosition(0, player.transform.position);
-            
+            line.SetPosition(0, player.transform.position);            
+            line.SetPosition(1, player.transform.position + player.transform.forward * 2);
+
             touchStart = touch.position;
 
             currentTouchId = touch.fingerId;

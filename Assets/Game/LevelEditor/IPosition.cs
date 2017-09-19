@@ -89,6 +89,14 @@ public static class PositionExtensions
             (int)Mathf.Round(vPos.z));
     }
 
+    public static IPosition ConvertToIPosition2D(this Vector3 vPos)
+    {
+        return new IPosition(
+            (int)Mathf.Round(vPos.x),
+            0,
+            (int)Mathf.Round(vPos.z));
+    }
+
     public static Vector3 To2D(this Vector3 vPos)
     {
         return new Vector3(vPos.x, 0, vPos.z);

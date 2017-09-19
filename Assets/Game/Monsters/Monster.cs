@@ -15,6 +15,9 @@ public abstract class Monster : AttackableUnit
 
     public AnimationClip deathAnimation;
 
+    [System.NonSerialized]
+    public bool aggro = false;
+
     protected override void Initialize()
     {
         base.Initialize();

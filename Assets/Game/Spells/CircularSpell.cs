@@ -1,6 +1,8 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+
+using UnityEngine;
 
 public class CircularSpell : Spell
 {
@@ -10,41 +12,50 @@ public class CircularSpell : Spell
     public float damageDelay = 0.25f;
     public float deathTime = 1f;
 
-    private HashSet<Unit> affectedList;
+    //private HashSet<Unit> affectedList;
         
     void Awake()
     {
         Initialize();
 
-        if(damageDelay > 0)
+        /*if(damageDelay > 0)
         {
             collider.enabled = false;
             DelayAction.Add(() => { collider.enabled = true; }, damageDelay);
+        }*/
+
+        if (damageDelay > 0)
+        {
+            DelayAction.Add(() => OnSpellActivate(), damageDelay);
         }
-
-        affectedList = new HashSet<Unit>();
-
+        else
+        {
+            OnSpellActivate();
+        }
+                
         DelayAction.Add(Death, deathTime);
     }
 
-    void Update()
+    void OnSpellActivate()
     {
-        if (isDead)
-        {
-            collider.enabled = false;
-        }
-    }
+        var pos2d = transform.position.ConvertToIPosition2D();
 
-    void OnTriggerEnter(Collider collision)
-    {       
-        var unit = collision.gameObject.GetComponent<AttackableUnit>();
-        if (unit != null && !unit.isDead)
+        var affectedUnits = GameManager.instance.units.Values
+            .Where(u => !u.isDead && u is AttackableUnit && u.pos2d.Distance(pos2d) <= radius).ToList();
+
+        var player = GameManager.instance.player;
+
+        if (player != null && !player.isDead)
         {
-            if (!affectedList.Contains(unit)) //deal damage only once
+            if(player.pos2d.Distance(pos2d) <= radius)
             {
-                unit.TakeDamage(source, damage);
-                affectedList.Add(unit);
+                affectedUnits.Add(GameManager.instance.player);
             }
+        }
+
+        foreach(AttackableUnit unit in affectedUnits)
+        {
+            unit.TakeDamage(source, damage);
         }        
     }
 

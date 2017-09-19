@@ -311,7 +311,7 @@ MonoBehaviour:
   anim: {fileID: 95786258314181342}
   attackFrequency: 10
   updateFrequency: 0.25
-  senseRange: 5
+  senseRange: 8
   emojiBarTransform: {fileID: 4998900165771608}
   deathAnimation: {fileID: 0}
   explosion: {fileID: 114765305102156228, guid: b5f395c9929deda40af1676dfa4a63c0,

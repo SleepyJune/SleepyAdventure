@@ -50,7 +50,7 @@ public class LinearSpell : Spell
         var monster = collision.gameObject.GetComponent<Monster>();        
         if (monster != null && !monster.isDead)
         {            
-            monster.TakeDamage(source, 10);
+            monster.TakeDamage(source, damage);
 
             if (particleOnHit)
             {

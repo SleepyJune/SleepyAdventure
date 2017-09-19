@@ -52,3 +52,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   combatUI: {fileID: 114371175595764376, guid: 9ecf02e3bd5d5204cbaa2eaa15b0ed4c, type: 2}
+  damage: 2

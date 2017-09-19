@@ -12,6 +12,8 @@ public abstract class Spell : Entity
     public Unit source;
 
     public int damage;
+
+    public float radius = 1;
         
     protected virtual void Initialize()
     {
