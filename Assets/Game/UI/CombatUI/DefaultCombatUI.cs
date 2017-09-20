@@ -6,93 +6,99 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class DefaultCombatUI : CombatUI
-{
-    int attackButtonTouchId = -2; //the finger id that activated the attack button
+{    
     int currentTouchId = -2;
-    bool onAttackStart = false;
-    
-    int attackId = 0;
+
+    bool isAttacking = false;
+
+    int attackTouchId = 0;
+
+    Vector3 attackPos;
+
+    PlayerMovement player;
+
+    Joystick joystick;
 
     // Use this for initialization
     public override void Initialize(AttackButton button)
     {
-        attackButton = button;
+        player = GameManager.instance.player;
+        joystick = GameManager.instance.joystick;
 
-        onAttackButtonDown = OnAttackButtonDownFunction;
-        onAttackButtonUp = OnAttackButtonUpFunction;
+        isAttacking = false;
 
         TouchInputManager.instance.touchStart += OnTouchStart;
-        //TouchInputManager.instance.touchMove += OnTouchMove;
-        //TouchInputManager.instance.touchEnd += OnTouchEnd;
+        TouchInputManager.instance.touchMove += OnTouchMove;
+        TouchInputManager.instance.touchEnd += OnTouchEnd;
     }
 
     public override void Death()
     {
         TouchInputManager.instance.touchStart -= OnTouchStart;
-        //TouchInputManager.instance.touchMove -= OnTouchMove;
-        //TouchInputManager.instance.touchEnd -= OnTouchEnd;
+        TouchInputManager.instance.touchMove -= OnTouchMove;
+        TouchInputManager.instance.touchEnd -= OnTouchEnd;
+    }
+    
+    // Update is called once per frame
+    public override void Update()
+    {
+        if (isAttacking)
+        {
+            Inventory.instance.equipment.weapon.Attack(
+                    GameManager.instance.player,
+                    GameManager.instance.player.transform.position,
+                    attackPos);
+        }
     }
 
     void OnTouchStart(Touch touch)
-    {     
-        if (attackButton.isPressed && attackButtonTouchId != touch.fingerId)
+    {        
+        if (isAttacking == false 
+            && joystick.fingerId != touch.fingerId 
+            && !touch.IsPointerOverUI() 
+            && touch.fingerId != -2)
         {
-            Debug.Log("attac: " + touch.fingerId);
-
-            //Debug.Log("attack");
-
-            currentTouchId = touch.fingerId;
-
-            var pos = GameManager.instance.GetTouchPosition(touch.position);
-            if (pos != Vector3.zero)
+            if (!CheckInteractables())
             {
-                Inventory.instance.equipment.weapon.Attack(
-                    GameManager.instance.player,
-                    GameManager.instance.player.transform.position,
-                    pos);
+                isAttacking = true;
 
+                //Debug.Log("attac: " + touch.fingerId);
+
+                attackPos = GameManager.instance.GetTouchPosition(touch.position);
+                if(attackPos == Vector3.zero)
+                {
+                    attackPos = player.transform.forward;
+                }
+                                
+                currentTouchId = touch.fingerId;                
             }
         }
     }
 
     void OnTouchMove(Touch touch)
     {
-
+        if (isAttacking && touch.fingerId == currentTouchId)
+        {
+            attackPos = GameManager.instance.GetTouchPosition(touch.position);
+            if (attackPos == Vector3.zero)
+            {
+                attackPos = player.transform.forward;
+            }
+        }
     }
 
     void OnTouchEnd(Touch touch)
     {
-
-    }
-
-    void OnAttackButtonDownFunction(PointerEventData eventData)
-    {
-        attackButtonTouchId = eventData != null ? eventData.pointerId : -2;
-
-        //Debug.Log(attackButtonTouchId);
-
-        //DelayAction.Add(() => StopAttack(attackId), 2); //retrieve this before firing?
-
-        attackId += 1;
-    }
-
-    void OnAttackButtonUpFunction(PointerEventData eventData)
-    {
-        //StopAttack(attackId);
-    }
-
-    void StopAttack(int lastAttackId)
-    {
-        if(attackId == lastAttackId)
+        if(isAttacking && touch.fingerId == currentTouchId)
         {
-            onAttackStart = false;
-            currentTouchId = -2;
+            isAttacking = false;
         }
     }
 
-    // Update is called once per frame
-    public override void Update()
+    bool CheckInteractables()
     {
+        var playerForward = player.pos + player.transform.forward;
 
+        return GameManager.instance.UseInteractable(player, playerForward);
     }
 }

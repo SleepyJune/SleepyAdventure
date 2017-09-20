@@ -40,7 +40,8 @@ public class GameManager : MonoBehaviour
     private bool gameOver = false;
 
     public AttackButton attackButton;
-        
+    public Joystick joystick;    
+
     public delegate void Callback();
     public event Callback OnGameStart;
 
@@ -66,7 +67,9 @@ public class GameManager : MonoBehaviour
         damageTextManager = GetComponent<DamageTextController>();
         emojiBarManager = GetComponent<EmojiBarManager>();
 
-        prefabManager = PrefabManager.instance;        
+        prefabManager = PrefabManager.instance;
+
+        DelayAction.RemoveAll(); //clean up left over actions
     }
 
     // Update is called once per frame
@@ -265,22 +268,24 @@ public class GameManager : MonoBehaviour
     {
         var from2d = from.ConvertToIPosition().To2D();
         var to2d = to.ConvertToIPosition().To2D();
+                
+        return Pathfinding.GetPath(unit, from, to);
+    }
 
-        if (from2d.Distance(to2d) < 2)
+    public bool UseInteractable(Unit unit, Vector3 pos)
+    {
+        var interactable = level.GetInteractableObject(pos.ConvertToIPosition2D());
+
+        if (interactable != null)
         {
-            var interactable = level.GetInteractableObject(to2d);
-
-            if (interactable != null)
+            if (interactable.Use(unit))
             {
-                if (interactable.Use(unit))
-                {
-                    unit.DisableUnitMovement(.5f);
-                    return null;
-                }
+                unit.DisableUnitMovement(.5f);
+                return true;
             }
         }
 
-        return Pathfinding.GetPath(unit, from, to);
+        return false;
     }
 
     public void SetScene(string str, float waitTime)
@@ -289,7 +294,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void SetScene(string str)
-    {
+    {        
         SceneManager.LoadScene(str);
     }
 
@@ -358,9 +363,13 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         gameOver = true;
-        Camera.main.GetComponent<CameraFollow>().isFollowing = true;
 
-        if(player != null)
+        Camera.main.GetComponent<CameraFollow>().isFollowing = false;
+        Camera.main.GetComponent<CameraVictoryFollow>().isFollowing = true;
+
+        hud.gameObject.SetActive(false);
+
+        if (player != null)
         {
             player.Stop();
         }

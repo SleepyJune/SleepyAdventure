@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-using UnityEngine.UI;
-
 using System.Linq;
 using System;
 using System.Collections.Generic;
@@ -28,7 +26,7 @@ public class PlayerMovement : Hero
     GameObject pathHighlightHolder;
 
     AttackButton attackButton;
-    CameraButton cameraButton;
+    //CameraButton cameraButton;
 
     public Equipment equipment;
 
@@ -48,7 +46,7 @@ public class PlayerMovement : Hero
         //attackFrequency = 1 / attackSpeed;
         
         attackButton = GameManager.instance.hud.Find("CombatUI").Find("Panel").Find("AttackButton").GetComponent<AttackButton>();
-        cameraButton = GameManager.instance.hud.Find("CameraButton").Find("Panel").Find("CameraButton").GetComponent<CameraButton>();
+        //cameraButton = GameManager.instance.hud.Find("CameraButton").Find("Panel").Find("CameraButton").GetComponent<CameraButton>();
 
 
         healthScript = GetComponent<PlayerHealth>();
@@ -56,20 +54,18 @@ public class PlayerMovement : Hero
         equipment = Inventory.instance.equipment;
         combatUI = equipment.weapon.combatUI;
 
-        TouchInputManager.instance.touchStart += GetMoveTo;
-
-        
+        //TouchInputManager.instance.touchStart += GetMoveTo;        
     }
 
     void Update()
     {
-        HighlightSquare();
+        //HighlightSquare();
         combatUI.Update();
+        GetMoveTo2();
     }
 
     void FixedUpdate()
     {
-        //GetMoveTo();
         Move();
     }
 
@@ -216,13 +212,37 @@ public class PlayerMovement : Hero
     {
         PointerEventData pData = (PointerEventData)data;
         var end = pData.pointerCurrentRaycast.worldPosition.ConvertToIPosition().To2D().ToVector();
-    }    
+    }
+
+    private void GetMoveTo2()
+    {
+        if (canMove
+            && !attackButton.isPressed)            
+        {
+            float h = GameManager.instance.joystick.xAxis;//Math.Sign(GameManager.instance.joystick.xAxis);
+            float v = GameManager.instance.joystick.yAxis;//Math.Sign(GameManager.instance.joystick.yAxis);
+
+            if (h != 0 || v != 0)
+            {                
+                var pos = transform.position
+                            + Vector3.right * h + Vector3.forward * v;
+                
+                path = GameManager.instance.UnitMoveTo(this, transform.position, pos);
+
+                if(path == null)
+                {
+                    //LookAt(pos);
+                }
+            }
+            
+        }
+    }
 
     private void GetMoveTo(Touch touch)
     {
         if (canMove 
             && !attackButton.isPressed
-            && !cameraButton.isPressed
+            //&& !cameraButton.isPressed
             && !touch.IsPointerOverUI())
         {
             Ray ray = Camera.main.ScreenPointToRay(touch.position);

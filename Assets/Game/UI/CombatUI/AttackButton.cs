@@ -18,10 +18,20 @@ public class AttackButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     [NonSerialized]
     public int fingerId = (int)KeyCode.F;
 
+    PlayerMovement player;
+    bool usedInteractable = false;
+
     void Start()
     {
         weapon = Inventory.instance.equipment.weapon;
         button = GetComponent<Button>();
+
+        Initialize();
+    }
+
+    void Initialize()
+    {
+        player = GameManager.instance.player;
     }
 
     void Update()
@@ -68,7 +78,14 @@ public class AttackButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
         if (weapon && weapon.combatUI.onAttackButtonDown != null)
         {
-            weapon.combatUI.onAttackButtonDown(eventData);
+            if (CheckInteractables())
+            {
+                usedInteractable = true;
+            }
+            else
+            {
+                weapon.combatUI.onAttackButtonDown(eventData);
+            }
         }
     }
 
@@ -78,7 +95,14 @@ public class AttackButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
         if (weapon && weapon.combatUI.onAttackButtonUp != null)
         {
-            weapon.combatUI.onAttackButtonUp(eventData);
+            if (usedInteractable)
+            {
+                usedInteractable = false;
+            }
+            else
+            {
+                weapon.combatUI.onAttackButtonUp(eventData);
+            }
         }
     }
 
@@ -88,7 +112,21 @@ public class AttackButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
         if (weapon && weapon.combatUI.onAttackButtonUp != null)
         {
-            weapon.combatUI.onAttackButtonUp(eventData);
+            if (usedInteractable)
+            {
+                usedInteractable = false;
+            }
+            else
+            {
+                weapon.combatUI.onAttackButtonUp(eventData);
+            }
         }
+    }
+
+    bool CheckInteractables()
+    {
+        var playerForward = player.pos + player.transform.forward;
+
+        return GameManager.instance.UseInteractable(player, playerForward);
     }
 }

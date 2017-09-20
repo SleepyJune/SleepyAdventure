@@ -33,10 +33,14 @@ public class CameraButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
     Vector3 lastPanMousePosition;
 
+    CameraFollow cameraFollowScript;
+
     void Start()
     {
         button = GetComponent<Button>();
         activeScene = SceneManager.GetActiveScene();
+
+        cameraFollowScript = Camera.main.GetComponent<CameraFollow>();
 
         Initialize();
     }
@@ -95,7 +99,7 @@ public class CameraButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
             if (activeScene.name == "LevelLoader")
             {
-                CheckPan();
+                //CheckPan();
             }
         }
     }
@@ -112,7 +116,14 @@ public class CameraButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
             Vector2 delta = lastPanMousePosition - Input.mousePosition;
             Camera.main.transform.Translate(delta.x * panSensitivity, 0, delta.y * panSensitivity, Space.World);
 
+            cameraFollowScript.isFollowing = false;
+
             lastPanMousePosition = Input.mousePosition;
+        }
+
+        if (Input.GetButtonUp("Fire2"))
+        {
+            cameraFollowScript.isFollowing = true;
         }
     }
 
@@ -126,15 +137,24 @@ public class CameraButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
     void OnTouchMove(Touch touch)
     {
+        if(touch.fingerId == -2 && activeScene.name == "LevelLoader")
+        {
+            Vector2 delta = touch.deltaPosition - touch.position;
+            Camera.main.transform.Translate(delta.x * panSensitivity, 0, delta.y * panSensitivity, Space.World);
+            cameraFollowScript.isFollowing = false;
+            return;
+        }
+
         if (isPressed && inputs.Count == panFingerCount) //pan function
         {
             TouchInput panTouch = inputs.Values.First(i => i.id != fingerId);
 
             Vector2 delta = panTouch.previousPosition - panTouch.position;
-            Camera.main.transform.Translate(delta.x * panSensitivity, 0, delta.y * panSensitivity, Space.World);            
+            Camera.main.transform.Translate(delta.x * panSensitivity, 0, delta.y * panSensitivity, Space.World);
+            return;          
         }
 
-        if (isPressed && inputs.Count >= zoomFingerCount) //zoom function
+        /*if (isPressed && inputs.Count >= zoomFingerCount) //zoom function
         {
             TouchInput zoomTouch1 = inputs.Values.First(i => i.id != fingerId);
             TouchInput zoomTouch2 = inputs.Values.First(i => i.id != fingerId && i.id != zoomTouch1.id);
@@ -145,12 +165,15 @@ public class CameraButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
             float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
 
             ZoomFunction(-deltaMagnitudeDiff);
-        }
+        }*/
     }
 
     void OnTouchEnd(Touch touch)
     {
-
+        if(touch.fingerId == -2 && activeScene.name == "LevelLoader")
+        {
+            cameraFollowScript.isFollowing = true;
+        }
     }
 
     public void OnPointerDown(PointerEventData eventData)

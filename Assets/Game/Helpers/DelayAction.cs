@@ -36,6 +36,11 @@ public static class DelayAction
         actions.Add(action);
     }
 
+    public static void RemoveAll()
+    {
+        actions = new List<Action>();
+    }
+
     public struct Action
     {
         public Callback callback;

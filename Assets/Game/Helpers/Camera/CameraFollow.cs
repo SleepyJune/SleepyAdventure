@@ -14,13 +14,7 @@ public class CameraFollow : MonoBehaviour
 
     public bool isFollowing = false;
 
-    void Start()
-    {
-        if (GameManager.instance.player != null)
-        {
-            target = GameManager.instance.player.transform;
-        }
-    }
+    public Vector3 cameraPosTranslation;
 
     void FixedUpdate()
     {
@@ -29,6 +23,9 @@ public class CameraFollow : MonoBehaviour
             if(GameManager.instance.player != null)
             {
                 target = GameManager.instance.player.transform;
+
+                //cameraPosTranslation = target.Find("BackCameraPos").transform.position - target.position;
+                //Debug.Log(cameraPosTranslation);
             }
         }
 
@@ -40,11 +37,14 @@ public class CameraFollow : MonoBehaviour
                 Camera.main.fieldOfView = fov;
             }
 
-            Vector3 targetCameraPos = target.Find("FrontCameraPos").transform.position;
-            var targetCameraRotation = target.Find("FrontCameraPos").transform.rotation;
+            //Vector3 targetCameraPos = target.Find("FrontCameraPos").transform.position;
+            //var targetCameraRotation = target.Find("FrontCameraPos").transform.rotation;
+
             
-            transform.position = Vector3.Lerp(transform.position, targetCameraPos, smoothing);
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetCameraRotation, smoothing);
+            //var targetCameraRotation = target.Find("BackCameraPos").transform.rotation;
+
+            transform.position = Vector3.Lerp(transform.position, target.position + cameraPosTranslation, smoothing);
+            //transform.rotation = Quaternion.Lerp(transform.rotation, targetCameraRotation, smoothing);
         }
     }
 }

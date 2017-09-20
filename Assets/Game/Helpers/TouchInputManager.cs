@@ -50,66 +50,72 @@ public class TouchInputManager : MonoBehaviour
     {
         if (useMouse && Input.mousePresent)
         {
-            if (Input.GetMouseButtonDown(0))
+            for (int i = 0; i < 2; i++)
             {
-                var touchData = new Touch();
-                touchData.fingerId = -1;
-                touchData.position = Input.mousePosition;
-                touchData.phase = TouchPhase.Began;
-                
-                lastMousePosition = Input.mousePosition;
-
-                TouchInput newInput;
-                if (inputs.TryGetValue(touchData.fingerId, out newInput))
+                if (Input.GetMouseButtonDown(i))
                 {
-                    newInput.startPosition = touchData.position;
-                }
-                else
-                {
-                    newInput = new TouchInput(touchData);
-                    inputs.Add(newInput.id, newInput);
-                }
+                    var touchData = new Touch();
+                    touchData.fingerId = -1 - i;
+                    touchData.position = Input.mousePosition;
+                    touchData.phase = TouchPhase.Began;
+                    touchData.deltaPosition = lastMousePosition;
 
-                if (touchStart != null)
-                {
-                    touchStart(touchData);
-                }
-            }
+                    lastMousePosition = Input.mousePosition;
 
-            if (Input.GetMouseButton(0) && Input.mousePosition != lastMousePosition)
-            {
-                var touchData = new Touch();
-                touchData.fingerId = -1;
-                touchData.position = Input.mousePosition;
-                touchData.phase = TouchPhase.Moved;
+                    TouchInput newInput;
+                    if (inputs.TryGetValue(touchData.fingerId, out newInput))
+                    {
+                        newInput.startPosition = touchData.position;
+                    }
+                    else
+                    {
+                        newInput = new TouchInput(touchData);
+                        inputs.Add(newInput.id, newInput);
+                    }
 
-                UpdateTouchPosition(touchData.fingerId, touchData.position);
-
-                lastMousePosition = Input.mousePosition;
-
-                if (touchMove != null)
-                {
-                    touchMove(touchData);
-                }
-            }
-
-            if (Input.GetMouseButtonUp(0))
-            {
-                var touchData = new Touch();
-                touchData.fingerId = -1;
-                touchData.position = Input.mousePosition;
-                touchData.phase = TouchPhase.Ended;
-
-                UpdateTouchPosition(touchData.fingerId, touchData.position);
-
-                lastMousePosition = Input.mousePosition;
-
-                if (touchEnd != null)
-                {
-                    touchEnd(touchData);
+                    if (touchStart != null)
+                    {
+                        touchStart(touchData);
+                    }
                 }
 
-                inputs.Remove(touchData.fingerId);
+                if (Input.GetMouseButton(i) && Input.mousePosition != lastMousePosition)
+                {
+                    var touchData = new Touch();
+                    touchData.fingerId = -1 - i;
+                    touchData.position = Input.mousePosition;
+                    touchData.phase = TouchPhase.Moved;
+                    touchData.deltaPosition = lastMousePosition;
+
+                    UpdateTouchPosition(touchData.fingerId, touchData.position);
+
+                    lastMousePosition = Input.mousePosition;
+
+                    if (touchMove != null)
+                    {
+                        touchMove(touchData);
+                    }
+                }
+
+                if (Input.GetMouseButtonUp(i))
+                {
+                    var touchData = new Touch();
+                    touchData.fingerId = -1 - i;
+                    touchData.position = Input.mousePosition;
+                    touchData.phase = TouchPhase.Ended;
+                    touchData.deltaPosition = lastMousePosition;
+
+                    UpdateTouchPosition(touchData.fingerId, touchData.position);
+
+                    lastMousePosition = Input.mousePosition;
+
+                    if (touchEnd != null)
+                    {
+                        touchEnd(touchData);
+                    }
+
+                    inputs.Remove(touchData.fingerId);
+                }
             }
         }
 
